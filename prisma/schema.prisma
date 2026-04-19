@@ -1,0 +1,207 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  slug      String    @unique
+  parentId  String?
+  parent    Category? @relation("CategoryTree", fields: [parentId], references: [id])
+  children  Category[] @relation("CategoryTree")
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  isAdult   Boolean   @default(false)
+}
+
+model Product {
+  id           String         @id @default(cuid())
+  name         String
+  slug         String         @unique
+  description  String
+  priceInCents Int
+  categoryId   String
+  category     Category       @relation(fields: [categoryId], references: [id])
+  images       ProductImage[]
+  material     String?
+  isGlow       Boolean        @default(false)
+  inStock      Boolean        @default(true)
+  isMadeToOrder Boolean       @default(false)
+  metaTitle    String?
+  metaDesc     String?
+  reviews      Review[]
+  orderItems   OrderItem[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@index([categoryId])
+  @@index([slug])
+}
+
+model ProductImage {
+  id           String  @id @default(cuid())
+  productId    String
+  product      Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url          String
+  cloudinaryId String
+  alt          String?
+  isPrimary    Boolean @default(false)
+  order        Int     @default(0)
+
+  @@index([productId])
+}
+
+model Customer {
+  id           String    @id @default(cuid())
+  clerkUserId  String    @unique
+  email        String    @unique
+  firstName    String?
+  lastName     String?
+  orders       Order[]
+  addresses    Address[]
+  reviews      Review[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([clerkUserId])
+}
+
+model Address {
+  id         String    @id @default(cuid())
+  customerId String
+  customer   Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  line1      String
+  line2      String?
+  city       String
+  state      String
+  zip        String
+  country    String    @default("US")
+  isDefault  Boolean   @default(false)
+  orders     Order[]
+
+  @@index([customerId])
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  stripeSessionId String      @unique
+  stripeEventId   String?     @unique
+  customerId      String?
+  customer        Customer?   @relation(fields: [customerId], references: [id])
+  guestEmail      String?
+  addressId       String?
+  address         Address?    @relation(fields: [addressId], references: [id])
+  shippingLine1   String?
+  shippingLine2   String?
+  shippingCity    String?
+  shippingState   String?
+  shippingZip     String?
+  shippingCountry String?
+  fulfillment     String      @default("ship")
+  discreetPacking Boolean     @default(false)
+  subtotalCents   Int
+  shippingCents   Int         @default(0)
+  discountCents   Int         @default(0)
+  totalCents      Int
+  status          OrderStatus @default(PENDING)
+  notes           String?
+  items           OrderItem[]
+  adminActions    AdminAction[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([customerId])
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model OrderItem {
+  id           String  @id @default(cuid())
+  orderId      String
+  order        Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId    String?
+  product      Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  nameSnapshot String
+  priceSnapshot Int
+  quantity     Int
+  imageSnapshot String?
+
+  @@index([orderId])
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  rating     Int
+  body       String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([productId, customerId])
+  @@index([productId])
+}
+
+model DiscountCode {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  type        String    @default("percent")
+  value       Int
+  usageLimit  Int?
+  usageCount  Int       @default(0)
+  expiresAt   DateTime?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([code])
+}
+
+model CustomRequest {
+  id          String   @id @default(cuid())
+  type        String
+  name        String
+  email       String
+  phone       String?
+  description String
+  fileUrls    String[]
+  notes       String?
+  status      String   @default("new")
+  adminNotes  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status])
+}
+
+model AdminAction {
+  id          String   @id @default(cuid())
+  adminUserId String
+  action      String
+  entityType  String
+  entityId    String
+  orderId     String?
+  order       Order?   @relation(fields: [orderId], references: [id])
+  createdAt   DateTime @default(now())
+
+  @@index([adminUserId])
+  @@index([createdAt])
+}

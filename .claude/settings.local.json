@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git --version)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(npm --version)",
+      "WebFetch(domain:muz.li)",
+      "WebFetch(domain:www.pedroalonso.net)",
+      "WebFetch(domain:www.buildwithmatija.com)",
+      "WebFetch(domain:clerk.com)",
+      "WebFetch(domain:www.wisp.blog)",
+      "WebFetch(domain:skemato.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:softwaremill.com)",
+      "WebFetch(domain:cloudinary.com)",
+      "WebFetch(domain:www.softpost.org)",
+      "WebFetch(domain:eastondev.com)",
+      "Bash(python3 /dev/stdin)",
+      "Bash(node -e ' *)",
+      "Read(//usr/**)",
+      "Read(//usr/local/**)",
+      "Bash(command -v powershell.exe)",
+      "Bash(command -v cmd.exe)",
+      "Bash(powershell.exe -Command \"echo test\")",
+      "Bash(powershell.exe -Command \"Set-Content -Path 'C:\\\\Users\\\\stone\\\\OneDrive\\\\Desktop\\\\Claude Website\\\\.planning\\\\research\\\\SUMMARY.md' -Value 'test content' -Encoding UTF8; echo done\")",
+      "Bash(export PATH=\"$PATH:/c/Program Files/nodejs:/c/Users/stone/AppData/Roaming/npm\")",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack --yes)",
+      "Bash(cd /tmp)",
+      "Bash(npx create-next-app@latest morgan-3d-prints --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack --yes)",
+      "Bash(npm install *)",
+      "Bash(npx prisma *)",
+      "Bash(npx tsc *)",
+      "Bash(node -e \"const c = require\\('@clerk/nextjs'\\); console.log\\(Object.keys\\(c\\).filter\\(k => k.toLowerCase\\(\\).includes\\('sign'\\) || k.toLowerCase\\(\\).includes\\('user'\\)\\)\\)\")",
+      "Bash(npm run *)"
+    ]
+  }
+}

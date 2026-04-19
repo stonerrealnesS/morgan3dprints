@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About | Morgan 3D Prints</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Learn more about Morgan 3D Prints, a locally owned 3D printing studio in the OKC / Mustang / Yukon area focused on custom 3D printed goods, prototypes, fixtures, and branded merch." />
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #020b17;
+      --card: #050816;
+      --border-subtle: #111827;
+      --border-strong: #1f2937;
+      --accent: #22c55e;
+      --accent-soft: #22c55e33;
+      --accent-strong: #a3e635;
+      --text-main: #e5e7eb;
+      --text-muted: #94a3b8;
+      --danger: #f97373;
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 24px 80px rgba(0,0,0,0.75);
+      --max-width: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0b1120 0, #020617 45%, #000 100%);
+      color: var(--text-main);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* NAVBAR */
+
+    header.navbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(18px);
+      background: #020617e0;
+      border-bottom: 1px solid #020617;
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    /* old brand-mark kept for reference but unused
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      background:
+        radial-gradient(circle at 20% 0, #a3e635 0, transparent 55%),
+        radial-gradient(circle at 80% 100%, #22c55e 0, transparent 55%),
+        #020617;
+      border: 1px solid #22c55e55;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px #22c55e55;
+    }
+
+    .brand-mark span {
+      font-size: 17px;
+      font-weight: 800;
+      color: #bbf7d0;
+    }
+    */
+
+    .brand-text { display: flex; flex-direction: column; }
+
+    .brand-name {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 13px;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      padding: 4px 0;
+    }
+
+    .nav-links a:hover { color: var(--accent-strong); }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-pill {
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      border: 1px solid #1f2933;
+      background: #020617;
+      color: var(--text-main);
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .btn-pill-primary {
+      border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #020617;
+      font-weight: 600;
+      box-shadow: 0 0 22px #22c55e55;
+    }
+
+    .chip-live {
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--accent-soft);
+      padding: 2px 8px;
+      font-size: 11px;
+      color: #4ade80;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px #22c55e;
+    }
+
+    .cart-button { position: relative; }
+
+    .cart-count {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #22c55e;
+      color: #020617;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 2px 5px;
+      min-width: 16px;
+      text-align: center;
+      box-shadow: 0 0 10px #22c55eaa;
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner { flex-wrap: wrap; justify-content: space-between; }
+      /* nav-links remain visible on mobile */
+    }
+
+    /* LAYOUT */
+
+    .max-width {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    section { padding: 32px 0; }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .section-title { font-size: 20px; margin: 0 0 4px; }
+
+    .section-subtitle { font-size: 13px; color: var(--text-muted); }
+
+    @media (max-width: 720px) {
+      .section-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* HERO (reuse index hero styles) */
+
+    #hero { padding: 40px 0 32px; }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
+      gap: 24px;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; }
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-strong);
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-size: clamp(26px, 4vw, 32px);
+      line-height: 1.15;
+      margin: 0 0 10px;
+    }
+
+    .hero-highlight {
+      background: linear-gradient(90deg, var(--accent-strong), #2dd4bf);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 14px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .hero-badges span {
+      border-radius: var(--radius-pill);
+      border: 1px dashed #1f2937;
+      padding: 4px 9px;
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .hero-panel {
+      border-radius: 26px;
+      border: 1px solid #22c55e33;
+      background:
+        radial-gradient(circle at 0 0, #22c55e33 0, transparent 50%),
+        radial-gradient(circle at 100% 100%, #0ea5e933 0, transparent 55%),
+        #020617;
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .hero-pill {
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
+      font-size: 11px;
+      border: 1px solid #22c55e55;
+      background: #02061788;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .hero-card {
+      border-radius: 16px;
+      border: 1px solid #1f2937;
+      background: #020617dd;
+      padding: 10px 10px 9px;
+      min-height: 78px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card h3 {
+      font-size: 12px;
+      margin: 0 0 4px;
+    }
+
+    .hero-card p {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .hero-metric {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-strong);
+      margin-top: 6px;
+    }
+
+    .hero-glow {
+      position: absolute;
+      inset: -40px;
+      opacity: 0.3;
+      background: radial-gradient(circle at 30% 0, #22c55e33 0, transparent 50%);
+      pointer-events: none;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 600px) {
+      .hero-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    /* ABOUT BODY */
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.4fr);
+      gap: 22px;
+    }
+
+    .info-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: var(--card);
+      padding: 14px 16px;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .info-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 10px 0 0;
+      font-size: 12px;
+    }
+
+    .info-list li {
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+
+    .info-list li::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      position: absolute;
+      left: 0;
+      top: 7px;
+    }
+
+    @media (max-width: 900px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    /* FOOTER + CART */
+
+    .cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.75);
+      display: flex;
+      justify-content: flex-end;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease;
+      z-index: 50;
+    }
+
+    .cart-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .cart-panel {
+      width: min(360px, 100%);
+      background: #020617;
+      border-left: 1px solid #020617;
+      box-shadow: -20px 0 60px rgba(0,0,0,0.7);
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.25s ease;
+    }
+
+    .cart-overlay.open .cart-panel {
+      transform: translateX(0);
+    }
+
+    .cart-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid #0f172a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-title { font-size: 16px; font-weight: 500; }
+
+    .cart-close-btn {
+      background: transparent;
+      border: 1px solid #1f2937;
+      border-radius: var(--radius-pill);
+      padding: 4px 9px;
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .cart-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px 14px 14px;
+      font-size: 12px;
+    }
+
+    .cart-empty {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      gap: 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid #020617;
+    }
+
+    .cart-thumb {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1px solid #111827;
+      background:#020617;
+    }
+
+    .cart-item-main {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .cart-item-title { font-size: 12px; }
+
+    .cart-item-price {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .cart-qty-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .qty-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: var(--radius-pill);
+      border: 1px solid #1f2937;
+      padding: 2px 6px;
+    }
+
+    .qty-btn {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: none;
+      background: #020617;
+      color: #22c55e;
+      cursor: pointer;
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .qty-value {
+      font-size: 11px;
+      min-width: 16px;
+      text-align: center;
+    }
+
+    .cart-line-total {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .cart-notes {
+      width: 100%;
+      margin-top: 4px;
+      border-radius: 8px;
+      border: 1px solid #111827;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 11px;
+      padding: 4px 6px;
+      resize: vertical;
+    }
+
+    .cart-remove {
+      font-size: 10px;
+      color: var(--danger);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      margin-top: 2px;
+      align-self: flex-start;
+    }
+
+    .cart-footer {
+      padding: 12px 14px 14px;
+      border-top: 1px solid #0f172a;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cart-subtotal-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .cart-subtotal-label { color: var(--text-muted); }
+
+    .cart-subtotal-value {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .cart-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .btn-cart-primary {
+      border-radius: var(--radius-pill);
+      border: none;
+      padding: 8px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #020617;
+      font-weight: 600;
+    }
+
+    .btn-cart-secondary {
+      border-radius: var(--radius-pill);
+      border: 1px solid #1f2937;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      background: #020617;
+      color: var(--text-muted);
+    }
+
+    footer {
+      border-top: 1px solid #020617;
+      padding: 16px 18px 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .social-links a {
+      border-radius: var(--radius-pill);
+      border: 1px solid #1f2933;
+      padding: 4px 9px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .social-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+  </style>
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <img
+        src="images/lightboxes - 2025-11-25T200950.742.png"
+        alt="Morgan 3D Prints logo"
+        class="brand-logo"
+      >
+      <div class="brand-text">
+        <div class="brand-name">Morgan 3D Prints</div>
+        <div class="brand-sub">Custom printing • Prototypes • Merch</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="shop.html">Shop</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      <div class="chip-live"><span class="chip-dot"></span> Local OKC studio</div>
+      <button class="btn-pill btn-pill-primary" onclick="window.location.href='shop.html';">
+        Shop Ready Made Items
+      </button>
+      <button class="btn-pill cart-button" id="cartOpenBtn">
+        Cart
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ABOUT HERO -->
+  <section id="hero">
+    <div class="max-width hero-inner">
+      <div>
+        <div class="eyebrow">About Morgan 3D Prints</div>
+        <h1 class="hero-title">
+          A local print farm built for
+          <span class="hero-highlight">real projects, not just hobby prints.</span>
+        </h1>
+        <p class="hero-text">
+          Morgan 3D Prints started as a way to turn “wouldn’t it be cool if…”
+          ideas into real, physical products. Today it’s a small but mighty print
+          farm in the OKC / Mustang / Yukon area helping teams, small businesses,
+          makers, and friends bring their ideas to life.
+        </p>
+        <div class="hero-badges">
+          <span><span class="badge-dot"></span> Engineer-run shop with real-world manufacturing background</span>
+          <span><span class="badge-dot"></span> Tuned for reliability, repeatability, and detail</span>
+          <span><span class="badge-dot"></span> Flexible enough for one-off prototypes and product runs</span>
+        </div>
+      </div>
+
+      <aside class="hero-panel">
+        <div class="hero-panel-header">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span style="font-size:12px;">What drives the shop</span>
+            <span style="font-size:11px;color:var(--text-muted);">Practical parts, fun ideas, and good relationships.</span>
+          </div>
+          <div class="hero-pill">
+            <span style="width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 10px #22c55e;"></span>
+            Locally owned
+          </div>
+        </div>
+
+        <div class="hero-grid">
+          <div class="hero-card">
+            <h3>Built on problem-solving</h3>
+            <p>Fixtures, jigs, and one-off solutions are normal here, not weird.</p>
+            <div class="hero-metric">Engineer-to-engineer friendly</div>
+          </div>
+          <div class="hero-card">
+            <h3>Genuinely custom work</h3>
+            <p>We tweak designs so they’re printable, strong, and look good.</p>
+            <div class="hero-metric">No “template only” mindset</div>
+          </div>
+          <div class="hero-card">
+            <h3>Honest lead times</h3>
+            <p>We’d rather quote realistic dates than over-promise and rush.</p>
+            <div class="hero-metric">Usually 2–5 business days</div>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--text-muted);margin-top:4px;">
+          <span>Serving OKC &amp; beyond • Pickup or shipping</span>
+          <span>Let’s build something cool.</span>
+        </div>
+
+        <div class="hero-glow"></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- STORY + WHO WE SERVE -->
+  <section>
+    <div class="max-width">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Who we are &amp; who we help</h2>
+          <p class="section-subtitle">
+            At the end of the day, it’s about making useful, fun, and memorable parts for real people — not cranking out anonymous junk.
+          </p>
+        </div>
+        <button class="btn-pill" onclick="window.location.href='mailto:morgan3dokc@gmail.com?subject=Custom%203D%20Print%20Project';">
+          Say hi &amp; start a project
+        </button>
+      </div>
+
+      <div class="two-col">
+        <div class="info-card">
+          <p>
+            Morgan 3D Prints grew out of an engineering and manufacturing background,
+            so things like tolerances, materials, and “will this actually hold up?” are baked into how we think.
+          </p>
+          <ul class="info-list">
+            <li>Locally owned, with roots in OKC / Mustang / Yukon.</li>
+            <li>Comfortable talking shop with engineers, maintenance, and fabricators.</li>
+            <li>Equally happy helping a small brand make their first batch of merch.</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <p style="margin-top:0;">
+            A few of the people we regularly work with:
+          </p>
+          <ul class="info-list">
+            <li>Small businesses that want branded keychains, signage, and countertop displays.</li>
+            <li>Sports teams, schools, and churches that need custom swag or fundraiser items.</li>
+            <li>Engineers and makers needing fixtures, adapters, test parts, or prototype enclosures.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE WORK -->
+  <section>
+    <div class="max-width">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">How we like to work</h2>
+          <p class="section-subtitle">
+            Clear communication, honest pricing, and enough iteration to get things right without dragging the project on forever.
+          </p>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="info-card">
+          <p><strong>1. Share your idea.</strong></p>
+          <ul class="info-list">
+            <li>Send a rough sketch, existing file, or even just a paragraph of what you need.</li>
+            <li>If you already have CAD, awesome. If not, we can help model it.</li>
+            <li>We’ll ask a few questions about size, use case, and quantity.</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <p><strong>2. We design, test, and iterate.</strong></p>
+          <ul class="info-list">
+            <li>We choose materials and print settings based on how the part will actually be used.</li>
+            <li>For functional parts, we’ll often print a test piece before a larger run.</li>
+            <li>Once you’re happy, we’ll lock in pricing for the full batch.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top:18px;">
+        <div class="info-card">
+          <p><strong>3. Production on the print farm.</strong></p>
+          <ul class="info-list">
+            <li>We run multiple printers in parallel to keep turnarounds reasonable.</li>
+            <li>Parts are inspected, cleaned up, and sorted before pickup or shipping.</li>
+            <li>Need reorders later? We can keep your files and settings on hand.</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <p><strong>4. Local-first, but we do ship.</strong></p>
+          <ul class="info-list">
+            <li>Local pickup in the OKC area is always an option.</li>
+            <li>We can ship orders anywhere in the US, with free shipping over $35.</li>
+            <li>If you’re planning recurring orders, we can talk about long-term pricing.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cartOverlay">
+  <div class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <div class="cart-header">
+      <div>
+        <div class="cart-title" id="cartTitle">Your cart</div>
+        <div style="font-size:11px;color:var(--text-muted);" id="cartItemCountLabel"></div>
+      </div>
+      <button class="cart-close-btn" id="cartCloseBtn">Close</button>
+    </div>
+    <div class="cart-body">
+      <div id="cartItemsContainer"></div>
+      <div class="cart-empty" id="cartEmptyMessage">Your cart is empty. Add items from the shop.</div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-subtotal-row">
+        <span class="cart-subtotal-label">Estimated total (incl. shipping)</span>
+        <span class="cart-subtotal-value" id="cartSubtotal">$0.00</span>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);">
+        <div style="margin-bottom:6px;">
+          Items subtotal + shipping are combined into this total.
+          Choose pickup or flat-rate shipping below (shipping is free on orders $35+).
+        </div>
+        <div class="field" style="margin-top:4px;">
+          <label for="shippingMode">Fulfillment</label>
+          <select id="shippingMode" class="select">
+            <option value="pickup">Pickup (OKC local - free)</option>
+            <option value="ship">Ship to me (US only) - $8.00 (Free over $35)</option>
+          </select>
+        </div>
+      </div>
+      <div class="cart-actions">
+        <button class="btn-cart-primary" id="cartSquareBtn">Checkout with Square</button>
+        <button class="btn-cart-secondary" id="cartClearBtn">Clear cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>© <span id="year"></span> Morgan 3D Prints. All rights reserved.</div>
+    <div class="social-links">
+      <a href="https://www.tiktok.com/@morgan3dprints" target="_blank" rel="noopener">
+        <span class="social-dot"></span> TikTok
+      </a>
+      <a href="https://www.instagram.com/morgan3dokc/" target="_blank" rel="noopener">
+        <span class="social-dot"></span> Instagram
+      </a>
+      <a href="mailto:morgan3dokc@gmail.com">
+        <span class="social-dot"></span> Email us
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // CART + SHIPPING (same logic as index.html)
+
+  const CART_KEY = "m3dp_cart_v1";
+  const SHIPPING_KEY = "m3dp_shipping_v1";
+
+  let cart = [];
+  let shipping = { mode: "pickup", amountCents: 0 };
+
+  function formatMoneyFromCents(cents) {
+    const value = (cents || 0) / 100;
+    return "$" + value.toFixed(2);
+  }
+
+  function loadCart() {
+    try {
+      const raw = localStorage.getItem(CART_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    } catch (e) {
+      console.error("Error loading cart", e);
+    }
+    return [];
+  }
+
+  function saveCart() {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  }
+
+  function loadShipping() {
+    try {
+      const raw = localStorage.getItem(SHIPPING_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === "object") {
+        shipping.mode = parsed.mode || "pickup";
+        shipping.amountCents = typeof parsed.amountCents === "number" ? parsed.amountCents : 0;
+      }
+    } catch (e) {
+      console.error("Error loading shipping", e);
+    }
+  }
+
+  function saveShipping() {
+    localStorage.setItem(SHIPPING_KEY, JSON.stringify(shipping));
+  }
+
+  const cartOverlay  = document.getElementById("cartOverlay");
+  const cartOpenBtn  = document.getElementById("cartOpenBtn");
+  const cartCloseBtn = document.getElementById("cartCloseBtn");
+
+  function openCart() { cartOverlay.classList.add("open"); }
+  function closeCart() { cartOverlay.classList.remove("open"); }
+
+  cartOpenBtn.addEventListener("click", openCart);
+  cartCloseBtn.addEventListener("click", closeCart);
+
+  cartOverlay.addEventListener("click", (e) => {
+    if (e.target === cartOverlay) closeCart();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeCart();
+  });
+
+  function computeItemsSubtotal() {
+    return cart.reduce((sum, item) => sum + (item.priceCents || 0) * (item.qty || 0), 0);
+  }
+
+  function getEffectiveShippingCents(itemsSubtotal) {
+    if (shipping.mode === "ship") {
+      if (itemsSubtotal >= 3500) return 0; // free over $35
+      return 800; // flat $8
+    }
+    return 0; // pickup
+  }
+
+  function computeTotalWithShipping() {
+    const itemsSubtotal = computeItemsSubtotal();
+    const shippingCents = getEffectiveShippingCents(itemsSubtotal);
+    shipping.amountCents = shippingCents;
+    saveShipping();
+    return itemsSubtotal + shippingCents;
+  }
+
+  function updateCartItemQty(index, delta) {
+    const item = cart[index];
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) cart.splice(index, 1);
+    saveCart();
+    renderCart();
+  }
+
+  function updateCartItemNotes(index, value) {
+    if (!cart[index]) return;
+    cart[index].notes = value;
+    saveCart();
+  }
+
+  function removeCartItem(index) {
+    cart.splice(index, 1);
+    saveCart();
+    renderCart();
+  }
+
+  function clearCart() {
+    cart = [];
+    saveCart();
+    renderCart();
+  }
+
+  function renderCart() {
+    const container       = document.getElementById("cartItemsContainer");
+    const emptyMsg        = document.getElementById("cartEmptyMessage");
+    const subtotalEl      = document.getElementById("cartSubtotal");
+    const countEl         = document.getElementById("cartCount");
+    const itemCountLabel  = document.getElementById("cartItemCountLabel");
+    const shippingModeSelect = document.getElementById("shippingMode");
+
+    container.innerHTML = "";
+
+    if (!cart.length) {
+      emptyMsg.style.display = "block";
+      subtotalEl.textContent = "$0.00";
+      countEl.textContent    = "0";
+      itemCountLabel.textContent = "No items yet";
+      shipping.amountCents = 0;
+      saveShipping();
+      if (shippingModeSelect) {
+        shippingModeSelect.value = shipping.mode || "pickup";
+      }
+      return;
+    }
+
+    emptyMsg.style.display = "none";
+
+    cart.forEach((item, index) => {
+      const lineTotal = (item.priceCents || 0) * (item.qty || 0);
+      const row = document.createElement("div");
+      row.className = "cart-item";
+
+      const hasImage = item.image && item.image.trim() !== "";
+      let imgHtml;
+      if (hasImage) {
+        const isAbsolute = /^https?:\/\//i.test(item.image);
+        const src = isAbsolute ? item.image : "images/products/" + encodeURI(item.image);
+        imgHtml = `<img src="${src}" alt="" class="cart-thumb">`;
+      } else {
+        imgHtml = `<div class="cart-thumb" style="display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-muted);background:#020617;">No img</div>`;
+      }
+
+      row.innerHTML = `
+        ${imgHtml}
+        <div class="cart-item-main">
+          <div class="cart-item-title">${item.name}</div>
+          <div class="cart-item-price">${formatMoneyFromCents(item.priceCents || 0)} each</div>
+          <div class="cart-qty-row">
+            <div class="qty-controls">
+              <button class="qty-btn" data-index="${index}" data-delta="-1">−</button>
+              <span class="qty-value">${item.qty}</span>
+              <button class="qty-btn" data-index="${index}" data-delta="1">+</button>
+            </div>
+            <div class="cart-line-total">${formatMoneyFromCents(lineTotal)}</div>
+          </div>
+          <textarea class="cart-notes" placeholder="Notes / variation (color, size, team, etc.)"
+            data-index="${index}">${item.notes || ""}</textarea>
+          <button class="cart-remove" data-index="${index}">Remove</button>
+        </div>
+      `;
+
+      container.appendChild(row);
+    });
+
+    container.querySelectorAll(".qty-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const index = Number(btn.getAttribute("data-index"));
+        const delta = Number(btn.getAttribute("data-delta"));
+        updateCartItemQty(index, delta);
+      });
+    });
+
+    container.querySelectorAll(".cart-notes").forEach(area => {
+      area.addEventListener("input", () => {
+        const index = Number(area.getAttribute("data-index"));
+        updateCartItemNotes(index, area.value);
+      });
+    });
+
+    container.querySelectorAll(".cart-remove").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const index = Number(btn.getAttribute("data-index"));
+        removeCartItem(index);
+      });
+    });
+
+    const totalWithShipping = computeTotalWithShipping();
+    subtotalEl.textContent = formatMoneyFromCents(totalWithShipping);
+
+    const totalQty = cart.reduce((sum, item) => sum + (item.qty || 0), 0);
+    countEl.textContent       = String(totalQty);
+    itemCountLabel.textContent = totalQty + " item" + (totalQty !== 1 ? "s" : "") + " in cart";
+
+    if (shippingModeSelect) {
+      shippingModeSelect.value = shipping.mode || "pickup";
+      shippingModeSelect.onchange = () => {
+        shipping.mode = shippingModeSelect.value === "ship" ? "ship" : "pickup";
+        const totalWithShippingNew = computeTotalWithShipping();
+        subtotalEl.textContent = formatMoneyFromCents(totalWithShippingNew);
+      };
+    }
+  }
+
+  const cartClearBtn  = document.getElementById("cartClearBtn");
+  const cartSquareBtn = document.getElementById("cartSquareBtn");
+
+  if (cartClearBtn) {
+    cartClearBtn.addEventListener("click", () => {
+      if (!cart.length) return;
+      if (confirm("Clear all items from cart?")) clearCart();
+    });
+  }
+
+  if (cartSquareBtn) {
+    cartSquareBtn.addEventListener("click", async () => {
+      if (!cart.length) {
+        alert("Your cart is empty.");
+        return;
+      }
+
+      cartSquareBtn.disabled = true;
+      const originalText = cartSquareBtn.textContent;
+      cartSquareBtn.textContent = "Connecting to Square…";
+
+      try {
+        const res = await fetch("checkout.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ cart, shipping })
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!data.success || !data.checkout_url) {
+          console.error("Square checkout error:", data);
+          alert(
+            (data && data.error) ||
+            "There was a problem starting checkout. Please try again."
+          );
+        } else {
+          window.location.href = data.checkout_url;
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Network error while starting checkout. Please try again.");
+      } finally {
+        cartSquareBtn.disabled = false;
+        cartSquareBtn.textContent = originalText;
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("year").textContent = new Date().getFullYear();
+    cart = loadCart();
+    loadShipping();
+    renderCart();
+  });
+</script>
+</body>
+</html>

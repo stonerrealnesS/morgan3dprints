@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Neon dark palette */
+  --color-background: #050508;
+  --color-surface: #0d0d14;
+  --color-surface-2: #13131e;
+  --color-border: #1e1e30;
+
+  --color-foreground: #f0f0ff;
+  --color-muted: #8888aa;
+
+  /* Electric accent colors */
+  --color-neon-purple: #a855f7;
+  --color-neon-purple-glow: #c084fc;
+  --color-neon-cyan: #22d3ee;
+  --color-neon-cyan-glow: #67e8f9;
+  --color-neon-pink: #ec4899;
+  --color-neon-pink-glow: #f472b6;
+  --color-neon-green: #4ade80;
+
+  /* Semantic */
+  --color-primary: var(--color-neon-purple);
+  --color-primary-glow: var(--color-neon-purple-glow);
+  --color-accent: var(--color-neon-cyan);
+  --color-danger: #ef4444;
+  --color-success: var(--color-neon-green);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Base */
+:root {
+  color-scheme: dark;
+}
+
+html {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Neon glow utilities */
+.glow-purple {
+  box-shadow: 0 0 12px 2px rgba(168, 85, 247, 0.4),
+              0 0 30px 4px rgba(168, 85, 247, 0.15);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 12px 2px rgba(34, 211, 238, 0.4),
+              0 0 30px 4px rgba(34, 211, 238, 0.15);
+}
+
+.glow-pink {
+  box-shadow: 0 0 12px 2px rgba(236, 72, 153, 0.4),
+              0 0 30px 4px rgba(236, 72, 153, 0.15);
+}
+
+.glow-text-purple {
+  text-shadow: 0 0 10px rgba(192, 132, 252, 0.8),
+               0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+.glow-text-cyan {
+  text-shadow: 0 0 10px rgba(103, 232, 249, 0.8),
+               0 0 20px rgba(34, 211, 238, 0.5);
+}
+
+.glow-text-pink {
+  text-shadow: 0 0 10px rgba(244, 114, 182, 0.8),
+               0 0 20px rgba(236, 72, 153, 0.5);
+}
+
+.neon-border-purple {
+  border: 1px solid rgba(168, 85, 247, 0.5);
+  box-shadow: inset 0 0 8px rgba(168, 85, 247, 0.1),
+              0 0 8px rgba(168, 85, 247, 0.2);
+}
+
+.neon-border-cyan {
+  border: 1px solid rgba(34, 211, 238, 0.5);
+  box-shadow: inset 0 0 8px rgba(34, 211, 238, 0.1),
+              0 0 8px rgba(34, 211, 238, 0.2);
+}
+
+/* Card base */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.2);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-surface); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(168, 85, 247, 0.4); }
