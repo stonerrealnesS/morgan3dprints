@@ -49,7 +49,12 @@
       "Bash(curl -s --max-time 20 \"http://localhost:3000/shop/keychains/neon-portal-keychain\")",
       "mcp__Claude_in_Chrome__tabs_create_mcp",
       "Bash(curl -s http://localhost:3000/api/seed)",
-      "Bash(python -m json.tool)"
+      "Bash(python -m json.tool)",
+      "Bash(npx kill-port *)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(curl -s \"http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__02nfq85._.css\")",
+      "Bash(xargs '-I{}' bash -c 'url={}; url=\"${url//href=/}\"; url=\"${url//\\\\\"/}\"; curl -s \"http://localhost:3000$url\"')",
+      "Bash(xargs sed *)"
     ]
   }
 }

@@ -33,16 +33,13 @@
 /* Base */
 :root {
   color-scheme: dark;
+  background: #050508;
+  color: #f0f0ff;
 }
 
-html {
-  background: var(--color-background);
-  color: var(--color-foreground);
-}
-
-body {
-  background: var(--color-background);
-  color: var(--color-foreground);
+html, body {
+  background: #050508 !important;
+  color: #f0f0ff;
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }

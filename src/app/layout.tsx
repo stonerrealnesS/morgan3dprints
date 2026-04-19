@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full`}>
-        <body className="min-h-full flex flex-col antialiased bg-[--color-background] text-[--color-foreground]">
+        <body className="min-h-full flex flex-col antialiased bg-[#050508] text-[#f0f0ff]">
           {children}
         </body>
       </html>

@@ -11,17 +11,17 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (role !== "admin") redirect("/");
 
   return (
-    <div className="min-h-screen bg-[--color-background]">
+    <div className="min-h-screen bg-[#050508]">
       <div className="flex">
-        <aside className="w-64 min-h-screen bg-[--color-surface] border-r border-[--color-border] p-6">
-          <p className="text-[--color-neon-purple] font-bold text-lg mb-8 glow-text-purple">M3DP Admin</p>
-          <nav className="space-y-2 text-sm text-[--color-muted]">
-            <a href="/admin" className="block hover:text-[--color-foreground]">Dashboard</a>
-            <a href="/admin/products" className="block hover:text-[--color-foreground]">Products</a>
-            <a href="/admin/orders" className="block hover:text-[--color-foreground]">Orders</a>
-            <a href="/admin/categories" className="block hover:text-[--color-foreground]">Categories</a>
-            <a href="/admin/discounts" className="block hover:text-[--color-foreground]">Discounts</a>
-            <a href="/admin/custom-requests" className="block hover:text-[--color-foreground]">Custom Requests</a>
+        <aside className="w-64 min-h-screen bg-[#0d0d14] border-r border-[#1e1e30] p-6">
+          <p className="text-[#a855f7] font-bold text-lg mb-8 glow-text-purple">M3DP Admin</p>
+          <nav className="space-y-2 text-sm text-[#8888aa]">
+            <a href="/admin" className="block hover:text-[#f0f0ff]">Dashboard</a>
+            <a href="/admin/products" className="block hover:text-[#f0f0ff]">Products</a>
+            <a href="/admin/orders" className="block hover:text-[#f0f0ff]">Orders</a>
+            <a href="/admin/categories" className="block hover:text-[#f0f0ff]">Categories</a>
+            <a href="/admin/discounts" className="block hover:text-[#f0f0ff]">Discounts</a>
+            <a href="/admin/custom-requests" className="block hover:text-[#f0f0ff]">Custom Requests</a>
           </nav>
         </aside>
         <main className="flex-1 p-8">{children}</main>
