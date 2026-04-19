@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { UserButton, SignInButton } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 
 export async function SiteHeader() {
@@ -29,11 +29,9 @@ export async function SiteHeader() {
           {userId ? (
             <UserButton />
           ) : (
-            <SignInButton mode="modal">
-              <button className="text-sm text-[--color-muted] hover:text-[--color-foreground] transition-colors">
-                Sign in
-              </button>
-            </SignInButton>
+            <Link href="/sign-in" className="text-sm text-[--color-muted] hover:text-[--color-foreground] transition-colors">
+              Sign in
+            </Link>
           )}
         </div>
       </div>
