@@ -32,6 +32,9 @@ export async function SiteHeader() {
           >
             Print by the Hour
           </Link>
+          <Link href="/services" className="hover:text-[#f0f0ff] transition-colors">
+            Services
+          </Link>
           <Link href="/about" className="hover:text-[#f0f0ff] transition-colors">
             About
           </Link>
