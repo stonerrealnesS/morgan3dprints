@@ -1,0 +1,39 @@
+import { MetadataRoute } from "next";
+import { prisma } from "@/lib/prisma";
+
+const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "https://morgan3dokc.com";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [products, categories] = await Promise.all([
+    prisma.product.findMany({
+      where: { inStock: true },
+      select: { slug: true, category: { select: { slug: true } }, updatedAt: true },
+    }).catch(() => []),
+    prisma.category.findMany({
+      select: { slug: true, updatedAt: true },
+    }).catch(() => []),
+  ]);
+
+  const staticRoutes: MetadataRoute.Sitemap = [
+    { url: BASE, lastModified: new Date(), changeFrequency: "daily", priority: 1 },
+    { url: `${BASE}/shop`, lastModified: new Date(), changeFrequency: "daily", priority: 0.9 },
+    { url: `${BASE}/services/custom-order`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/services/print-by-the-hour`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
+  ];
+
+  const categoryRoutes: MetadataRoute.Sitemap = categories.map((cat) => ({
+    url: `${BASE}/shop/${cat.slug}`,
+    lastModified: cat.updatedAt,
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
+
+  const productRoutes: MetadataRoute.Sitemap = products.map((p) => ({
+    url: `${BASE}/shop/${p.category.slug}/${p.slug}`,
+    lastModified: p.updatedAt,
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...categoryRoutes, ...productRoutes];
+}

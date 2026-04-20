@@ -6,16 +6,14 @@ const isAccountRoute = createRouteMatcher(["/account(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
   if (isAdminRoute(req)) {
-    const { userId, sessionClaims } = await auth();
-    const adminIds = (process.env.ADMIN_CLERK_USER_IDS ?? "").split(",").map((s) => s.trim());
+    const { userId } = await auth();
+    const adminIds = (process.env.ADMIN_CLERK_USER_IDS ?? "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
 
-    if (!userId || !adminIds.includes(userId)) {
+    if (!userId || (adminIds.length > 0 && !adminIds.includes(userId))) {
       return NextResponse.redirect(new URL("/sign-in", req.url));
-    }
-
-    const role = (sessionClaims?.metadata as { role?: string })?.role;
-    if (role !== "admin") {
-      return NextResponse.redirect(new URL("/", req.url));
     }
   }
 

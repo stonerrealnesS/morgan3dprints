@@ -25,10 +25,11 @@ export type ProductDetailImage = {
   order: number;
 };
 
-export type ProductDetail = Omit<ProductSummary, "images"> & {
+export type ProductDetail = Omit<ProductSummary, "images" | "category"> & {
   description: string;
   metaTitle: string | null;
   metaDesc: string | null;
+  category: { id: string; name: string; slug: string; isAdult: boolean };
   images: ProductDetailImage[];
   reviews: {
     id: string;
@@ -45,6 +46,8 @@ export type CategorySummary = {
   slug: string;
   isAdult: boolean;
 };
+
+export type CategoryDetail = CategorySummary;
 
 // ─── getProducts ──────────────────────────────────────────────────────────────
 
@@ -133,7 +136,7 @@ export const getProduct = unstable_cache(
         material: true,
         metaTitle: true,
         metaDesc: true,
-        category: { select: { id: true, name: true, slug: true } },
+        category: { select: { id: true, name: true, slug: true, isAdult: true } },
         images: {
           select: {
             id: true,

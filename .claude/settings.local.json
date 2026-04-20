@@ -54,7 +54,8 @@
       "Bash(curl -s http://localhost:3000)",
       "Bash(curl -s \"http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__02nfq85._.css\")",
       "Bash(xargs '-I{}' bash -c 'url={}; url=\"${url//href=/}\"; url=\"${url//\\\\\"/}\"; curl -s \"http://localhost:3000$url\"')",
-      "Bash(xargs sed *)"
+      "Bash(xargs sed *)",
+      "Bash(cmd /c \"cd \\\\\"C:\\\\Users\\\\stone\\\\OneDrive\\\\Desktop\\\\Claude Website\\\\\" && npx tsc --noEmit 2>&1\")"
     ]
   }
 }

@@ -1,7 +1,11 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getProduct, getCategories } from "@/lib/actions/products";
+import { auth } from "@clerk/nextjs/server";
+import { getProduct } from "@/lib/actions/products";
 import { prisma } from "@/lib/prisma";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { AgeGateWrapper } from "@/components/shop/AgeGateWrapper";
+import { ReviewForm } from "@/components/shop/ReviewForm";
 
 export const revalidate = 3600;
 
@@ -60,9 +64,25 @@ function StarRating({ rating }: { rating: number }) {
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
+  const { userId } = await auth();
   const product = await getProduct(slug);
 
   if (!product) notFound();
+
+  // Check if signed-in user has already reviewed this product
+  let existingReview: { rating: number; body: string | null } | null = null;
+  if (userId) {
+    const customer = await prisma.customer.findUnique({
+      where: { clerkUserId: userId },
+      select: { id: true },
+    });
+    if (customer) {
+      existingReview = await prisma.review.findUnique({
+        where: { productId_customerId: { productId: product.id, customerId: customer.id } },
+        select: { rating: true, body: true },
+      });
+    }
+  }
 
   const primaryImage = product.images.find((img) => img.isPrimary) ?? product.images[0];
   const otherImages = product.images.filter((img) => img !== primaryImage);
@@ -77,7 +97,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
     currency: "USD",
   }).format(product.priceInCents / 100);
 
+  const isAdultCategory = product.category.isAdult;
+
   return (
+    <AgeGateWrapper requiresAgeGate={isAdultCategory}>
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm mb-8" style={{ color: "#8888aa" }}>
@@ -248,31 +271,31 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {product.description}
           </div>
 
-          {/* Add to Cart — disabled, Phase 3 */}
-          <div className="relative group/cart">
+          {/* Add to Cart */}
+          {product.inStock || product.isMadeToOrder ? (
+            <AddToCartButton
+              product={{
+                id: product.id,
+                name: product.name,
+                slug: product.slug,
+                categorySlug: product.category.slug,
+                priceInCents: product.priceInCents,
+                image: primaryImage?.url,
+              }}
+            />
+          ) : (
             <button
               disabled
-              className="w-full py-4 rounded-xl font-bold text-lg transition-all duration-200 cursor-not-allowed"
+              className="w-full py-4 rounded-xl font-bold text-lg cursor-not-allowed"
               style={{
-                background: "rgba(168,85,247,0.3)",
-                border: "1px solid rgba(168,85,247,0.4)",
-                color: "rgba(168,85,247,0.6)",
+                background: "rgba(239,68,68,0.1)",
+                border: "1px solid rgba(239,68,68,0.3)",
+                color: "rgba(239,68,68,0.6)",
               }}
             >
-              Add to Cart
+              Out of Stock
             </button>
-            {/* Tooltip */}
-            <div
-              className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap opacity-0 group-hover/cart:opacity-100 transition-opacity pointer-events-none"
-              style={{
-                background: "#13131e",
-                border: "1px solid #1e1e30",
-                color: "#8888aa",
-              }}
-            >
-              Coming in Phase 3
-            </div>
-          </div>
+          )}
 
           {/* Divider */}
           <div className="h-px" style={{ background: "#1e1e30" }} />
@@ -373,7 +396,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
             })}
           </div>
         )}
+
+        {/* Review form for signed-in users */}
+        {userId ? (
+          <div className="mt-6">
+            <ReviewForm productId={product.id} existingReview={existingReview} />
+          </div>
+        ) : (
+          <p className="mt-6 text-sm text-center" style={{ color: "#8888aa" }}>
+            <a href="/sign-in" style={{ color: "#a855f7" }}>Sign in</a> to leave a review
+          </p>
+        )}
       </section>
     </div>
+    </AgeGateWrapper>
   );
 }
