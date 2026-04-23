@@ -99,8 +99,38 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const isAdultCategory = product.category.isAdult;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: primaryImage?.url,
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      price: (product.priceInCents / 100).toFixed(2),
+      availability: product.inStock || product.isMadeToOrder
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      seller: { "@type": "Organization", name: "Morgan 3D Prints" },
+    },
+    ...(avgRating !== null && product.reviews.length > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: avgRating.toFixed(1),
+            reviewCount: product.reviews.length,
+          },
+        }
+      : {}),
+  };
+
   return (
     <AgeGateWrapper requiresAgeGate={isAdultCategory}>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm mb-8" style={{ color: "#8888aa" }}>
