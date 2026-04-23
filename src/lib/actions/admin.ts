@@ -5,6 +5,12 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import slugify from "slugify";
+import { Resend } from "resend";
+import { ShippingNotificationEmail } from "@/emails/ShippingNotification";
+
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY ?? "");
+}
 
 async function requireAdmin() {
   const { userId } = await auth();
@@ -151,10 +157,11 @@ export async function toggleProductStock(id: string, inStock: boolean) {
 export async function updateOrderStatus(orderId: string, status: string) {
   const adminUserId = await requireAdmin();
 
-  await prisma.$transaction([
+  const [order] = await prisma.$transaction([
     prisma.order.update({
       where: { id: orderId },
       data: { status: status as never },
+      include: { items: { select: { nameSnapshot: true, quantity: true } } },
     }),
     prisma.adminAction.create({
       data: {
@@ -166,6 +173,34 @@ export async function updateOrderStatus(orderId: string, status: string) {
       },
     }),
   ]);
+
+  if (status === "SHIPPED") {
+    const email = order.guestEmail ?? (
+      order.customerId
+        ? (await prisma.customer.findUnique({ where: { id: order.customerId }, select: { email: true } }))?.email
+        : null
+    );
+    if (email) {
+      const shippingAddress = order.shippingLine1
+        ? [order.shippingLine1, order.shippingLine2, `${order.shippingCity}, ${order.shippingState} ${order.shippingZip}`]
+            .filter(Boolean).join(", ")
+        : undefined;
+      try {
+        await getResend().emails.send({
+          from: "Morgan 3D Prints <orders@morgan3dokc.com>",
+          to: email,
+          subject: `Your order #${orderId.slice(-8).toUpperCase()} has shipped!`,
+          react: ShippingNotificationEmail({
+            orderId,
+            items: order.items.map((i) => ({ name: i.nameSnapshot, quantity: i.quantity })),
+            shippingAddress,
+          }),
+        });
+      } catch (err) {
+        console.error("[updateOrderStatus] failed to send shipping email:", err);
+      }
+    }
+  }
 }
 
 export async function addOrderNote(orderId: string, note: string) {

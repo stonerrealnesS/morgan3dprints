@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { updateProduct } from "@/lib/actions/admin";
 import Link from "next/link";
+import { CloudinaryUploader } from "@/components/admin/CloudinaryUploader";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -76,26 +77,7 @@ export default async function EditProductPage({ params }: Props) {
         <Field label="Material (optional)" name="material" defaultValue={product.material ?? ""} />
 
         {/* Image */}
-        <div>
-          <label className="block text-sm font-medium mb-1.5" style={{ color: "#8888aa" }}>Primary Image URL</label>
-          {primaryImage && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={primaryImage.url}
-              alt={product.name}
-              className="w-24 h-24 rounded-lg object-cover mb-2"
-              style={{ border: "1px solid #1e1e30" }}
-            />
-          )}
-          <input
-            name="imageUrl"
-            type="url"
-            placeholder="https://… (leave blank to keep existing)"
-            defaultValue=""
-            className="w-full px-3 py-2.5 rounded-lg text-sm text-[#f0f0ff] outline-none focus:ring-1 focus:ring-[#a855f7]"
-            style={{ background: "#13131e", border: "1px solid #1e1e30" }}
-          />
-        </div>
+        <CloudinaryUploader currentImageUrl={primaryImage?.url} />
 
         <div className="flex flex-wrap gap-6">
           <Checkbox name="isGlow" label="Glow Product" defaultChecked={product.isGlow} />

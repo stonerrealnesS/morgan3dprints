@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { createProduct } from "@/lib/actions/admin";
+import { CloudinaryUploader } from "@/components/admin/CloudinaryUploader";
 
 export default async function NewProductPage() {
   const categories = await prisma.category.findMany({ orderBy: { name: "asc" } });
@@ -66,7 +67,7 @@ function ProductFormFields({
         />
       </div>
       <Field label="Material (optional)" name="material" defaultValue={defaults?.material as string} />
-      <Field label="Image URL (optional)" name="imageUrl" type="url" placeholder="https://..." defaultValue={defaults?.imageUrl as string} />
+      <CloudinaryUploader />
       <div className="flex flex-wrap gap-6">
         <Checkbox name="isGlow" label="Glow Product" defaultChecked={defaults?.isGlow as boolean} />
         <Checkbox name="inStock" label="In Stock" defaultChecked={defaults?.inStock !== false} />

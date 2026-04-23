@@ -34,7 +34,7 @@ const categories = [
     description:
       "Need your logo as a physical object? We can turn it into a countertop display, wall sign, or multi-layer piece that really pops.",
     items: [
-      "Desk logos and "name bar" style signage.",
+      'Desk logos and "name bar" style signage.',
       "Wall-mount logos with standoffs or screw bosses.",
       "QR-based signs for menus, socials, or tip links.",
     ],

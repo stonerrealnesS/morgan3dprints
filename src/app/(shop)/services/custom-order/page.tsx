@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { Resend } from "resend";
+import { CustomRequestEmail } from "@/emails/CustomRequestEmail";
 
 export const metadata: Metadata = {
   title: "Custom Order — Morgan 3D Prints",
@@ -28,6 +30,17 @@ async function submitCustomOrder(formData: FormData) {
   await prisma.customRequest.create({
     data: { type, name, email, phone, description, fileUrls, status: "new" },
   });
+
+  try {
+    await new Resend(process.env.RESEND_API_KEY ?? "").emails.send({
+      from: "Morgan 3D Prints <orders@morgan3dokc.com>",
+      to: email,
+      subject: "We got your custom request!",
+      react: CustomRequestEmail({ name, type, description }),
+    });
+  } catch (err) {
+    console.error("[submitCustomOrder] failed to send email:", err);
+  }
 
   redirect("/services/custom-order/submitted");
 }
