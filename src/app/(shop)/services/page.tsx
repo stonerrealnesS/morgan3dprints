@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Services",
-  description: "Custom 3D printing services in OKC — merch, prototypes, fixtures, signage, short-run manufacturing, and more. Local pickup or US shipping.",
+  title: "Custom 3D Printing Services in Oklahoma City",
+  description: "Professional custom 3D printing services in OKC — branded merch, prototypes, fixtures, signage, and short-run manufacturing. Quote in 24h. Local pickup free.",
 };
 
 const categories = [

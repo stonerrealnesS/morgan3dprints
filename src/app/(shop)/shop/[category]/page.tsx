@@ -45,8 +45,21 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   const { products, total } = await getProducts({ categorySlug: slug, limit: 48 });
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Shop", item: "https://www.morgan3dokc.com/shop" },
+      { "@type": "ListItem", position: 2, name: category.name },
+    ],
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm mb-6" style={{ color: "#8888aa" }}>
         <a href="/shop" className="hover:text-white transition-colors">Shop</a>

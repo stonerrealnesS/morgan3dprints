@@ -77,8 +77,8 @@ export function HeroSection() {
           className="text-lg sm:text-xl max-w-xl leading-relaxed"
           style={{ color: "#8888aa" }}
         >
-          Custom 3D-printed products handcrafted in OKC.{" "}
-          <span style={{ color: "#f0f0ff" }}>Bold. Neon. Yours.</span>
+          100+ unique pieces ready to ship — or order something{" "}
+          <span style={{ color: "#f0f0ff" }}>completely custom</span>. Handcrafted in OKC, shipped anywhere.
         </motion.p>
 
         {/* CTAs */}
@@ -133,6 +133,27 @@ export function HeroSection() {
           >
             Custom Order
           </Link>
+        </motion.div>
+
+        {/* Trust bar */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="flex flex-wrap justify-center gap-4 mt-2 text-xs"
+          style={{ color: "#8888aa" }}
+        >
+          {[
+            { icon: "📦", label: "Free OKC Pickup" },
+            { icon: "⚡", label: "2–5 Day Turnaround" },
+            { icon: "🎨", label: "Any Filament, Any Color" },
+            { icon: "✏️", label: "Custom Orders Welcome" },
+          ].map(({ icon, label }) => (
+            <span key={label} className="flex items-center gap-1.5">
+              <span>{icon}</span>
+              <span>{label}</span>
+            </span>
+          ))}
         </motion.div>
 
         {/* Scroll hint */}

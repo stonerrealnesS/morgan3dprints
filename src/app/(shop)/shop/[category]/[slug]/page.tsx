@@ -29,11 +29,16 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const product = await getProduct(slug);
   if (!product) return { title: "Product Not Found" };
 
+  const primaryImage = product.images.find((img) => img.isPrimary) ?? product.images[0];
+
   return {
     title: product.metaTitle ?? product.name,
-    description:
-      product.metaDesc ??
-      product.description.slice(0, 160),
+    description: product.metaDesc ?? product.description.slice(0, 160),
+    openGraph: {
+      title: product.metaTitle ?? product.name,
+      description: product.metaDesc ?? product.description.slice(0, 160),
+      ...(primaryImage?.url ? { images: [{ url: primaryImage.url, alt: product.name }] } : {}),
+    },
   };
 }
 
@@ -99,31 +104,42 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const isAdultCategory = product.category.isAdult;
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    description: product.description,
-    image: primaryImage?.url,
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "USD",
-      price: (product.priceInCents / 100).toFixed(2),
-      availability: product.inStock || product.isMadeToOrder
-        ? "https://schema.org/InStock"
-        : "https://schema.org/OutOfStock",
-      seller: { "@type": "Organization", name: "Morgan 3D Prints" },
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      image: primaryImage?.url,
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "USD",
+        price: (product.priceInCents / 100).toFixed(2),
+        availability: product.inStock || product.isMadeToOrder
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+        seller: { "@type": "Organization", name: "Morgan 3D Prints" },
+      },
+      ...(avgRating !== null && product.reviews.length > 0
+        ? {
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: avgRating.toFixed(1),
+              reviewCount: product.reviews.length,
+            },
+          }
+        : {}),
     },
-    ...(avgRating !== null && product.reviews.length > 0
-      ? {
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: avgRating.toFixed(1),
-            reviewCount: product.reviews.length,
-          },
-        }
-      : {}),
-  };
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Shop", item: "https://www.morgan3dokc.com/shop" },
+        { "@type": "ListItem", position: 2, name: product.category.name, item: `https://www.morgan3dokc.com/shop/${product.category.slug}` },
+        { "@type": "ListItem", position: 3, name: product.name },
+      ],
+    },
+  ];
 
   return (
     <AgeGateWrapper requiresAgeGate={isAdultCategory}>
@@ -294,6 +310,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
             )}
           </div>
 
+          {/* Lead time */}
+          {(product.inStock || product.isMadeToOrder) && (
+            <p className="text-xs" style={{ color: "#8888aa" }}>
+              ⚡ {product.isMadeToOrder ? "Made to order — ships in 2–5 business days" : "In stock — ships in 2–5 business days"}
+            </p>
+          )}
+
           {/* Description */}
           <div
             className="text-base leading-relaxed whitespace-pre-line"
@@ -327,6 +350,24 @@ export default async function ProductPage({ params }: ProductPageProps) {
               Out of Stock
             </button>
           )}
+
+          {/* Custom order CTA */}
+          <div
+            className="flex items-center justify-between gap-3 p-4 rounded-xl"
+            style={{ background: "#0d0d14", border: "1px solid #1e1e30" }}
+          >
+            <div>
+              <p className="text-sm font-medium text-white">Want a different color or size?</p>
+              <p className="text-xs mt-0.5" style={{ color: "#8888aa" }}>We can print this in any filament or customize it for you.</p>
+            </div>
+            <a
+              href="/services/custom-order"
+              className="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+              style={{ background: "rgba(168,85,247,0.15)", border: "1px solid rgba(168,85,247,0.4)", color: "#a855f7" }}
+            >
+              Request custom →
+            </a>
+          </div>
 
           {/* Divider */}
           <div className="h-px" style={{ background: "#1e1e30" }} />

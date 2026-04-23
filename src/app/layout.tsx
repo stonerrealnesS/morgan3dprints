@@ -46,6 +46,25 @@ export const metadata: Metadata = {
   },
 };
 
+const localBusinessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Morgan 3D Prints",
+  description: "Custom 3D-printed products handcrafted in Oklahoma City. Shop keychains, glow-in-the-dark art, novelty decor, and more — or submit a fully custom order.",
+  url: "https://www.morgan3dokc.com",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "1700 S Morgan Road Suite H",
+    addressLocality: "Oklahoma City",
+    addressRegion: "OK",
+    postalCode: "73128",
+    addressCountry: "US",
+  },
+  priceRange: "$$",
+  currenciesAccepted: "USD",
+  paymentAccepted: "Credit Card",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -55,6 +74,10 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full`}>
         <body className="min-h-full flex flex-col antialiased bg-[#050508] text-[#f0f0ff]">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+          />
           {children}
         </body>
       </html>
