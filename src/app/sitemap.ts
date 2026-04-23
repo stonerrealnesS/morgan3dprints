@@ -43,7 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: p.updatedAt,
     changeFrequency: "weekly" as const,
     priority: 0.6,
-    ...(p.images[0]?.url ? { images: [{ url: p.images[0].url, title: p.name }] } : {}),
+    ...(p.images[0]?.url ? { images: [p.images[0].url] } : {}),
   }));
 
   return [...staticRoutes, ...categoryRoutes, ...productRoutes];
