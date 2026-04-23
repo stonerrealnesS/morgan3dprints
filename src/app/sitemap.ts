@@ -7,7 +7,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [products, categories] = await Promise.all([
     prisma.product.findMany({
       where: { inStock: true, category: { isAdult: false } },
-      select: { slug: true, category: { select: { slug: true } }, updatedAt: true },
+      select: {
+        slug: true,
+        name: true,
+        category: { select: { slug: true } },
+        updatedAt: true,
+        images: { where: { isPrimary: true }, select: { url: true }, take: 1 },
+      },
     }).catch(() => []),
     prisma.category.findMany({
       where: { isAdult: false },
@@ -18,8 +24,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: BASE, lastModified: new Date(), changeFrequency: "daily", priority: 1 },
     { url: `${BASE}/shop`, lastModified: new Date(), changeFrequency: "daily", priority: 0.9 },
+    { url: `${BASE}/services`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/services/custom-order`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/services/print-by-the-hour`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/faq`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
   ];
 
   const categoryRoutes: MetadataRoute.Sitemap = categories.map((cat) => ({
@@ -33,7 +42,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${BASE}/shop/${p.category.slug}/${p.slug}`,
     lastModified: p.updatedAt,
     changeFrequency: "weekly" as const,
-    priority: 0.7,
+    priority: 0.6,
+    ...(p.images[0]?.url ? { images: [{ url: p.images[0].url, title: p.name }] } : {}),
   }));
 
   return [...staticRoutes, ...categoryRoutes, ...productRoutes];

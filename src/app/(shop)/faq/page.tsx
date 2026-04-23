@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "FAQ",
-  description: "Answers to common questions about 3D printing, custom orders, pricing, and working with Morgan 3D Prints in OKC.",
+  title: "FAQ — Custom 3D Printing Questions Answered",
+  description: "Common questions about custom 3D printing in OKC — materials, shipping, custom orders, local pickup, turnaround times, pricing, and more.",
 };
 
 const faqs = [
@@ -65,8 +65,23 @@ const faqs = [
 ];
 
 export default function FaqPage() {
+  const allItems = faqs.flatMap((s) => s.items);
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: allItems.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+  };
+
   return (
     <main className="max-w-4xl mx-auto px-4 py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="mb-12">
         <p className="text-xs uppercase tracking-widest text-[#a78bfa] mb-3">Questions & Answers</p>
         <h1 className="text-4xl font-bold mb-4">Frequently Asked Questions</h1>

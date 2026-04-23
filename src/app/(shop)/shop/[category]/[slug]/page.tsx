@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import { AgeGateWrapper } from "@/components/shop/AgeGateWrapper";
 import { ReviewForm } from "@/components/shop/ReviewForm";
+import { ProductGrid } from "@/components/shop/ProductGrid";
 
 export const revalidate = 3600;
 
@@ -73,6 +74,22 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const product = await getProduct(slug);
 
   if (!product) notFound();
+
+  const relatedProducts = await prisma.product.findMany({
+    where: {
+      category: { slug: product.category.slug },
+      id: { not: product.id },
+      OR: [{ inStock: true }, { isMadeToOrder: true }],
+    },
+    take: 4,
+    orderBy: { createdAt: "desc" },
+    select: {
+      id: true, name: true, slug: true, priceInCents: true,
+      isGlow: true, inStock: true, isMadeToOrder: true, material: true,
+      category: { select: { id: true, name: true, slug: true } },
+      images: { where: { isPrimary: true }, select: { url: true, isPrimary: true }, take: 1 },
+    },
+  });
 
   // Check if signed-in user has already reviewed this product
   let existingReview: { rating: number; body: string | null } | null = null;
@@ -480,6 +497,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </p>
         )}
       </section>
+      {/* Related products */}
+      {relatedProducts.length > 0 && (
+        <section className="mt-20">
+          <div className="flex items-end gap-4 mb-8">
+            <h2 className="text-2xl font-bold text-white">More from {product.category.name}</h2>
+            <div className="flex-1 h-px mb-2" style={{ background: "linear-gradient(to right, rgba(168,85,247,0.4), transparent)" }} />
+          </div>
+          <ProductGrid products={relatedProducts} />
+        </section>
+      )}
     </div>
     </AgeGateWrapper>
   );
