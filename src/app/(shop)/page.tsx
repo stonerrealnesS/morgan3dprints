@@ -5,23 +5,35 @@ import { ProductGrid } from "@/components/shop/ProductGrid";
 import { HeroSection } from "@/components/shop/HeroSection";
 import { CategoryGrid } from "@/components/shop/CategoryGrid";
 
-// Category icon map (neon colors cycle)
-const CATEGORY_COLORS = [
-  { icon: "🔑", color: "#a855f7", glow: "rgba(168,85,247,0.4)" },
-  { icon: "✨", color: "#22d3ee", glow: "rgba(34,211,238,0.4)" },
-  { icon: "⚡", color: "#ec4899", glow: "rgba(236,72,153,0.4)" },
-  { icon: "🎯", color: "#a855f7", glow: "rgba(168,85,247,0.4)" },
-  { icon: "🖨️", color: "#22d3ee", glow: "rgba(34,211,238,0.4)" },
-  { icon: "🎨", color: "#ec4899", glow: "rgba(236,72,153,0.4)" },
+const NEON = [
+  { color: "#a855f7", glow: "rgba(168,85,247,0.4)" },
+  { color: "#22d3ee", glow: "rgba(34,211,238,0.4)" },
+  { color: "#ec4899", glow: "rgba(236,72,153,0.4)" },
 ];
 
+const CATEGORY_ICONS: Record<string, string> = {
+  "keychains":       "🔑",
+  "glow-in-the-dark":"🌙",
+  "fidgets":         "🌀",
+  "tiny-things":     "🔬",
+  "doggos":          "🐾",
+  "man-cave":        "💪",
+  "for-the-ladies":  "💅",
+  "at-the-office":   "💼",
+  "at-the-house":    "🏠",
+  "accessories":     "👜",
+  "services":        "🔧",
+  "custom":          "⚡",
+  "420-friendly":    "🍃",
+};
+
 const PLACEHOLDER_CATEGORIES = [
-  { name: "Keychains", slug: "keychains", icon: "🔑", color: "#a855f7", glow: "rgba(168,85,247,0.4)" },
-  { name: "Glow in the Dark", slug: "glow-in-the-dark", icon: "✨", color: "#22d3ee", glow: "rgba(34,211,238,0.4)" },
-  { name: "Custom Orders", slug: "custom", icon: "⚡", color: "#ec4899", glow: "rgba(236,72,153,0.4)" },
-  { name: "Fidgets", slug: "fidgets", icon: "🎯", color: "#a855f7", glow: "rgba(168,85,247,0.4)" },
-  { name: "Services", slug: "services", icon: "🖨️", color: "#22d3ee", glow: "rgba(34,211,238,0.4)" },
-  { name: "Accessories", slug: "accessories", icon: "🎨", color: "#ec4899", glow: "rgba(236,72,153,0.4)" },
+  { name: "Keychains", slug: "keychains", icon: "🔑", ...NEON[0] },
+  { name: "Glow in the Dark", slug: "glow-in-the-dark", icon: "🌙", ...NEON[1] },
+  { name: "Custom Orders", slug: "custom", icon: "⚡", ...NEON[2] },
+  { name: "Fidgets", slug: "fidgets", icon: "🌀", ...NEON[0] },
+  { name: "Services", slug: "services", icon: "🔧", ...NEON[1] },
+  { name: "Accessories", slug: "accessories", icon: "👜", ...NEON[2] },
 ];
 
 export default async function HomePage() {
@@ -34,9 +46,8 @@ export default async function HomePage() {
     categories.length > 0
       ? categories.map((cat, i) => ({
           ...cat,
-          icon: CATEGORY_COLORS[i % CATEGORY_COLORS.length].icon,
-          color: CATEGORY_COLORS[i % CATEGORY_COLORS.length].color,
-          glow: CATEGORY_COLORS[i % CATEGORY_COLORS.length].glow,
+          icon: CATEGORY_ICONS[cat.slug] ?? "🖨️",
+          ...NEON[i % NEON.length],
         }))
       : PLACEHOLDER_CATEGORIES;
 
