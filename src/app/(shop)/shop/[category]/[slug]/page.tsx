@@ -203,6 +203,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     src={img.url}
                     alt={img.alt ?? product.name}
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
               ))}
