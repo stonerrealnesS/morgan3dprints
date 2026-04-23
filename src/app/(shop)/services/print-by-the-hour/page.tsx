@@ -8,21 +8,39 @@ export const metadata: Metadata = {
 
 const tiers = [
   {
-    name: "Single Hour",
+    name: "Prototype",
     price: "$15",
-    unit: "/ hour",
-    desc: "Perfect for quick prints and prototypes.",
-    features: ["1 hour of print time", "Filament included (PLA/PETG)", "File prep included", "OKC pickup"],
-    cta: "Book 1 hour",
+    unit: "/ 1 hour",
+    desc: "Quick test prints and simple single-color prototypes.",
+    features: ["1 hour of print time", "File prep included", "Single color", "Standard PLA filament", "Local pickup or $8.99 shipping"],
+    cta: "Book Prototype",
     color: "#8888aa",
+  },
+  {
+    name: "Single Hour",
+    price: "$25",
+    unit: "/ 1 hour",
+    desc: "More color options and filament choices for polished prints.",
+    features: ["1 hour of print time", "File prep included", "Up to 4 colors", "Standard & Matte PLA filament", "Local pickup or $8.99 shipping"],
+    cta: "Book Single Hour",
+    color: "#22d3ee",
+  },
+  {
+    name: "2 Hours",
+    price: "$35",
+    unit: "/ 2 hours",
+    desc: "More time for larger or more detailed pieces.",
+    features: ["2 hours of print time", "File prep included", "Up to 4 colors", "Standard & Matte PLA filament", "Free USPS shipping"],
+    cta: "Book 2 Hours",
+    color: "#ec4899",
   },
   {
     name: "Half Day",
     price: "$50",
     unit: "/ 4 hours",
-    desc: "Best value for medium projects.",
-    features: ["4 hours of print time", "Any filament type", "File prep + slicing", "Priority queue", "OKC pickup"],
-    cta: "Book half day",
+    desc: "Best value for medium projects with full filament access.",
+    features: ["4 hours of print time", "File prep included", "Up to 8 colors", "Standard, Matte & Specialty PLA filament", "Free USPS shipping"],
+    cta: "Book Half Day",
     color: "#a855f7",
     featured: true,
   },
@@ -31,8 +49,17 @@ const tiers = [
     price: "$90",
     unit: "/ 8 hours",
     desc: "Large prints and small production runs.",
-    features: ["8 hours of print time", "Any filament type", "Multi-file queue", "Priority + monitoring", "Delivery available"],
-    cta: "Book full day",
+    features: ["8 hours of print time", "File prep included", "Up to 8 colors", "Standard, Matte & Specialty PLA filament", "Free USPS shipping"],
+    cta: "Book Full Day",
+    color: "#a855f7",
+  },
+  {
+    name: "Double Shift",
+    price: "$150",
+    unit: "/ 16 hours",
+    desc: "Maximum print time with priority queue for serious production runs.",
+    features: ["16 hours of print time", "File prep for up to 4 build plates", "Priority printing queue", "Up to 8 colors", "Standard, Matte & Specialty PLA filament", "Free USPS shipping"],
+    cta: "Book Double Shift",
     color: "#22d3ee",
   },
 ];
@@ -53,7 +80,7 @@ export default function PrintByTheHourPage() {
       </div>
 
       {/* Pricing cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
         {tiers.map((tier) => (
           <div
             key={tier.name}
