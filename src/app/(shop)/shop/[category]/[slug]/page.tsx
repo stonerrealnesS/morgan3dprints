@@ -252,14 +252,23 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </h1>
 
           {/* Price */}
-          <div
-            className="text-4xl font-bold"
-            style={{
-              color: "#22d3ee",
-              textShadow: "0 0 16px rgba(34,211,238,0.5)",
-            }}
-          >
-            {formattedPrice}
+          <div className="flex items-baseline gap-3">
+            <div
+              className="text-4xl font-bold"
+              style={{ color: "#22d3ee", textShadow: "0 0 16px rgba(34,211,238,0.5)" }}
+            >
+              {formattedPrice}
+            </div>
+            {product.comparePriceInCents && product.comparePriceInCents > product.priceInCents && (
+              <span className="text-xl line-through" style={{ color: "#555570" }}>
+                {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(product.comparePriceInCents / 100)}
+              </span>
+            )}
+            {product.comparePriceInCents && product.comparePriceInCents > product.priceInCents && (
+              <span className="text-sm font-semibold px-2 py-0.5 rounded-full" style={{ background: "rgba(74,222,128,0.12)", color: "#4ade80", border: "1px solid rgba(74,222,128,0.3)" }}>
+                Save {Math.round((1 - product.priceInCents / product.comparePriceInCents) * 100)}%
+              </span>
+            )}
           </div>
 
           {/* Badges row */}

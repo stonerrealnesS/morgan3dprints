@@ -27,8 +27,9 @@ model Product {
   name         String
   slug         String         @unique
   description  String
-  priceInCents Int
-  categoryId   String
+  priceInCents        Int
+  comparePriceInCents Int?
+  categoryId          String
   category     Category       @relation(fields: [categoryId], references: [id])
   images       ProductImage[]
   material     String?

@@ -99,15 +99,19 @@ export function ProductCard({ product }: ProductCardProps) {
 
             {/* Price + badges row */}
             <div className="flex items-center justify-between mt-auto pt-2">
-              <span
-                className="text-lg font-bold"
-                style={{
-                  color: "#22d3ee",
-                  textShadow: "0 0 8px rgba(34,211,238,0.5)",
-                }}
-              >
-                {formatPrice(product.priceInCents)}
-              </span>
+              <div className="flex items-baseline gap-2">
+                <span
+                  className="text-lg font-bold"
+                  style={{ color: "#22d3ee", textShadow: "0 0 8px rgba(34,211,238,0.5)" }}
+                >
+                  {formatPrice(product.priceInCents)}
+                </span>
+                {product.comparePriceInCents && product.comparePriceInCents > product.priceInCents && (
+                  <span className="text-sm line-through" style={{ color: "#555570" }}>
+                    {formatPrice(product.comparePriceInCents)}
+                  </span>
+                )}
+              </div>
 
               {/* Stock badge */}
               {product.isMadeToOrder ? (

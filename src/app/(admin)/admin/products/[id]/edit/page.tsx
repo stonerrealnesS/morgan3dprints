@@ -38,13 +38,24 @@ export default async function EditProductPage({ params }: Props) {
 
         <div className="grid grid-cols-2 gap-4">
           <Field
-            label="Price (USD)"
+            label="Sale Price (USD)"
             name="price"
             type="number"
             step="0.01"
             min="0"
             required
             defaultValue={(product.priceInCents / 100).toFixed(2)}
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <Field
+            label="Original Price — shows strikethrough (optional)"
+            name="comparePrice"
+            type="number"
+            step="0.01"
+            min="0"
+            defaultValue={product.comparePriceInCents ? (product.comparePriceInCents / 100).toFixed(2) : ""}
           />
           <div>
             <label className="block text-sm font-medium mb-1.5" style={{ color: "#8888aa" }}>Category</label>

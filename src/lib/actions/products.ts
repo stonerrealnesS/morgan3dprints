@@ -8,6 +8,7 @@ export type ProductSummary = {
   name: string;
   slug: string;
   priceInCents: number;
+  comparePriceInCents: number | null;
   isGlow: boolean;
   inStock: boolean;
   isMadeToOrder: boolean;
@@ -92,6 +93,7 @@ export const getProducts = unstable_cache(
           name: true,
           slug: true,
           priceInCents: true,
+          comparePriceInCents: true,
           isGlow: true,
           inStock: true,
           isMadeToOrder: true,
@@ -134,6 +136,7 @@ export const getProduct = unstable_cache(
         inStock: true,
         isMadeToOrder: true,
         material: true,
+        comparePriceInCents: true,
         metaTitle: true,
         metaDesc: true,
         category: { select: { id: true, name: true, slug: true, isAdult: true } },
@@ -203,6 +206,7 @@ export const getFeaturedProducts = unstable_cache(
         name: true,
         slug: true,
         priceInCents: true,
+        comparePriceInCents: true,
         isGlow: true,
         inStock: true,
         isMadeToOrder: true,

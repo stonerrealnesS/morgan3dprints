@@ -34,6 +34,10 @@ export async function createProduct(formData: FormData) {
   const priceInCents = Math.round(
     parseFloat(formData.get("price") as string) * 100
   );
+  const comparePrice = formData.get("comparePrice") as string;
+  const comparePriceInCents = comparePrice
+    ? Math.round(parseFloat(comparePrice) * 100)
+    : null;
   const categoryId = formData.get("categoryId") as string;
   const material = (formData.get("material") as string) || null;
   const isGlow = formData.get("isGlow") === "on";
@@ -51,6 +55,7 @@ export async function createProduct(formData: FormData) {
       slug,
       description,
       priceInCents,
+      comparePriceInCents,
       categoryId,
       material,
       isGlow,
@@ -85,6 +90,10 @@ export async function updateProduct(id: string, formData: FormData) {
   const priceInCents = Math.round(
     parseFloat(formData.get("price") as string) * 100
   );
+  const comparePrice = formData.get("comparePrice") as string;
+  const comparePriceInCents = comparePrice
+    ? Math.round(parseFloat(comparePrice) * 100)
+    : null;
   const categoryId = formData.get("categoryId") as string;
   const material = (formData.get("material") as string) || null;
   const isGlow = formData.get("isGlow") === "on";
@@ -103,6 +112,7 @@ export async function updateProduct(id: string, formData: FormData) {
       slug,
       description,
       priceInCents,
+      comparePriceInCents,
       categoryId,
       material,
       isGlow,
