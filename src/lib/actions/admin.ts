@@ -218,6 +218,110 @@ export async function addOrderNote(orderId: string, note: string) {
   await prisma.order.update({ where: { id: orderId }, data: { notes: note } });
 }
 
+// ─── Whatnot Sync ─────────────────────────────────────────────────────────────
+// Whatnot has no public product API, so items are read out of the seller's own
+// shop page by a browser bookmarklet (see /admin/whatnot-sync) and posted back
+// here. Only Buy It Now listings are ever sent (the bookmarklet filters out
+// auctions itself). Products are matched to existing rows by slug (same slug
+// convention createProduct/updateProduct already use) so re-running the sync
+// updates rather than duplicates. Items no longer present on Whatnot are
+// marked out of stock rather than deleted, so order history / reviews tied to
+// a discontinued item are preserved.
+
+export type WhatnotSyncItem = {
+  whatnotId: string;
+  name: string;
+  priceDollars: string;
+  qty: number | null;
+  image: string;
+};
+
+export type WhatnotSyncResult = {
+  created: number;
+  updated: number;
+  hiddenCount: number;
+};
+
+const WHATNOT_CATEGORY_SLUG = "whatnot-finds";
+
+export async function syncWhatnotProducts(
+  items: WhatnotSyncItem[]
+  ): Promise<WhatnotSyncResult> {
+  await requireAdmin();
+  
+  if (!Array.isArray(items) || items.length === 0) {
+    return { created: 0, updated: 0, hiddenCount: 0 };
+  }
+  
+  const category = await prisma.category.upsert({
+    where: { slug: WHATNOT_CATEGORY_SLUG },
+    update: {},
+    create: { name: "Whatnot Finds", slug: WHATNOT_CATEGORY_SLUG },
+  });
+  
+  let created = 0;
+  let updated = 0;
+  const syncedSlugs: string[] = [];
+  
+  for (const item of items) {
+    const name = (item.name ?? "").trim();
+    const priceInCents = Math.round(parseFloat(item.priceDollars) * 100);
+    if (!name || !Number.isFinite(priceInCents)) continue;
+    
+    const slug = slugify(name, { lower: true, strict: true });
+    syncedSlugs.push(slug);
+    
+    const existing = await prisma.product.findUnique({
+      where: { slug },
+      select: { id: true, images: { where: { isPrimary: true }, select: { id: true } } },
+    });
+    
+    if (existing) {
+      await prisma.product.update({
+        where: { id: existing.id },
+        data: { name, priceInCents, inStock: true, categoryId: category.id },
+      });
+      if (item.image) {
+        if (existing.images[0]) {
+          await prisma.productImage.update({
+            where: { id: existing.images[0].id },
+            data: { url: item.image, cloudinaryId: item.image },
+          });
+        } else {
+          await prisma.productImage.create({
+            data: { productId: existing.id, url: item.image, cloudinaryId: item.image, isPrimary: true, order: 0 },
+          });
+        }
+      }
+      updated++;
+    } else {
+      await prisma.product.create({
+        data: {
+          name,
+          slug,
+          description: `Available on Whatnot — @morgan_3d_prints. Listing ID ${item.whatnotId}.`,
+          priceInCents,
+          categoryId: category.id,
+          inStock: true,
+          ...(item.image
+              ? { images: { create: { url: item.image, cloudinaryId: item.image, isPrimary: true, order: 0 } } }
+              : {}),
+        },
+      });
+      created++;
+    }
+  }
+  
+  const { count: hiddenCount } = await prisma.product.updateMany({
+    where: { categoryId: category.id, slug: { notIn: syncedSlugs }, inStock: true },
+    data: { inStock: false },
+  });
+  
+  revalidateTag("products", "max");
+  
+  return { created, updated, hiddenCount };
+}
+
 // ─── Categories ───────────────────────────────────────────────────────────────
 
 export async function createCategory(formData: FormData) {
