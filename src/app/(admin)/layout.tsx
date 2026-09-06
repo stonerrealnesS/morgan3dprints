@@ -8,8 +8,27 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     .map((s) => s.trim())
     .filter(Boolean);
 
-  if (!userId || (adminIds.length > 0 && !adminIds.includes(userId))) {
+  if (!userId) {
     redirect("/sign-in");
+  }
+
+  if (adminIds.length > 0 && !adminIds.includes(userId)) {
+    return (
+      <div className="min-h-screen bg-[#050508] flex items-center justify-center p-6">
+        <div className="max-w-md text-center">
+          <p className="text-[#f0f0ff] text-xl font-bold mb-2">Not authorized</p>
+          <p className="text-[#8888aa] text-sm mb-6">
+            You&apos;re signed in, but this account isn&apos;t on the admin allowlist yet. Send this ID to whoever manages the site so they can add you:
+          </p>
+          <p className="font-mono text-sm bg-[#0d0d14] border border-[#1e1e30] rounded-lg px-4 py-3 break-all text-[#a855f7]">
+            {userId}
+          </p>
+          <a href="/" className="inline-block mt-6 text-[#8888aa] hover:text-[#f0f0ff] text-sm">
+            ← Back to site
+          </a>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -26,7 +45,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               { href: "/admin/products", label: "Products" },
               { href: "/admin/orders", label: "Orders" },
               { href: "/admin/categories", label: "Categories" },
-                    { href: "/admin/whatnot-sync", label: "🦆 Sync with Whatnot" },
+              { href: "/admin/whatnot-sync", label: "🦆 Sync with Whatnot" },
               { href: "/admin/discounts", label: "Discounts" },
               { href: "/admin/customers", label: "Customers" },
               { href: "/admin/custom-requests", label: "Custom Requests" },
