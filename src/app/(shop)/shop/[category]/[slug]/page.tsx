@@ -84,7 +84,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     take: 4,
     orderBy: { createdAt: "desc" },
     select: {
-      id: true, name: true, slug: true, priceInCents: true,
+      id: true, name: true, slug: true, priceInCents: true, comparePriceInCents: true,
       isGlow: true, inStock: true, isMadeToOrder: true, material: true,
       category: { select: { id: true, name: true, slug: true } },
       images: { where: { isPrimary: true }, select: { url: true, isPrimary: true }, take: 1 },
