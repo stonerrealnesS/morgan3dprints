@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { syncWhatnotProducts, type WhatnotSyncItem, type WhatnotSyncResult } from "@/lib/actions/admin";
 
 const WHATNOT_SHOP_URL = "https://www.whatnot.com/user/morgan_3d_prints/shop";
@@ -61,8 +62,8 @@ return (
   <div className="rounded-xl p-6 mb-6" style={{ background: "#0d0d14", border: "1px solid #1e1e30" }}>
   <ol className="space-y-3 text-sm mb-6" style={{ color: "#8888aa" }}>
   <li><span className="text-[#f0f0ff] font-semibold">1.</span> Click &quot;Start Sync&quot; below — it opens your Whatnot shop in a new tab.</li>
-  <li><span className="text-[#f0f0ff] font-semibold">2.</span> In that tab, click your installed <span className="text-[#f0f0ff]">🦆 Whatnot Sync</span> bookmarklet, then <span className="text-[#f0f0ff]">Start</span>. It scrolls through your shop reading every Buy It Now listing.</li>
-  <li><span className="text-[#f0f0ff] font-semibold">3.</span> When it says &quot;looks complete,&quot; click <span className="text-[#f0f0ff]">Send to Admin Dashboard</span> — this page updates and saves automatically.</li>
+  <li><span className="text-[#f0f0ff] font-semibold">2.</span> In that tab, click your installed <span className="text-[#f0f0ff]">🦆 Whatnot Sync</span> bookmarklet. It filters your shop to Buy It Now listings automatically — then scroll down through the page yourself to load and collect every item (Whatnot only loads more as a real person scrolls).</li>
+  <li><span className="text-[#f0f0ff] font-semibold">3.</span> Once the &quot;Items found&quot; count looks complete, click <span className="text-[#f0f0ff]">Send to Admin Dashboard</span> — this page updates and saves automatically.</li>
   </ol>
   
   <button
@@ -98,8 +99,11 @@ return (
   </div>
   
   <p className="text-xs" style={{ color: "#555570" }}>
-  Haven&apos;t installed the bookmarklet yet? Ask for the install page/link — dragging it into your
-  bookmarks bar only needs to be done once.
+  Haven&apos;t installed the bookmarklet yet?{" "}
+  <Link href="/admin/whatnot-sync/install" className="text-[#a855f7] hover:underline">
+    Install it here
+  </Link>{" "}
+  — dragging it into your bookmarks bar only needs to be done once.
   </p>
   </div>
   );
