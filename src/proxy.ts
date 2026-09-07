@@ -7,14 +7,13 @@ const isAccountRoute = createRouteMatcher(["/account(.*)"]);
 export default clerkMiddleware(async (auth, req) => {
   if (isAdminRoute(req)) {
     const { userId } = await auth();
-    const adminIds = (process.env.ADMIN_CLERK_USER_IDS ?? "")
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
-
-    if (!userId || (adminIds.length > 0 && !adminIds.includes(userId))) {
+    if (!userId) {
       return NextResponse.redirect(new URL("/sign-in", req.url));
     }
+    // Allowlist enforcement happens in the (admin) layout, not here — it
+    // shows a signed-in-but-unauthorized user their own Clerk ID so they can
+    // request access. Redirecting at this layer would bounce them before
+    // they ever see it.
   }
 
   if (isAccountRoute(req)) {
