@@ -324,6 +324,19 @@ export async function syncWhatnotProducts(
 
 // ─── Categories ───────────────────────────────────────────────────────────────
 
+// Catch-all bucket products land in when their category is deleted, or when
+// they're unchecked from a category on its "manage products" page. Created
+// lazily the first time it's actually needed.
+const UNCATEGORIZED_SLUG = "uncategorized";
+
+async function getOrCreateUncategorizedCategory() {
+  return prisma.category.upsert({
+    where: { slug: UNCATEGORIZED_SLUG },
+    update: {},
+    create: { name: "Uncategorized", slug: UNCATEGORIZED_SLUG },
+  });
+}
+
 export async function createCategory(formData: FormData) {
   await requireAdmin();
 
@@ -338,7 +351,95 @@ export async function createCategory(formData: FormData) {
 
 export async function deleteCategory(id: string) {
   await requireAdmin();
-  await prisma.category.delete({ where: { id } });
+
+  const category = await prisma.category.findUnique({
+    where: { id },
+    select: { slug: true },
+  });
+  // Not found, or someone tried to delete the catch-all bucket itself —
+  // there'd be nowhere left for its products to land.
+  if (!category || category.slug === UNCATEGORIZED_SLUG) {
+    redirect("/admin/categories");
+  }
+
+  const productCount = await prisma.product.count({ where: { categoryId: id } });
+
+  if (productCount > 0) {
+    const fallback = await getOrCreateUncategorizedCategory();
+    await prisma.$transaction([
+      prisma.product.updateMany({ where: { categoryId: id }, data: { categoryId: fallback.id } }),
+      prisma.category.delete({ where: { id } }),
+    ]);
+  } else {
+    await prisma.category.delete({ where: { id } });
+  }
+
+  revalidateTag("products", "max");
+  redirect("/admin/categories");
+}
+
+// Bulk-move a set of products (selected as checkboxes on the Products list)
+// into one category at once.
+export async function bulkAssignCategory(formData: FormData) {
+  await requireAdmin();
+
+  const productIds = formData.getAll("productIds").map(String).filter(Boolean);
+  const categoryId = formData.get("categoryId") as string;
+  if (productIds.length === 0 || !categoryId) {
+    redirect("/admin/products");
+  }
+
+  await prisma.product.updateMany({
+    where: { id: { in: productIds } },
+    data: { categoryId },
+  });
+
+  revalidateTag("products", "max");
+  redirect("/admin/products");
+}
+
+// Manage which products belong to one category from that category's own
+// page: anything checked gets moved into this category; anything that was
+// in this category and got unchecked moves to Uncategorized instead of
+// being left in a broken state (every product must have a category).
+export async function updateCategoryProducts(categoryId: string, formData: FormData) {
+  await requireAdmin();
+
+  const category = await prisma.category.findUnique({
+    where: { id: categoryId },
+    select: { slug: true },
+  });
+  if (!category) redirect("/admin/categories");
+
+  const checkedIds = new Set(formData.getAll("productIds").map(String));
+
+  const currentlyIn = await prisma.product.findMany({
+    where: { categoryId },
+    select: { id: true },
+  });
+  const currentlyInIds = new Set<string>(currentlyIn.map((p) => p.id));
+
+  const toAdd = [...checkedIds].filter((id) => !currentlyInIds.has(id));
+  const toRemove = [...currentlyInIds].filter((id) => !checkedIds.has(id));
+
+  const ops = [];
+  if (toAdd.length > 0) {
+    ops.push(
+      prisma.product.updateMany({ where: { id: { in: toAdd } }, data: { categoryId } })
+    );
+  }
+  // Only move products out if this isn't the catch-all bucket itself —
+  // there's nowhere further to send them.
+  if (toRemove.length > 0 && category.slug !== UNCATEGORIZED_SLUG) {
+    const fallback = await getOrCreateUncategorizedCategory();
+    ops.push(
+      prisma.product.updateMany({ where: { id: { in: toRemove } }, data: { categoryId: fallback.id } })
+    );
+  }
+  if (ops.length > 0) {
+    await prisma.$transaction(ops);
+  }
+
   revalidateTag("products", "max");
   redirect("/admin/categories");
 }
