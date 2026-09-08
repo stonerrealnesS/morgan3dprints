@@ -7,6 +7,7 @@ import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import { AgeGateWrapper } from "@/components/shop/AgeGateWrapper";
 import { ReviewForm } from "@/components/shop/ReviewForm";
 import { ProductGrid } from "@/components/shop/ProductGrid";
+import { extractWhatnotListing } from "@/lib/whatnot";
 
 export const revalidate = 3600;
 
@@ -120,6 +121,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }).format(product.priceInCents / 100);
 
   const isAdultCategory = product.category.isAdult;
+
+  const whatnotListing = extractWhatnotListing(product.description);
+  const descriptionText = whatnotListing ? whatnotListing.bodyText : product.description;
 
   const jsonLd = [
     {
@@ -344,12 +348,41 @@ export default async function ProductPage({ params }: ProductPageProps) {
           )}
 
           {/* Description */}
-          <div
-            className="text-base leading-relaxed whitespace-pre-line"
-            style={{ color: "#8888aa" }}
-          >
-            {product.description}
-          </div>
+          {descriptionText && (
+            <div
+              className="text-base leading-relaxed whitespace-pre-line"
+              style={{ color: "#8888aa" }}
+            >
+              {descriptionText}
+            </div>
+          )}
+
+          {/* Whatnot listing link — only present for products synced from Whatnot */}
+          {whatnotListing && (
+            <a
+              href={whatnotListing.listingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm font-medium w-fit hover:underline"
+              style={{ color: "#a855f7" }}
+            >
+              Also available on Whatnot
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-3.5 h-3.5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                />
+              </svg>
+            </a>
+          )}
 
           {/* Add to Cart */}
           {product.inStock || product.isMadeToOrder ? (
