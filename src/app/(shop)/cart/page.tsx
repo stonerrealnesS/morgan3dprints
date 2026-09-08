@@ -6,6 +6,7 @@ import { useCartStore } from "@/lib/store/cart";
 
 function fmt(cents: number) { return "$" + (cents / 100).toFixed(2); }
 const SHIPPING_CENTS = 899;
+const FREE_SHIPPING_THRESHOLD_CENTS = 3500;
 
 export default function CartPage() {
   const router = useRouter();
@@ -25,8 +26,10 @@ export default function CartPage() {
     </div>
   );
 
-  const shipping = fulfillment === "ship" ? SHIPPING_CENTS : 0;
+  const qualifiesForFreeShipping = subtotalCents() >= FREE_SHIPPING_THRESHOLD_CENTS;
+  const shipping = fulfillment === "ship" && !qualifiesForFreeShipping ? SHIPPING_CENTS : 0;
   const total = subtotalCents() + shipping;
+  const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD_CENTS - subtotalCents();
 
   const checkout = async () => {
     setLoading(true); setError("");
@@ -48,7 +51,23 @@ export default function CartPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-white mb-8">Your Cart</h1>
+      <h1 className="text-3xl font-bold text-white mb-4">Your Cart</h1>
+
+      {fulfillment === "ship" && (
+        <div
+          className="rounded-xl px-4 py-3 mb-6 text-sm"
+          style={{
+            background: qualifiesForFreeShipping ? "rgba(74,222,128,0.1)" : "rgba(168,85,247,0.08)",
+            border: `1px solid ${qualifiesForFreeShipping ? "rgba(74,222,128,0.4)" : "rgba(168,85,247,0.3)"}`,
+            color: qualifiesForFreeShipping ? "#4ade80" : "#a855f7",
+          }}
+        >
+          {qualifiesForFreeShipping
+            ? "🎉 You've got free shipping on this order!"
+            : `You're ${fmt(remainingForFreeShipping)} away from free shipping.`}
+        </div>
+      )}
+
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Items */}
         <div className="lg:col-span-2 space-y-4">
