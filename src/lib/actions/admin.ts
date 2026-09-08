@@ -7,6 +7,8 @@ import { prisma } from "@/lib/prisma";
 import slugify from "slugify";
 import { Resend } from "resend";
 import { ShippingNotificationEmail } from "@/emails/ShippingNotification";
+import { suggestCategorySlug, CATEGORIZATION_RULES } from "@/lib/categorize";
+import { cleanProductName } from "@/lib/cleanupName";
 
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY ?? "");
@@ -24,7 +26,7 @@ async function requireAdmin() {
   return userId;
 }
 
-// ─── Products ─────────────────────────────────────────────────────────────────
+// ─── Products ──────────────────────────────────────────────────────────────────────
 
 export async function createProduct(formData: FormData) {
   await requireAdmin();
@@ -442,6 +444,80 @@ export async function updateCategoryProducts(categoryId: string, formData: FormD
 
   revalidateTag("products", "max");
   redirect("/admin/categories");
+}
+
+// Auto-sort "Whatnot Finds" into real categories, one keyword match at a
+// time. Only ever called after a human has looked at the preview report on
+// /admin/whatnot-finds-sort — this recomputes the exact same suggestions
+// (rather than trusting IDs posted from a giant form) and applies them.
+// Products with no confident match are left in Whatnot Finds untouched.
+export async function applyWhatnotFindsSort() {
+  await requireAdmin();
+
+  const whatnotFinds = await prisma.category.findUnique({
+    where: { slug: "whatnot-finds" },
+    select: { id: true },
+  });
+  if (!whatnotFinds) redirect("/admin/whatnot-finds-sort");
+
+  const products = await prisma.product.findMany({
+    where: { categoryId: whatnotFinds.id },
+    select: { id: true, name: true },
+  });
+
+  const bySlug = new Map<string, string[]>();
+  for (const product of products) {
+    const slug = suggestCategorySlug(product.name);
+    if (!slug) continue;
+    if (!bySlug.has(slug)) bySlug.set(slug, []);
+    bySlug.get(slug)!.push(product.id);
+  }
+
+  const labelBySlug = new Map(CATEGORIZATION_RULES.map((r) => [r.slug, r.label]));
+
+  for (const [slug, productIds] of bySlug) {
+    if (productIds.length === 0) continue;
+    const category = await prisma.category.upsert({
+      where: { slug },
+      update: {},
+      create: { name: labelBySlug.get(slug) ?? slug, slug },
+    });
+    await prisma.product.updateMany({
+      where: { id: { in: productIds } },
+      data: { categoryId: category.id },
+    });
+  }
+
+  revalidateTag("products", "max");
+  redirect("/admin/categories");
+}
+
+// Bulk-normalize shouty/formatting-broken product names (see
+// src/lib/cleanupName.ts). Only ever called after a human has looked at the
+// preview diff on /admin/clean-names.
+export async function applyNameCleanup() {
+  await requireAdmin();
+
+  const products = await prisma.product.findMany({
+    select: { id: true, name: true },
+  });
+
+  const changed = products
+    .map((p) => ({ id: p.id, cleaned: cleanProductName(p.name) }))
+    .filter((p, i) => p.cleaned !== products[i].name);
+
+  // Update in small batches rather than one giant transaction so this
+  // doesn't risk timing out on a large catalog.
+  const BATCH_SIZE = 50;
+  for (let i = 0; i < changed.length; i += BATCH_SIZE) {
+    const batch = changed.slice(i, i + BATCH_SIZE);
+    await Promise.all(
+      batch.map((p) => prisma.product.update({ where: { id: p.id }, data: { name: p.cleaned } }))
+    );
+  }
+
+  revalidateTag("products", "max");
+  redirect("/admin/clean-names");
 }
 
 // ─── Discount Codes ───────────────────────────────────────────────────────────
