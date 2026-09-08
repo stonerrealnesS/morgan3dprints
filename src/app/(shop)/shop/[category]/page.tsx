@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getProducts, getCategories } from "@/lib/actions/products";
-import { ProductGrid } from "@/components/shop/ProductGrid";
+import { InfiniteProductGrid } from "@/components/shop/InfiniteProductGrid";
 import { prisma } from "@/lib/prisma";
 
 export const revalidate = 3600;
+
+const PAGE_SIZE = 24;
 
 const CATEGORY_DESCRIPTIONS: Record<string, string> = {
   "keychains": "Custom 3D-printed keychains handcrafted in OKC. Bold designs, glow-in-the-dark options, and made-to-order styles — perfect for gifts or accessories.",
@@ -59,7 +61,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   if (!category) notFound();
 
-  const { products, total } = await getProducts({ categorySlug: slug, limit: 48 });
+  const { products, total, totalPages } = await getProducts({
+    categorySlug: slug,
+    page: 1,
+    limit: PAGE_SIZE,
+  });
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -102,7 +108,14 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         </p>
       </div>
 
-      <ProductGrid products={products} />
+      <InfiniteProductGrid
+        key={slug}
+        initialProducts={products}
+        initialPage={1}
+        totalPages={totalPages}
+        limit={PAGE_SIZE}
+        categorySlug={slug}
+      />
     </div>
   );
 }
