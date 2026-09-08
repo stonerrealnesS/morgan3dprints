@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { updateCustomRequest } from "@/lib/actions/admin";
 
@@ -10,16 +11,55 @@ const statusColors: Record<string, string> = {
   declined: "#ef4444",
 };
 
-export default async function AdminCustomRequestsPage() {
-  const requests = await prisma.customRequest.findMany({
+type PageProps = {
+  searchParams: Promise<{ type?: string }>;
+};
+
+export default async function AdminCustomRequestsPage({ searchParams }: PageProps) {
+  const { type } = await searchParams;
+
+  const allRequests = await prisma.customRequest.findMany({
     orderBy: { createdAt: "desc" },
   });
+
+  // "stream-alert" rows are just Whatnot-notify signups (see
+  // /api/stream-signup) — split them out by default so they don't drown out
+  // actual custom-order requests in this inbox.
+  const streamAlertCount = allRequests.filter((r) => r.type === "stream-alert").length;
+  const filter = type === "stream-alert" ? "stream-alert" : type === "all" ? "all" : "orders";
+  const requests =
+    filter === "all"
+      ? allRequests
+      : filter === "stream-alert"
+        ? allRequests.filter((r) => r.type === "stream-alert")
+        : allRequests.filter((r) => r.type !== "stream-alert");
 
   const allStatuses = ["new", "reviewing", "quoted", "approved", "completed", "declined"];
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-[#f0f0ff] mb-8">Custom Requests</h1>
+      <h1 className="text-2xl font-bold text-[#f0f0ff] mb-4">Custom Requests</h1>
+
+      <div className="flex gap-2 mb-8 text-sm">
+        {[
+          { key: "orders", label: `Custom Orders (${allRequests.length - streamAlertCount})` },
+          { key: "stream-alert", label: `Stream Signups (${streamAlertCount})` },
+          { key: "all", label: "All" },
+        ].map(({ key, label }) => (
+          <Link
+            key={key}
+            href={`/admin/custom-requests?type=${key}`}
+            className="px-3 py-1.5 rounded-lg"
+            style={{
+              background: filter === key ? "rgba(168,85,247,0.15)" : "#0d0d14",
+              border: `1px solid ${filter === key ? "#a855f7" : "#1e1e30"}`,
+              color: filter === key ? "#a855f7" : "#8888aa",
+            }}
+          >
+            {label}
+          </Link>
+        ))}
+      </div>
 
       <div className="space-y-4">
         {requests.map((req) => (
