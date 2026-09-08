@@ -77,7 +77,8 @@ export function HeroSection() {
           className="text-lg sm:text-xl max-w-xl leading-relaxed"
           style={{ color: "#8888aa" }}
         >
-          100+ unique pieces ready to ship — or order something{" "}
+          Home of the 3D printed rubber ducks you&apos;ve seen on Whatnot — plus 100+ other
+          pieces ready to ship, or order something{" "}
           <span style={{ color: "#f0f0ff" }}>completely custom</span>. Handcrafted in OKC, shipped anywhere.
         </motion.p>
 
@@ -155,6 +156,20 @@ export function HeroSection() {
             </span>
           ))}
         </motion.div>
+
+        {/* Whatnot link */}
+        <motion.a
+          href="https://www.whatnot.com/user/morgan_3d_prints"
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9 }}
+          className="text-xs font-medium hover:underline"
+          style={{ color: "#a855f7" }}
+        >
+          🦆 Catch the next live drop on Whatnot →
+        </motion.a>
 
         {/* Scroll hint */}
         <motion.div
