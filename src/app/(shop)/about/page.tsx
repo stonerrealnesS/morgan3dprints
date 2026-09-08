@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Learn about Morgan 3D Prints — a locally owned 3D print farm in OKC / Mustang / Yukon serving businesses, makers, engineers, and individuals.",
+  description: "Learn about Morgan 3D Prints — a home-based 3D print shop in OKC / Mustang / Yukon known for rubber ducks and fun prints on Whatnot, plus custom orders for makers and small businesses.",
 };
 
 export default function AboutPage() {
@@ -13,18 +13,20 @@ export default function AboutPage() {
       <div className="mb-16">
         <p className="text-xs uppercase tracking-widest text-[#a78bfa] mb-3">About Morgan 3D Prints</p>
         <h1 className="text-4xl font-bold mb-4">
-          A local print farm built for{" "}
-          <span className="text-[#a78bfa]">real projects, not just hobby prints.</span>
+          The rubber duck people —{" "}
+          <span className="text-[#a78bfa]">who also happen to print pretty much anything.</span>
         </h1>
         <p className="text-[#a0a0b8] max-w-2xl mb-6">
           Morgan 3D Prints started as a way to turn &quot;wouldn&apos;t it be cool if…&quot; ideas into real,
-          physical products. Today it&apos;s a small but mighty print farm in the OKC / Mustang / Yukon
-          area helping teams, small businesses, makers, and friends bring their ideas to life.
+          physical products — and somewhere along the way, the multicolor 3D printed rubber ducks we sell
+          live on Whatnot became the thing people know us for. We&apos;re a small, home-based print shop in
+          the OKC / Mustang / Yukon area, running a fleet of printers to keep up with both the fun stuff and
+          the serious stuff.
         </p>
         <div className="flex flex-wrap gap-3 text-xs text-[#a0a0b8]">
-          <span className="border border-white/10 rounded-full px-3 py-1.5">Engineer-run shop with real-world manufacturing background</span>
-          <span className="border border-white/10 rounded-full px-3 py-1.5">Tuned for reliability, repeatability, and detail</span>
-          <span className="border border-white/10 rounded-full px-3 py-1.5">Flexible for one-off prototypes and product runs</span>
+          <span className="border border-white/10 rounded-full px-3 py-1.5">🦆 Home of the Whatnot rubber ducks</span>
+          <span className="border border-white/10 rounded-full px-3 py-1.5">Hundreds of ready-to-ship pieces</span>
+          <span className="border border-white/10 rounded-full px-3 py-1.5">Also does real custom &amp; engineering work</span>
         </div>
       </div>
 
@@ -56,14 +58,15 @@ export default function AboutPage() {
         <div className="grid md:grid-cols-2 gap-4">
           <div className="border border-white/10 rounded-2xl bg-white/5 p-6 text-sm text-[#a0a0b8]">
             <p className="mb-4">
-              Morgan 3D Prints grew out of an engineering and manufacturing background,
-              so things like tolerances, materials, and &quot;will this actually hold up?&quot; are baked into how we think.
+              Most days that means running the print farm for our Whatnot shop — rubber ducks, glow-in-the-dark
+              wall art, fidgets, keychains, and whatever weird idea comes up next. If you&apos;ve caught one of
+              our livestreams, this is that shop.
             </p>
             <ul className="space-y-2">
               {[
                 "Locally owned, with roots in OKC / Mustang / Yukon.",
-                "Comfortable talking shop with engineers, maintenance, and fabricators.",
-                "Equally happy helping a small brand make their first batch of merch.",
+                "Hundreds of ready-to-ship pieces, restocked constantly.",
+                "New drops go live on Whatnot before they ever hit the site.",
               ].map((item) => (
                 <li key={item} className="flex gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#a78bfa] mt-1.5 shrink-0" />
@@ -73,7 +76,10 @@ export default function AboutPage() {
             </ul>
           </div>
           <div className="border border-white/10 rounded-2xl bg-white/5 p-6 text-sm text-[#a0a0b8]">
-            <p className="mb-4">A few of the people we regularly work with:</p>
+            <p className="mb-4">
+              We also grew out of an engineering and manufacturing background, so when a request needs real
+              tolerances and &quot;will this actually hold up?&quot; thinking, we can do that too:
+            </p>
             <ul className="space-y-2">
               {[
                 "Small businesses that want branded keychains, signage, and countertop displays.",
