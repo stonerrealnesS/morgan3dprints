@@ -1,5 +1,9 @@
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { createCategory, deleteCategory } from "@/lib/actions/admin";
+import { ConfirmSubmitButton } from "@/components/admin/ConfirmSubmitButton";
+
+const UNCATEGORIZED_SLUG = "uncategorized";
 
 export default async function AdminCategoriesPage() {
   const categories = await prisma.category.findMany({
@@ -33,14 +37,29 @@ export default async function AdminCategoriesPage() {
                   )}
                 </td>
                 <td className="px-5 py-3">
-                  {cat._count.products === 0 && (
-                    <form action={async () => {
-                      "use server";
-                      await deleteCategory(cat.id);
-                    }}>
-                      <button type="submit" className="text-xs" style={{ color: "#ef4444" }}>Delete</button>
-                    </form>
-                  )}
+                  <div className="flex items-center gap-3">
+                    <Link href={`/admin/categories/${cat.id}`} className="text-xs" style={{ color: "#a855f7" }}>
+                      Manage products
+                    </Link>
+                    {cat.slug !== UNCATEGORIZED_SLUG && (
+                      <form action={async () => {
+                        "use server";
+                        await deleteCategory(cat.id);
+                      }}>
+                        <ConfirmSubmitButton
+                          className="text-xs"
+                          style={{ color: "#ef4444" }}
+                          confirmMessage={
+                            cat._count.products > 0
+                              ? `Delete "${cat.name}"? Its ${cat._count.products} product${cat._count.products !== 1 ? "s" : ""} will move to Uncategorized.`
+                              : `Delete "${cat.name}"?`
+                          }
+                        >
+                          Delete
+                        </ConfirmSubmitButton>
+                      </form>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}
