@@ -34,7 +34,7 @@ export function CategoryTabs({ categories }: CategoryTabsProps) {
   const tabs = [{ name: "All", slug: "" }, ...categories];
 
   return (
-    <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none" style={{ scrollbarWidth: "none" }}>
+    <div className="flex flex-wrap gap-2">
       {tabs.map((tab) => {
         const isActive = tab.slug === activeCategory;
 
