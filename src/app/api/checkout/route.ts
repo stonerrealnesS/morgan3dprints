@@ -80,16 +80,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 3. Shipping line item if applicable
+    // 3. Shipping line item if applicable — free over $35, matching what the
+    // cart page shows and what the About page promises.
+    const FREE_SHIPPING_THRESHOLD_CENTS = 3500;
     if (fulfillment === "ship") {
-      lineItems.push({
-        price_data: {
-          currency: "usd",
-          product_data: { name: "Standard Shipping" },
-          unit_amount: 899,
-        },
-        quantity: 1,
-      });
+      const subtotalCents = lineItems.reduce(
+        (sum, li) => sum + li.price_data.unit_amount * li.quantity,
+        0
+      );
+      if (subtotalCents < FREE_SHIPPING_THRESHOLD_CENTS) {
+        lineItems.push({
+          price_data: {
+            currency: "usd",
+            product_data: { name: "Standard Shipping" },
+            unit_amount: 899,
+          },
+          quantity: 1,
+        });
+      }
     }
 
     const baseUrl =
