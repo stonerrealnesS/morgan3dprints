@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { updateOrderStatus, addOrderNote } from "@/lib/actions/admin";
+import { updateOrderStatus, addOrderNote, deleteOrder } from "@/lib/actions/admin";
+import { ConfirmSubmitButton } from "@/components/admin/ConfirmSubmitButton";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -113,7 +114,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
           {order.discountCents > 0 && (
             <div className="flex justify-between text-sm">
               <span style={{ color: "#8888aa" }}>Discount</span>
-              <span style={{ color: "#4ade80" }}>-{formatCents(order.discountCents)}</span>
+              <span className="text-[#4ade80]">-{formatCents(order.discountCents)}</span>
             </div>
           )}
           <div className="h-px" style={{ background: "#1e1e30" }} />
@@ -173,6 +174,32 @@ export default async function AdminOrderDetailPage({ params }: Props) {
             >
               Save Note
             </button>
+          </form>
+        </div>
+      </div>
+
+      {/* Danger zone */}
+      <div className="mt-4 rounded-xl p-5" style={{ background: "#0d0d14", border: "1px solid #3f1d1d" }}>
+        <p className="text-xs uppercase tracking-wide mb-3" style={{ color: "#ef4444" }}>Danger Zone</p>
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <p className="text-sm" style={{ color: "#8888aa" }}>
+            Permanently delete this order and its line items. This can&apos;t be undone.
+          </p>
+          <form action={async () => {
+            "use server";
+            await deleteOrder(id);
+          }}>
+            <ConfirmSubmitButton
+              className="px-4 py-2 rounded-lg text-sm font-semibold"
+              style={{ background: "#ef444422", color: "#ef4444", border: "1px solid #ef444466" }}
+              confirmMessage={
+                order.status === "CANCELLED"
+                  ? `Permanently delete this cancelled order (#${order.id.slice(-8).toUpperCase()})? This can't be undone.`
+                  : `This order is ${order.status}, not cancelled. Permanently delete it anyway? This can't be undone.`
+              }
+            >
+              Delete Order
+            </ConfirmSubmitButton>
           </form>
         </div>
       </div>
