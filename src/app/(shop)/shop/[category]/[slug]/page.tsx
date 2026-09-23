@@ -39,10 +39,17 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     openGraph: {
       title: product.metaTitle ?? product.name,
       description: product.metaDesc ?? product.description.slice(0, 160),
-      // "product" isn't in Next's typed OpenGraphType union, but the value is
-      // written straight through to the page — Pinterest's and Facebook's
-      // Rich Pin parsers key off og:type=product to treat this as shoppable.
-      type: "product" as never,
+      // NOTE: deliberately omitting `type: "product"` here. This Next.js
+      // version validates openGraph.type against a fixed set (website,
+      // article, book, profile, music.*, video.*) at build time and throws
+      // "Invalid OpenGraph type" for anything else — it does NOT pass
+      // unrecognized values through like older Next versions did. Since
+      // "product" isn't in that set, setting it broke every production
+      // build (confirmed via Vercel build logs). Pinterest/Facebook Rich
+      // Pin parsers mainly key off the product:price:amount / :currency /
+      // :availability tags below (via `other`), so the shoppable behavior
+      // still works without og:type=product — verify with Pinterest's Rich
+      // Pin validator.
       // product:price:amount / currency aren't modeled by Next's Metadata
       // API, so they go through `other`. That renders as a `name=` attribute
       // rather than the `property=` the OG spec technically wants — most
