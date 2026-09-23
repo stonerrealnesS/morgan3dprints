@@ -109,6 +109,12 @@ export async function POST(req: NextRequest) {
       mode: "payment",
       line_items: lineItems,
       allow_promotion_codes: true,
+      // Lets a customer opt in to "keep me updated" at checkout, and tells
+      // Stripe to auto-generate a recovery link + send a reminder email if
+      // this session expires unpaid (Stripe's free abandoned-cart recovery —
+      // no dashboard toggle for this exists; it's set per Checkout Session).
+      consent_collection: { promotions: "auto" },
+      after_expiration: { recovery: { enabled: true, allow_promotion_codes: true } },
       metadata: {
         fulfillment,
         discreetPacking: String(discreetPacking),
