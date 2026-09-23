@@ -45,6 +45,11 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
+  // Proves site ownership to Google Merchant Center / Search Console so the
+  // product feed can be claimed and verified from there.
+  verification: {
+    google: "RDHihFu_ZZgY76BpzFjyGUPJQyB_osvtSy5vSClo93A",
+  },
 };
 
 const localBusinessJsonLd = {
