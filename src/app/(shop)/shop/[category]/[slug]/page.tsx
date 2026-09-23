@@ -39,7 +39,23 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     openGraph: {
       title: product.metaTitle ?? product.name,
       description: product.metaDesc ?? product.description.slice(0, 160),
+      // "product" isn't in Next's typed OpenGraphType union, but the value is
+      // written straight through to the page — Pinterest's and Facebook's
+      // Rich Pin parsers key off og:type=product to treat this as shoppable.
+      type: "product" as never,
+      // product:price:amount / currency aren't modeled by Next's Metadata
+      // API, so they go through `other`. That renders as a `name=` attribute
+      // rather than the `property=` the OG spec technically wants — most
+      // parsers accept both, but verify with Pinterest's Rich Pin validator
+      // after this ships.
       ...(primaryImage?.url ? { images: [{ url: primaryImage.url, alt: product.name }] } : {}),
+    },
+    other: {
+      "product:price:amount": (product.priceInCents / 100).toFixed(2),
+      "product:price:currency": "USD",
+      "product:availability": product.inStock ? "in stock" : "out of stock",
+      "product:condition": "new",
+      "product:retailer_item_id": product.id,
     },
   };
 }
