@@ -1,10 +1,25 @@
+import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
-import { createDiscount, toggleDiscount, deleteDiscount } from "@/lib/actions/admin";
+import { createDiscount, toggleDiscount, deleteDiscount, syncDiscountToStripe } from "@/lib/actions/admin";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "");
 
 export default async function AdminDiscountsPage() {
   const discounts = await prisma.discountCode.findMany({
     orderBy: { createdAt: "desc" },
   });
+
+  // Checkout only honors a code if it also exists as a Stripe Promotion
+  // Code — a code can look fine here and still silently fail for the
+  // customer, so we check each one against Stripe directly.
+  const stripeSynced = await Promise.all(
+    discounts.map((d) =>
+      stripe.promotionCodes
+        .list({ code: d.code, limit: 1 })
+        .then((r) => r.data.length > 0)
+        .catch(() => false)
+    )
+  );
 
   return (
     <div className="max-w-3xl">
@@ -15,14 +30,15 @@ export default async function AdminDiscountsPage() {
         <table className="w-full">
           <thead>
             <tr style={{ borderBottom: "1px solid #1e1e30" }}>
-              {["Code", "Type", "Value", "Usage", "Expires", "Active", ""].map((h) => (
+              {["Code", "Type", "Value", "Usage", "Expires", "Active", "Stripe", ""].map((h) => (
                 <th key={h} className="text-left px-5 py-3 text-xs uppercase tracking-wide" style={{ color: "#8888aa" }}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {discounts.map((d) => {
+            {discounts.map((d, i) => {
               const expired = d.expiresAt && new Date(d.expiresAt) < new Date();
+              const synced = stripeSynced[i];
               return (
                 <tr key={d.id} style={{ borderBottom: "1px solid #13131e", opacity: expired ? 0.5 : 1 }}>
                   <td className="px-5 py-3 font-mono text-sm font-bold text-[#f0f0ff]">{d.code}</td>
@@ -55,6 +71,25 @@ export default async function AdminDiscountsPage() {
                     </form>
                   </td>
                   <td className="px-5 py-3">
+                    {synced ? (
+                      <span className="text-xs" style={{ color: "#4ade80" }}>✓ Live</span>
+                    ) : (
+                      <form action={async () => {
+                        "use server";
+                        await syncDiscountToStripe(d.id);
+                      }}>
+                        <button
+                          type="submit"
+                          className="text-xs px-2 py-1 rounded"
+                          style={{ color: "#f59e0b", background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.3)" }}
+                          title="This code won't apply at checkout until it's created in Stripe"
+                        >
+                          ⚠ Fix in Stripe
+                        </button>
+                      </form>
+                    )}
+                  </td>
+                  <td className="px-5 py-3">
                     <form action={async () => {
                       "use server";
                       await deleteDiscount(d.id);
@@ -67,7 +102,7 @@ export default async function AdminDiscountsPage() {
             })}
             {discounts.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-5 py-10 text-center text-sm" style={{ color: "#8888aa" }}>
+                <td colSpan={8} className="px-5 py-10 text-center text-sm" style={{ color: "#8888aa" }}>
                   No discount codes yet
                 </td>
               </tr>
