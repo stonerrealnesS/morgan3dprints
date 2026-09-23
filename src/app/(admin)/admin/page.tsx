@@ -19,11 +19,15 @@ function StatCard({ label, value, sub, color }: { label: string; value: string; 
 }
 
 export default async function AdminDashboard() {
-  const [orderStats, productCount, pendingRequests, recentOrders] = await Promise.all([
+  const [orderStats, cancelledCount, productCount, pendingRequests, recentOrders] = await Promise.all([
+    // Cancelled orders never really happened as sales, so they're excluded
+    // here rather than counted toward "Total Orders" / "Total Revenue".
     prisma.order.aggregate({
       _count: true,
       _sum: { totalCents: true },
+      where: { status: { not: "CANCELLED" } },
     }),
+    prisma.order.count({ where: { status: "CANCELLED" } }),
     prisma.product.count(),
     prisma.customRequest.count({ where: { status: "new" } }),
     prisma.order.findMany({
@@ -59,6 +63,7 @@ export default async function AdminDashboard() {
         <StatCard
           label="Total Orders"
           value={orderStats._count.toString()}
+          sub={cancelledCount > 0 ? `${cancelledCount} cancelled excluded` : undefined}
           color="#22d3ee"
         />
         <StatCard
