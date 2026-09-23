@@ -26,7 +26,7 @@ async function requireAdmin() {
   return userId;
 }
 
-// ─── Products ──────────────────────────────────────────────────────────────────────
+// ─── Products ──────────────────────────────────────────────────────────────────
 
 export async function createProduct(formData: FormData) {
   await requireAdmin();
@@ -218,6 +218,19 @@ export async function updateOrderStatus(orderId: string, status: string) {
 export async function addOrderNote(orderId: string, note: string) {
   await requireAdmin();
   await prisma.order.update({ where: { id: orderId }, data: { notes: note } });
+}
+
+// Permanently removes an order (its line items cascade-delete with it; any
+// admin-action history entries just lose their orderId link, per the
+// AdminAction_orderId_fkey ON DELETE SET NULL constraint). Mainly meant for
+// clearing out cancelled/test orders that would otherwise keep inflating the
+// dashboard's order count — redirectTo lets the caller send the admin back to
+// whatever filtered orders view they deleted from, instead of always
+// bouncing to the unfiltered list.
+export async function deleteOrder(orderId: string, redirectTo?: string) {
+  await requireAdmin();
+  await prisma.order.delete({ where: { id: orderId } });
+  redirect(redirectTo || "/admin/orders");
 }
 
 // ─── Whatnot Sync ─────────────────────────────────────────────────────────────
