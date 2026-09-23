@@ -49,6 +49,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               { href: "/admin/whatnot-finds-sort", label: "🧹 Sort Whatnot Finds" },
               { href: "/admin/clean-names", label: "🧽 Clean Product Names" },
               { href: "/admin/discounts", label: "Discounts" },
+              { href: "/admin/marketing", label: "📣 Marketing" },
               { href: "/admin/customers", label: "Customers" },
               { href: "/admin/custom-requests", label: "Custom Requests" },
             ].map(({ href, label }) => (
