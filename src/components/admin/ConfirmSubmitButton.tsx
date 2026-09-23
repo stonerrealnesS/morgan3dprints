@@ -8,17 +8,20 @@ export function ConfirmSubmitButton({
   children,
   className,
   style,
+  disabled,
 }: {
   confirmMessage: string;
   children: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
+  disabled?: boolean;
 }) {
   return (
     <button
       type="submit"
       className={className}
       style={style}
+      disabled={disabled}
       onClick={(e) => {
         if (!window.confirm(confirmMessage)) {
           e.preventDefault();
