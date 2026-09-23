@@ -6,12 +6,18 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import slugify from "slugify";
 import { Resend } from "resend";
+import Stripe from "stripe";
 import { ShippingNotificationEmail } from "@/emails/ShippingNotification";
+import { WinbackEmail } from "@/emails/WinbackEmail";
 import { suggestCategorySlug, CATEGORIZATION_RULES } from "@/lib/categorize";
 import { cleanProductName } from "@/lib/cleanupName";
 
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY ?? "");
+}
+
+function getStripe() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY ?? "");
 }
 
 async function requireAdmin() {
@@ -535,6 +541,40 @@ export async function applyNameCleanup() {
 
 // ─── Discount Codes ───────────────────────────────────────────────────────────
 
+type DiscountLike = {
+  code: string;
+  type: string;
+  value: number;
+  usageLimit: number | null;
+  expiresAt: Date | null;
+};
+
+// Checkout uses Stripe's own `allow_promotion_codes` field, which only
+// recognizes codes that exist as real Stripe Promotion Codes — a row sitting
+// only in our DiscountCode table looks live in this admin UI but silently
+// does nothing at checkout. This creates the matching Stripe Coupon +
+// Promotion Code so a code made here actually works for customers, and is
+// safe to call again for a code that's already synced (it's a no-op then).
+async function ensureStripePromotionCode(discount: DiscountLike) {
+  const stripe = getStripe();
+  const existing = await stripe.promotionCodes.list({ code: discount.code, limit: 1 });
+  if (existing.data.length > 0) return existing.data[0].id;
+
+  const coupon = await stripe.coupons.create(
+    discount.type === "percent"
+      ? { percent_off: discount.value, duration: "once", name: discount.code }
+      : { amount_off: discount.value, currency: "usd", duration: "once", name: discount.code }
+  );
+
+  const promo = await stripe.promotionCodes.create({
+    promotion: { type: "coupon", coupon: coupon.id },
+    code: discount.code,
+    ...(discount.usageLimit ? { max_redemptions: discount.usageLimit } : {}),
+    ...(discount.expiresAt ? { expires_at: Math.floor(discount.expiresAt.getTime() / 1000) } : {}),
+  });
+  return promo.id;
+}
+
 export async function createDiscount(formData: FormData) {
   await requireAdmin();
 
@@ -548,10 +588,28 @@ export async function createDiscount(formData: FormData) {
     ? new Date(formData.get("expiresAt") as string)
     : null;
 
+  try {
+    await ensureStripePromotionCode({ code, type, value, usageLimit, expiresAt });
+  } catch (err) {
+    // Don't block saving the code locally — the discounts page shows a
+    // "Fix in Stripe" action for anything that didn't sync so it can be
+    // retried without recreating the code.
+    console.error("[createDiscount] Stripe promo code creation failed:", err);
+  }
+
   await prisma.discountCode.create({
     data: { code, type, value, usageLimit, expiresAt, isActive: true },
   });
 
+  redirect("/admin/discounts");
+}
+
+export async function syncDiscountToStripe(id: string) {
+  await requireAdmin();
+  const discount = await prisma.discountCode.findUnique({ where: { id } });
+  if (discount) {
+    await ensureStripePromotionCode(discount);
+  }
   redirect("/admin/discounts");
 }
 
@@ -564,6 +622,96 @@ export async function deleteDiscount(id: string) {
   await requireAdmin();
   await prisma.discountCode.delete({ where: { id } });
   redirect("/admin/discounts");
+}
+
+// ─── Marketing: win-back campaign ──────────────────────────────────────────────
+
+const WINBACK_LAPSED_DAYS = 30;
+const WINBACK_COOLDOWN_DAYS = 30;
+const WINBACK_DISCOUNT_CODE = "COMEBACK15";
+
+// A customer qualifies once their most recent order is older than the lapsed
+// window and they haven't already gotten a win-back email inside the
+// cooldown window. We reuse the existing AdminAction log (entityType
+// "customer", action "WINBACK_EMAIL_SENT") as the send history instead of
+// adding a new column, so this needs no schema migration.
+export async function getWinbackCandidates() {
+  await requireAdmin();
+
+  const lapsedCutoff = new Date(Date.now() - WINBACK_LAPSED_DAYS * 24 * 60 * 60 * 1000);
+  const cooldownCutoff = new Date(Date.now() - WINBACK_COOLDOWN_DAYS * 24 * 60 * 60 * 1000);
+
+  const recentlyContacted = await prisma.adminAction.findMany({
+    where: { action: "WINBACK_EMAIL_SENT", entityType: "customer", createdAt: { gte: cooldownCutoff } },
+    select: { entityId: true },
+  });
+  const recentlyContactedIds = new Set(recentlyContacted.map((a) => a.entityId));
+
+  const customers = await prisma.customer.findMany({
+    where: { orders: { some: { status: { not: "CANCELLED" } } } },
+    select: {
+      id: true,
+      email: true,
+      firstName: true,
+      orders: {
+        where: { status: { not: "CANCELLED" } },
+        orderBy: { createdAt: "desc" },
+        take: 1,
+        select: { createdAt: true },
+      },
+    },
+  });
+
+  return customers
+    .filter((c) => c.orders[0] && c.orders[0].createdAt < lapsedCutoff)
+    .filter((c) => !recentlyContactedIds.has(c.id))
+    .map((c) => ({ id: c.id, email: c.email, firstName: c.firstName, lastOrderAt: c.orders[0].createdAt }));
+}
+
+export async function sendWinbackCampaign() {
+  const adminUserId = await requireAdmin();
+
+  await ensureStripePromotionCode({
+    code: WINBACK_DISCOUNT_CODE,
+    type: "percent",
+    value: 15,
+    usageLimit: null,
+    expiresAt: null,
+  }).catch((err) => console.error("[sendWinbackCampaign] Stripe promo sync failed:", err));
+
+  await prisma.discountCode.upsert({
+    where: { code: WINBACK_DISCOUNT_CODE },
+    create: { code: WINBACK_DISCOUNT_CODE, type: "percent", value: 15, isActive: true },
+    update: {},
+  });
+
+  const candidates = await getWinbackCandidates();
+  const resend = getResend();
+
+  let sent = 0;
+  for (const customer of candidates) {
+    try {
+      await resend.emails.send({
+        from: "Morgan 3D Prints <orders@morgan3dokc.com>",
+        to: customer.email,
+        subject: "We miss you — here's 15% off",
+        react: WinbackEmail({ firstName: customer.firstName, code: WINBACK_DISCOUNT_CODE }),
+      });
+      await prisma.adminAction.create({
+        data: {
+          adminUserId,
+          action: "WINBACK_EMAIL_SENT",
+          entityType: "customer",
+          entityId: customer.id,
+        },
+      });
+      sent++;
+    } catch (err) {
+      console.error(`[sendWinbackCampaign] failed to email ${customer.email}:`, err);
+    }
+  }
+
+  redirect(`/admin/marketing?sent=${sent}&total=${candidates.length}`);
 }
 
 // ─── Custom Requests ──────────────────────────────────────────────────────────
