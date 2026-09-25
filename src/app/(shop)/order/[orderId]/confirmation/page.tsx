@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import PurchaseTracker from "@/components/analytics/PurchaseTracker";
 
 type ConfirmationPageProps = {
   params: Promise<{ orderId: string }>;
@@ -90,6 +91,17 @@ export default async function OrderConfirmationPage({
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-16">
+      <PurchaseTracker
+        transactionId={order.id}
+        value={order.totalCents / 100}
+        shipping={order.shippingCents / 100}
+        items={order.items.map((item: typeof order.items[number]) => ({
+          item_id: item.productId ?? item.id,
+          item_name: item.nameSnapshot,
+          price: item.priceSnapshot / 100,
+          quantity: item.quantity,
+        }))}
+      />
       {/* Hero */}
       <div className="flex flex-col items-center text-center mb-10">
         <div
