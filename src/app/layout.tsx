@@ -14,8 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "https://morgan3dokc.com";
-
+const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.morgan3dokc.com";
 export const metadata: Metadata = {
   metadataBase: new URL(BASE),
   title: {
