@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { getProducts, getCategories } from "@/lib/actions/products";
 import { InfiniteProductGrid } from "@/components/shop/InfiniteProductGrid";
@@ -22,6 +23,8 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
   "services": "Professional custom 3D printing services in OKC — merch, prototypes, signage, and short-run manufacturing.",
   "custom": "Submit a fully custom 3D print order. Bring your idea, file, or sketch and we'll make it real — quote in 24 hours.",
   "420-friendly": "420-friendly 3D printed products. Unique, functional, and handcrafted in OKC.",
+  "ducks": "Custom 3D-printed Jeep ducks, handcrafted in Oklahoma City — the perfect dash-mount size for Jeep Ducking. Bold multicolor designs made to order.",
+  "whatnot-finds": "One-of-a-kind finds and fan favorites from our Whatnot livestreams — now shoppable anytime, no live show required.",
 };
 
 type CategoryPageProps = {
@@ -84,7 +87,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       />
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm mb-6" style={{ color: "#8888aa" }}>
-        <a href="/shop" className="hover:text-white transition-colors">Shop</a>
+        <Link href="/shop" className="hover:text-white transition-colors">Shop</Link>
         <span>/</span>
         <span style={{ color: "#f0f0ff" }}>{category.name}</span>
       </nav>
