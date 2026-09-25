@@ -44,25 +44,18 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       // article, book, profile, music.*, video.*) at build time and throws
       // "Invalid OpenGraph type" for anything else — it does NOT pass
       // unrecognized values through like older Next versions did. Since
-      // "product" isn't in that set, setting it broke every production
-      // build (confirmed via Vercel build logs). Pinterest/Facebook Rich
-      // Pin parsers mainly key off the product:price:amount / :currency /
-      // :availability tags below (via `other`), so the shoppable behavior
-      // still works without og:type=product — verify with Pinterest's Rich
-      // Pin validator.
-      // product:price:amount / currency aren't modeled by Next's Metadata
-      // API, so they go through `other`. That renders as a `name=` attribute
-      // rather than the `property=` the OG spec technically wants — most
-      // parsers accept both, but verify with Pinterest's Rich Pin validator
-      // after this ships.
+      // "product" isn't in that set, setting it here breaks every
+      // production build (confirmed via Vercel build logs).
+      //
+      // The Pinterest/Facebook Rich Pin product tags (og:type=product,
+      // product:price:amount, product:price:currency, og:availability)
+      // all need a `property=` attribute, but Next's Metadata API only
+      // ever emits `other` entries as `name=`, which Pinterest's parser
+      // doesn't accept. So those tags are rendered as raw <meta property>
+      // elements directly in the page component below instead — React 19's
+      // built-in metadata hoisting lifts them into <head> the same as if
+      // they'd been declared here. See the ProductPage component.
       ...(primaryImage?.url ? { images: [{ url: primaryImage.url, alt: product.name }] } : {}),
-    },
-    other: {
-      "product:price:amount": (product.priceInCents / 100).toFixed(2),
-      "product:price:currency": "USD",
-      "product:availability": product.inStock ? "in stock" : "out of stock",
-      "product:condition": "new",
-      "product:retailer_item_id": product.id,
     },
   };
 }
@@ -185,8 +178,23 @@ export default async function ProductPage({ params }: ProductPageProps) {
     },
   ];
 
+  // Pinterest/Facebook Product Rich Pin tags. These must use `property=`
+  // (Next's typed `openGraph` and `other` metadata fields can't emit that
+  // attribute — see the comment in generateMetadata above), so they're
+  // rendered directly here. React 19 automatically hoists any <meta>,
+  // <title>, or <link> tag rendered anywhere in the tree into <head>,
+  // so this works exactly like declaring it in generateMetadata would.
+  const isAvailable = product.inStock || product.isMadeToOrder;
+
   return (
     <AgeGateWrapper requiresAgeGate={isAdultCategory}>
+    <meta property="og:type" content="product" />
+    <meta property="product:price:amount" content={(product.priceInCents / 100).toFixed(2)} />
+    <meta property="product:price:currency" content="USD" />
+    <meta property="og:availability" content={isAvailable ? "instock" : "out of stock"} />
+    <meta property="product:condition" content="new" />
+    <meta property="product:retailer_item_id" content={product.id} />
+    <meta property="og:brand" content="Morgan 3D Prints" />
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
