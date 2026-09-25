@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+
+// GA4 measurement ID for the "Morgan 3D Prints" web data stream in Google
+// Analytics. Measurement IDs are meant to be public (they're visible in any
+// page's rendered source), so this is safe to hardcode rather than route
+// through an env var.
+const GA_MEASUREMENT_ID = "G-1J4HDGJW43";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -86,6 +93,21 @@ export default function RootLayout({
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
           />
+          {/* Google Analytics 4 — pageviews, ecommerce/purchase events (see
+              PurchaseTracker on the order confirmation page), and Enhanced
+              Measurement (scroll depth, outbound clicks, etc). */}
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script id="ga4-init" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_MEASUREMENT_ID}');
+            `}
+          </Script>
           {children}
           <Analytics />
         </body>
