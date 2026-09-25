@@ -48,7 +48,10 @@ export const metadata: Metadata = {
   // Proves site ownership to Google Merchant Center / Search Console so the
   // product feed can be claimed and verified from there.
   verification: {
-    google: "RDHihFu_ZZgY76BpzFjyGUPJQyB_osvtSy5vSClo93A",
+    google: [
+      "RDHihFu_ZZgY76BpzFjyGUPJQyB_osvtSy5vSClo93A",
+      "iIGMtnr0YmSJA106SLCY4JcnxBHM3Xupa2X2K7Seu5E",
+    ],
   },
 };
 
