@@ -57,7 +57,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-10 pt-8 border-t border-[#1e1e30] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8888aa]">
-          <p>© {new Date().getFullYear()} Morgan 3D Prints — OKC, Oklahoma. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Morgan 3D Prints, OKC, Oklahoma. All rights reserved.</p>
           <div className="flex gap-3">
             <span className="px-2.5 py-1 rounded-full border border-white/10">Local OKC Studio</span>
             <span className="px-2.5 py-1 rounded-full border border-white/10">Ships Nationwide</span>
