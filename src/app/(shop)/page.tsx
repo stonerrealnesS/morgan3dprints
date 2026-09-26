@@ -26,7 +26,7 @@ const CATEGORY_ICONS: Record<string, string> = {
   "accessories":     "👜",
   "services":        "🔧",
   "custom":          "⚡",
-  "420-friendly":    "�M�",
+  "420-friendly":    "🍃",
 };
 
 const PLACEHOLDER_CATEGORIES = [
@@ -81,7 +81,7 @@ export default async function HomePage() {
               />
             </div>
             <p className="mb-10 text-sm" style={{ color: "#8888aa" }}>
-              Our best-known line — one-of-a-kind multicolor 3D printed Jeep ducks (approx. 32mm, not rubber), sold live on Whatnot.
+              Our best-known line: one-of-a-kind multicolor 3D printed Jeep ducks (approx. 32mm, not rubber), sold live on Whatnot.
             </p>
 
             <ProductGrid products={duckResult.products} />
