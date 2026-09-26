@@ -1,12 +1,15 @@
 // Products created by the Whatnot sync (see syncWhatnotProducts in
 // src/lib/actions/admin.ts) get a boilerplate line appended to their
-// description: "Available on Whatnot — @morgan_3d_prints. Listing ID <id>."
+// description: "Available on Whatnot, @morgan_3d_prints. Listing ID <id>."
 // That <id> is exactly the path segment Whatnot uses for the listing
 // (https://www.whatnot.com/listing/<id>) — it's scraped straight off the
 // listing's own link by the sync bookmarklet. This pulls it back out so the
 // product page can show a real link instead of printing the raw id as text.
+// Matches both the comma form (current) and the older em-dash form, since
+// products created before this template changed still have the em-dash
+// version stored in their description.
 const WHATNOT_SENTENCE_PATTERN =
-  /Available on Whatnot — @morgan_3d_prints\. Listing ID ([\w+/=]+)\.\s*/;
+  /Available on Whatnot[—,] @morgan_3d_prints\. Listing ID ([\w+/=]+)\.\s*/;
 
 export type WhatnotListing = {
   // The description with the auto-generated sentence removed, so it isn't
