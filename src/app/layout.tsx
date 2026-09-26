@@ -25,7 +25,7 @@ const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.morgan3dokc.com";
 export const metadata: Metadata = {
   metadataBase: new URL(BASE),
   title: {
-    default: "Morgan 3D Prints | Custom 3D Printing — OKC",
+    default: "Morgan 3D Prints | Custom 3D Printing in OKC",
     template: "%s | Morgan 3D Prints",
   },
   description:
@@ -37,13 +37,13 @@ export const metadata: Metadata = {
     siteName: "Morgan 3D Prints",
     locale: "en_US",
     url: BASE,
-    title: "Morgan 3D Prints | Custom 3D Printing — OKC",
+    title: "Morgan 3D Prints | Custom 3D Printing in OKC",
     description:
       "Custom 3D-printed products handcrafted in Oklahoma City. Shop 100+ unique items or order something custom.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Morgan 3D Prints | Custom 3D Printing — OKC",
+    title: "Morgan 3D Prints | Custom 3D Printing in OKC",
     description: "Custom 3D-printed products handcrafted in OKC.",
   },
   robots: {
@@ -65,7 +65,7 @@ const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   name: "Morgan 3D Prints",
-  description: "Custom 3D-printed products handcrafted in Oklahoma City. Shop keychains, glow-in-the-dark art, novelty decor, and more — or submit a fully custom order.",
+  description: "Custom 3D-printed products handcrafted in Oklahoma City. Shop keychains, glow-in-the-dark art, novelty decor, and more, or submit a fully custom order.",
   url: "https://www.morgan3dokc.com",
   address: {
     "@type": "PostalAddress",
