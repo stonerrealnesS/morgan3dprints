@@ -375,7 +375,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           {/* Lead time */}
           {(product.inStock || product.isMadeToOrder) && (
             <p className="text-xs" style={{ color: "#8888aa" }}>
-              ⚡ {product.isMadeToOrder ? "Made to order — ships in 2–5 business days" : "In stock — ships in 2–5 business days"}
+              ⚡ {product.isMadeToOrder ? "Made to order, ships in 2–5 business days" : "In stock, ships in 2–5 business days"}
             </p>
           )}
 
@@ -405,10 +405,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </svg>
               <div>
                 <p className="text-sm font-semibold text-white">
-                  Approx. 32mm — 3D-printed plastic, not rubber
+                  Approx. 32mm, 3D-printed PLA Plastic, not rubber
                 </p>
                 <p className="text-xs mt-0.5" style={{ color: "#8888aa" }}>
-                  This is the small dash-mount size made for Jeep Ducking — not a bath toy. Handcrafted and 3D-printed in solid plastic, not real rubber.
+                  This is the small dash-mount size made for Jeep Ducking, not a bath toy. Handcrafted and 3D-printed in PLA Plastic, not real rubber.
                 </p>
               </div>
             </div>
