@@ -77,7 +77,7 @@ export function HeroSection() {
           className="text-lg sm:text-xl max-w-xl leading-relaxed"
           style={{ color: "#8888aa" }}
         >
-          Home of the 3D printed rubber ducks you&apos;ve seen on Whatnot — plus 100+ other
+          Home of the 3D printed Jeep ducks you&apos;ve seen on Whatnot — plus 100+ other
           pieces ready to ship, or order something{" "}
           <span style={{ color: "#f0f0ff" }}>completely custom</span>. Handcrafted in OKC, shipped anywhere.
         </motion.p>
