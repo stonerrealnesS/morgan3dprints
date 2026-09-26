@@ -23,7 +23,7 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
   "services": "Professional custom 3D printing services in OKC — merch, prototypes, signage, and short-run manufacturing.",
   "custom": "Submit a fully custom 3D print order. Bring your idea, file, or sketch and we'll make it real — quote in 24 hours.",
   "420-friendly": "420-friendly 3D printed products. Unique, functional, and handcrafted in OKC.",
-  "ducks": "Custom 3D-printed Jeep ducks, handcrafted in Oklahoma City — the perfect dash-mount size for Jeep Ducking. Bold multicolor designs made to order.",
+  "ducks": "Jeep ducks handcrafted in Oklahoma City — 3D-printed solid plastic, not rubber. Approx. 32mm, the small dash-mount size made for Jeep Ducking. Bold multicolor designs made to order.",
   "whatnot-finds": "One-of-a-kind finds and fan favorites from our Whatnot livestreams — now shoppable anytime, no live show required.",
 };
 
