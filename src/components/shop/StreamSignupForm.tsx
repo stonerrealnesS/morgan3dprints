@@ -25,7 +25,7 @@ export function StreamSignupForm() {
   if (status === "done") {
     return (
       <p className="text-sm font-medium" style={{ color: "#4ade80" }}>
-        🎉 You&apos;re on the list — we&apos;ll email you before the next stream.
+        🎉 You&apos;re on the list. We&apos;ll email you before the next stream.
       </p>
     );
   }
@@ -50,7 +50,7 @@ export function StreamSignupForm() {
         {status === "loading" ? "Signing up…" : "Notify Me"}
       </button>
       {status === "error" && (
-        <p className="text-xs" style={{ color: "#ec4899" }}>Something went wrong — try again?</p>
+        <p className="text-xs" style={{ color: "#ec4899" }}>Something went wrong, try again?</p>
       )}
     </form>
   );
