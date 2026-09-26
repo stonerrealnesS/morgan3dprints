@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
 import { getProduct } from "@/lib/actions/products";
@@ -202,14 +203,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm mb-8" style={{ color: "#8888aa" }}>
-        <a href="/shop" className="hover:text-white transition-colors">Shop</a>
+        <Link href="/shop" className="hover:text-white transition-colors">Shop</Link>
         <span>/</span>
-        <a
+        <Link
           href={`/shop/${product.category.slug}`}
           className="hover:text-white transition-colors capitalize"
         >
           {product.category.name}
-        </a>
+        </Link>
         <span>/</span>
         <span style={{ color: "#f0f0ff" }}>{product.name}</span>
       </nav>
@@ -378,6 +379,41 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </p>
           )}
 
+          {/* Jeep duck size/material clarifier — shown on every duck listing
+              regardless of what (if anything) is in this product's own
+              description field, since customers confusing these for actual
+              rubber bath toys leads directly to return requests. */}
+          {product.category.slug === "ducks" && (
+            <div
+              className="flex items-start gap-3 p-4 rounded-xl"
+              style={{ background: "rgba(250,163,7,0.08)", border: "1px solid rgba(250,163,7,0.35)" }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-5 h-5 mt-0.5 flex-shrink-0"
+                style={{ color: "#fa3" }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                />
+              </svg>
+              <div>
+                <p className="text-sm font-semibold text-white">
+                  Approx. 32mm — 3D-printed plastic, not rubber
+                </p>
+                <p className="text-xs mt-0.5" style={{ color: "#8888aa" }}>
+                  This is the small dash-mount size made for Jeep Ducking — not a bath toy. Handcrafted and 3D-printed in solid plastic, not real rubber.
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Description */}
           {descriptionText && (
             <div
@@ -450,13 +486,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
               <p className="text-sm font-medium text-white">Want a different color or size?</p>
               <p className="text-xs mt-0.5" style={{ color: "#8888aa" }}>We can print this in any filament or customize it for you.</p>
             </div>
-            <a
+            <Link
               href="/services/custom-order"
               className="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
               style={{ background: "rgba(168,85,247,0.15)", border: "1px solid rgba(168,85,247,0.4)", color: "#a855f7" }}
             >
               Request custom →
-            </a>
+            </Link>
           </div>
 
           {/* Divider */}
@@ -465,13 +501,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
           {/* Category link */}
           <p className="text-sm" style={{ color: "#8888aa" }}>
             Category:{" "}
-            <a
+            <Link
               href={`/shop/${product.category.slug}`}
               className="hover:text-white transition-colors"
               style={{ color: "#a855f7" }}
             >
               {product.category.name}
-            </a>
+            </Link>
           </p>
         </div>
       </div>
@@ -566,7 +602,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
         ) : (
           <p className="mt-6 text-sm text-center" style={{ color: "#8888aa" }}>
-            <a href="/sign-in" style={{ color: "#a855f7" }}>Sign in</a> to leave a review
+            <Link href="/sign-in" style={{ color: "#a855f7" }}>Sign in</Link> to leave a review
           </p>
         )}
       </section>
