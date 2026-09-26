@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "FAQ — Custom 3D Printing Questions Answered",
-  description: "Common questions about custom 3D printing in OKC — materials, shipping, custom orders, local pickup, turnaround times, pricing, and more.",
+  title: "FAQ: Custom 3D Printing Questions Answered",
+  description: "Common questions about custom 3D printing in OKC: materials, shipping, custom orders, local pickup, turnaround times, pricing, and more.",
 };
 
 const faqs = [
@@ -20,27 +20,27 @@ const faqs = [
       { q: "Is 3D printing eco-friendly?", a: "PLA (the most common filament) is plant-based and biodegradable under industrial composting conditions. We also minimize waste where possible." },
       { q: "Can 3D printed items be used outdoors or in heat?", a: "PLA can soften in high heat, such as a hot car or direct summer sun. PETG, ASA, and ABS are better choices for outdoor use or higher temperatures. We can recommend the right material for your project." },
       { q: "How accurate is 3D printing?", a: "Modern printers can produce details as small as about 0.08 mm (thinner than a sheet of paper), depending on the geometry and material." },
-      { q: "Can 3D printers make moving parts?", a: "Yes. With proper design, hinges, gears, and functional mechanisms can be printed as a single part that already moves right off the printer — these are called \"print-in-place\" designs." },
+      { q: "Can 3D printers make moving parts?", a: "Yes. With proper design, hinges, gears, and functional mechanisms can be printed as a single part that already moves right off the printer: these are called \"print-in-place\" designs." },
     ],
   },
   {
     section: "Custom Design & Modeling",
     items: [
-      { q: "Do you offer custom 3D modeling?", a: "Yes — we provide full in-house 3D modeling to help turn almost any idea into a ready-to-print file. You don't have to be a CAD expert to work with us." },
+      { q: "Do you offer custom 3D modeling?", a: "Yes, we provide full in-house 3D modeling to help turn almost any idea into a ready-to-print file. You don't have to be a CAD expert to work with us." },
       { q: "What if I don't have a design or 3D model?", a: "No problem at all. Many customers start with a sketch, a photo, a sample part, or just a description. We'll ask a few questions and create the model from scratch." },
-      { q: "Do you offer graphic design?", a: "Yes — we can incorporate your existing logos and branding into 3D printed creations like keychains, signage, and displays. We also provide in-house graphic design for logos and custom merchandise." },
+      { q: "Do you offer graphic design?", a: "Yes, we can incorporate your existing logos and branding into 3D printed creations like keychains, signage, and displays. We also provide in-house graphic design for logos and custom merchandise." },
       { q: "How detailed can the prints be?", a: "Extremely detailed. We can print fine features, sharp edges, and smooth curves with precision. If you have tiny text or intricate geometry, we can usually dial in settings to make it come out clean." },
-      { q: "Can you design mechanical or functional parts?", a: "Yes — we frequently design brackets, mounts, enclosures, fixtures, spacers, adapters, and other practical components with strength, tolerances, and real-world use in mind." },
+      { q: "Can you design mechanical or functional parts?", a: "Yes, we frequently design brackets, mounts, enclosures, fixtures, spacers, adapters, and other practical components with strength, tolerances, and real-world use in mind." },
     ],
   },
   {
     section: "Products & Capabilities",
     items: [
       { q: "What kinds of items can you make?", a: "Keychains, signage, business promos, awards, prototypes, toys, custom gifts, cosplay items, tags, displays, organizers, and much more. If it can be 3D printed, we're probably interested in making it." },
-      { q: "Do you offer multi-color printing?", a: "Yes — our printers support advanced multi-color printing, letting us create vibrant items with color changes, gradients, and multi-colored logos or text in a single print." },
+      { q: "Do you offer multi-color printing?", a: "Yes, our printers support advanced multi-color printing, letting us create vibrant items with color changes, gradients, and multi-colored logos or text in a single print." },
       { q: "What are your size limits?", a: "Standard prints can be up to around 256 mm (about 10 inches) in each dimension. Larger items can be split into sections and assembled seamlessly after printing." },
       { q: "What material options do you offer?", a: "We commonly print in PLA, PETG, flexible TPU, silk finishes, glow-in-the-dark, matte, and other specialty filaments. We'll help choose the right filament for your look and use case." },
-      { q: "Can you print large quantities?", a: "Yes — we operate a print farm capable of handling both small and large runs efficiently. Whether you need a single prototype or hundreds of the same item, we can scale up." },
+      { q: "Can you print large quantities?", a: "Yes, we operate a print farm capable of handling both small and large runs efficiently. Whether you need a single prototype or hundreds of the same item, we can scale up." },
     ],
   },
   {
@@ -49,16 +49,16 @@ const faqs = [
       { q: "How do I request a quote?", a: "Send us your idea, image, file, or description by email or through our custom order form. We'll review the details and send back an estimate covering design (if needed), material, and printing costs." },
       { q: "How long does an order take?", a: "Most orders take about 2–7 days, depending on complexity and quantity. Larger or design-heavy projects may take longer. If you have a deadline, let us know and we'll tell you what's realistic." },
       { q: "How do you determine pricing?", a: "Pricing is based on material used, print time, size, number of colors, and any custom design or modeling work required. We're happy to walk you through the quote so you know what goes into it." },
-      { q: "Do you accept rush orders?", a: "Yes — depending on printer availability and project size. Reach out with your deadline and we'll let you know if a rush is possible and whether any rush fees apply." },
+      { q: "Do you accept rush orders?", a: "Yes, depending on printer availability and project size. Reach out with your deadline and we'll let you know if a rush is possible and whether any rush fees apply." },
       { q: "What payment methods do you take?", a: "We accept all major credit and debit cards online. For larger or repeat orders we can work with business invoicing. Bulk orders may require a deposit before production begins." },
-      { q: "Can I approve my design before printing?", a: "Yes — for custom designs, we always send a preview (screenshots, renders, or photos of a test print) for approval before running the final batch. We want you to be happy with the result." },
+      { q: "Can I approve my design before printing?", a: "Yes, for custom designs, we always send a preview (screenshots, renders, or photos of a test print) for approval before running the final batch. We want you to be happy with the result." },
     ],
   },
   {
     section: "Shipping & Pickup",
     items: [
-      { q: "Do you offer local pickup?", a: "Yes — local pickup in the OKC / Mustang / Yukon area is always free and available. We'll coordinate a time that works for you." },
-      { q: "Do you ship orders?", a: "Yes — we ship anywhere in the US. Flat-rate shipping is $8.99. Orders over $35 ship free." },
+      { q: "Do you offer local pickup?", a: "Yes, local pickup in the OKC / Mustang / Yukon area is always free and available. We'll coordinate a time that works for you." },
+      { q: "Do you ship orders?", a: "Yes, we ship anywhere in the US. Flat-rate shipping is $8.99. Orders over $35 ship free." },
       { q: "How long does shipping take?", a: "Most shipped orders arrive within 3–7 business days after production is complete. We'll send a tracking number when your order ships." },
     ],
   },
@@ -88,7 +88,7 @@ export default function FaqPage() {
         <p className="text-[#a0a0b8] max-w-2xl">
           New to 3D printing? Not sure what&apos;s possible, how pricing works, or whether your idea
           can be turned into a real product? This page covers the most common questions our
-          customers ask — from basic 3D printing info to custom design, shipping, and bulk orders.
+          customers ask, from basic 3D printing info to custom design, shipping, and bulk orders.
         </p>
       </div>
 
@@ -121,7 +121,7 @@ export default function FaqPage() {
       <div className="mt-16 rounded-2xl border border-[#a78bfa]/30 bg-[#a78bfa]/5 p-8">
         <h2 className="text-xl font-semibold mb-2">Don&apos;t see your question?</h2>
         <p className="text-[#a0a0b8] text-sm mb-4">
-          Reach out and ask anything — even if you&apos;re not sure how to explain it yet.
+          Reach out and ask anything, even if you&apos;re not sure how to explain it yet.
         </p>
         <div className="flex flex-wrap gap-3">
           <a
