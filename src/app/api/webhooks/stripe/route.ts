@@ -194,7 +194,7 @@ async function handleCheckoutCompleted(
       await getResend().emails.send({
         from: "Morgan 3D Prints <orders@morgan3dokc.com>",
         to: email,
-        subject: `Order Confirmed — #${order.id.slice(-8).toUpperCase()}`,
+        subject: `Order Confirmed: #${order.id.slice(-8).toUpperCase()}`,
         react: OrderConfirmationEmail({
           orderId: order.id,
           items: order.items.map((item) => ({
