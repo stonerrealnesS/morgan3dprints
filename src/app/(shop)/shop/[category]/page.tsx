@@ -10,21 +10,21 @@ export const revalidate = 3600;
 const PAGE_SIZE = 24;
 
 const CATEGORY_DESCRIPTIONS: Record<string, string> = {
-  "keychains": "Custom 3D-printed keychains handcrafted in OKC. Bold designs, glow-in-the-dark options, and made-to-order styles — perfect for gifts or accessories.",
-  "glow-in-the-dark": "Glow-in-the-dark 3D printed art and decor. Charges in light, glows all night — perfect for gaming rooms, bedrooms, and bold displays.",
+  "keychains": "Custom 3D-printed keychains handcrafted in OKC. Bold designs, glow-in-the-dark options, and made-to-order styles. Perfect for gifts or accessories.",
+  "glow-in-the-dark": "Glow-in-the-dark 3D printed art and decor. Charges in light, glows all night. Perfect for gaming rooms, bedrooms, and bold displays.",
   "fidgets": "3D printed fidget toys and sensory tools. Satisfying, durable, and endlessly customizable. Great for focus, stress relief, or just fun.",
   "tiny-things": "Small-scale 3D printed collectibles, miniatures, and tiny novelty items. Big on detail, small on footprint.",
-  "doggos": "Dog-themed 3D printed gifts, tags, and decor. Custom dog breeds available on request — perfect for pet lovers.",
+  "doggos": "Dog-themed 3D printed gifts, tags, and decor. Custom dog breeds available on request. Perfect for pet lovers.",
   "man-cave": "Bold 3D printed decor and conversation pieces for the man cave. Personalized signs, display pieces, and novelty items.",
-  "for-the-ladies": "Unique 3D printed gifts and accessories. Fun, bold, and fully customizable — made to order in any color.",
+  "for-the-ladies": "Unique 3D printed gifts and accessories. Fun, bold, and fully customizable. Made to order in any color.",
   "at-the-office": "Custom 3D printed desk accessories, name plates, organizers, and office decor. Personalize your workspace.",
   "at-the-house": "Unique home decor and novelty 3D printed pieces to make your space stand out. Customizable in any filament.",
   "accessories": "3D printed accessories including bag tags, clips, mounts, and everyday carry pieces. Functional and stylish.",
-  "services": "Professional custom 3D printing services in OKC — merch, prototypes, signage, and short-run manufacturing.",
-  "custom": "Submit a fully custom 3D print order. Bring your idea, file, or sketch and we'll make it real — quote in 24 hours.",
+  "services": "Professional custom 3D printing services in OKC: merch, prototypes, signage, and short-run manufacturing.",
+  "custom": "Submit a fully custom 3D print order. Bring your idea, file, or sketch and we'll make it real. Quote in 24 hours.",
   "420-friendly": "420-friendly 3D printed products. Unique, functional, and handcrafted in OKC.",
-  "ducks": "Jeep ducks handcrafted in Oklahoma City — 3D-printed solid plastic, not rubber. Approx. 32mm, the small dash-mount size made for Jeep Ducking. Bold multicolor designs made to order.",
-  "whatnot-finds": "One-of-a-kind finds and fan favorites from our Whatnot livestreams — now shoppable anytime, no live show required.",
+  "ducks": "Jeep ducks handcrafted in Oklahoma City. 3D-printed PLA Plastic, not rubber. Approx. 32mm, the small dash-mount size made for Jeep Ducking. Bold multicolor designs made to order.",
+  "whatnot-finds": "One-of-a-kind finds and fan favorites from our Whatnot livestreams. Now shoppable anytime, no live show required.",
 };
 
 type CategoryPageProps = {
@@ -48,8 +48,8 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   });
   if (!category) return { title: "Category Not Found" };
   return {
-    title: `${category.name} — Custom 3D Prints OKC`,
-    description: CATEGORY_DESCRIPTIONS[slug] ?? `Shop ${category.name} — custom 3D-printed products handcrafted in Oklahoma City.`,
+    title: `${category.name} | Custom 3D Prints OKC`,
+    description: CATEGORY_DESCRIPTIONS[slug] ?? `Shop ${category.name}: custom 3D-printed products handcrafted in Oklahoma City.`,
   };
 }
 
