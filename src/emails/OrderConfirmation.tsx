@@ -286,7 +286,7 @@ export function OrderConfirmationEmail({
                   margin: "0 0 4px",
                 }}
               >
-                Local Pickup — Oklahoma City
+                Local Pickup, Oklahoma City
               </Text>
             ) : (
               <>
@@ -345,7 +345,7 @@ export function OrderConfirmationEmail({
                 margin: 0,
               }}
             >
-              &copy; {new Date().getFullYear()} Morgan 3D Prints — Oklahoma City, OK
+              &copy; {new Date().getFullYear()} Morgan 3D Prints, Oklahoma City, OK
             </Text>
           </Section>
         </Container>
