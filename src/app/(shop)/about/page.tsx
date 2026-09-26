@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Learn about Morgan 3D Prints — a home-based 3D print shop in OKC / Mustang / Yukon known for Jeep ducks and fun prints on Whatnot, plus custom orders for makers and small businesses.",
+  description: "Learn about Morgan 3D Prints, a home-based 3D print shop in OKC / Mustang / Yukon known for Jeep ducks and fun prints on Whatnot, plus custom orders for makers and small businesses.",
 };
 
 export default function AboutPage() {
@@ -13,12 +13,12 @@ export default function AboutPage() {
       <div className="mb-16">
         <p className="text-xs uppercase tracking-widest text-[#a78bfa] mb-3">About Morgan 3D Prints</p>
         <h1 className="text-4xl font-bold mb-4">
-          The Jeep duck people —{" "}
+          The Jeep duck people,{" "}
           <span className="text-[#a78bfa]">who also happen to print pretty much anything.</span>
         </h1>
         <p className="text-[#a0a0b8] max-w-2xl mb-6">
           Morgan 3D Prints started as a way to turn &quot;wouldn&apos;t it be cool if…&quot; ideas into real,
-          physical products — and somewhere along the way, the multicolor 3D printed Jeep ducks we sell
+          physical products, and somewhere along the way, the multicolor 3D printed Jeep ducks we sell
           live on Whatnot became the thing people know us for. We&apos;re a small, home-based print shop in
           the OKC / Mustang / Yukon area, running a fleet of printers to keep up with both the fun stuff and
           the serious stuff.
@@ -53,12 +53,12 @@ export default function AboutPage() {
       <section className="mb-16">
         <h2 className="text-2xl font-semibold mb-2">Who we are & who we help</h2>
         <p className="text-[#a0a0b8] text-sm mb-6">
-          At the end of the day, it&apos;s about making useful, fun, and memorable parts for real people — not cranking out anonymous junk.
+          At the end of the day, it&apos;s about making useful, fun, and memorable parts for real people, not cranking out anonymous junk.
         </p>
         <div className="grid md:grid-cols-2 gap-4">
           <div className="border border-white/10 rounded-2xl bg-white/5 p-6 text-sm text-[#a0a0b8]">
             <p className="mb-4">
-              Most days that means running the print farm for our Whatnot shop — Jeep ducks, glow-in-the-dark
+              Most days that means running the print farm for our Whatnot shop: Jeep ducks, glow-in-the-dark
               wall art, fidgets, keychains, and whatever weird idea comes up next. If you&apos;ve caught one of
               our livestreams, this is that shop.
             </p>
@@ -159,7 +159,7 @@ export default function AboutPage() {
       {/* CTA */}
       <div className="rounded-2xl border border-[#a78bfa]/30 bg-[#a78bfa]/5 p-8 text-center">
         <h2 className="text-2xl font-semibold mb-2">Let&apos;s build something cool.</h2>
-        <p className="text-[#a0a0b8] text-sm mb-6">Serving OKC & beyond — pickup or shipping available.</p>
+        <p className="text-[#a0a0b8] text-sm mb-6">Serving OKC & beyond. Pickup or shipping available.</p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link
             href="/services/custom-order"
