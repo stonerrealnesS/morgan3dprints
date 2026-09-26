@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch with Morgan 3D Prints — OKC's local 3D printing studio. Email us, submit a custom order, or stop by for local pickup.",
+  description: "Get in touch with Morgan 3D Prints, OKC's local 3D printing studio. Email us, submit a custom order, or stop by for local pickup.",
 };
 
 export default function ContactPage() {
@@ -56,14 +56,14 @@ export default function ContactPage() {
       <section className="mb-16">
         <h2 className="text-2xl font-semibold mb-2">Location & Local Pickup</h2>
         <p className="text-[#a0a0b8] text-sm mb-6">
-          We&apos;re based in the OKC / Mustang / Yukon area. Local pickup is always free — we&apos;ll
+          We&apos;re based in the OKC / Mustang / Yukon area. Local pickup is always free, we&apos;ll
           coordinate a time that works once your order is ready.
         </p>
         <div className="grid sm:grid-cols-3 gap-4">
           {[
             { label: "Area", value: "OKC / Mustang / Yukon, Oklahoma" },
-            { label: "Pickup", value: "Free — by appointment" },
-            { label: "Shipping", value: "US only — $8.99 flat, free over $35" },
+            { label: "Pickup", value: "Free, by appointment" },
+            { label: "Shipping", value: "US only, $8.99 flat, free over $35" },
           ].map((item) => (
             <div key={item.label} className="border border-white/10 rounded-xl bg-white/5 p-4">
               <p className="text-xs text-[#a0a0b8] mb-1">{item.label}</p>
