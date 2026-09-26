@@ -93,7 +93,7 @@ export function Testimonials() {
               &ldquo;{t.quote}&rdquo;
             </p>
             <p className="text-xs mt-auto" style={{ color: "#8888aa" }}>
-              — {t.author}, via Whatnot
+              {t.author}, via Whatnot
             </p>
           </div>
         ))}
