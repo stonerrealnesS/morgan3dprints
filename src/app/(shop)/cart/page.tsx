@@ -103,7 +103,7 @@ export default function CartPage() {
                 <input type="radio" name="fulfillment" value={f} checked={fulfillment === f} onChange={() => setFulfillment(f)} className="accent-purple-500" />
                 <div>
                   <p className="text-white text-sm font-medium">{f === "ship" ? "Ship to me" : "Local Pickup (OKC)"}</p>
-                  <p className="text-[#8888aa] text-xs">{f === "ship" ? `$${(SHIPPING_CENTS/100).toFixed(2)} flat rate` : "Free — pick up in OKC"}</p>
+                  <p className="text-[#8888aa] text-xs">{f === "ship" ? `$${(SHIPPING_CENTS/100).toFixed(2)} flat rate` : "Free, pick up in OKC"}</p>
                 </div>
               </label>
             ))}
