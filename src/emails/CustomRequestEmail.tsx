@@ -52,7 +52,7 @@ export function CustomRequestEmail({ name, type, description }: Props) {
               Request received!
             </Text>
             <Text style={{ fontSize: "13px", color: "#8888aa", margin: 0 }}>
-              Hey {name} — we got your {type} request and we'll be in touch soon.
+              Hey {name}, we got your {type} request and we&apos;ll be in touch soon.
             </Text>
           </Section>
 
@@ -99,7 +99,7 @@ export function CustomRequestEmail({ name, type, description }: Props) {
               Questions? Reply to this email or visit morgan3dokc.com
             </Text>
             <Text style={{ fontSize: "11px", color: "#8888aa", margin: 0 }}>
-              &copy; {new Date().getFullYear()} Morgan 3D Prints — Oklahoma City, OK
+              &copy; {new Date().getFullYear()} Morgan 3D Prints, Oklahoma City, OK
             </Text>
           </Section>
         </Container>
