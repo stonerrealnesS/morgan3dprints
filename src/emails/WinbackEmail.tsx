@@ -96,7 +96,7 @@ export function WinbackEmail({ firstName, code }: Props) {
               Questions? Reply to this email or visit morgan3dokc.com
             </Text>
             <Text style={{ fontSize: "11px", color: "#8888aa", margin: 0 }}>
-              &copy; {new Date().getFullYear()} Morgan 3D Prints — Oklahoma City, OK
+              &copy; {new Date().getFullYear()} Morgan 3D Prints, Oklahoma City, OK
             </Text>
           </Section>
         </Container>
