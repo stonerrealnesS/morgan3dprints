@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Returns & Refunds",
   description:
-    "Morgan 3D Prints' return and refund policy — return window, eligible items, custom order exceptions, and how to start a return.",
+    "Morgan 3D Prints' return and refund policy: return window, eligible items, custom order exceptions, and how to start a return.",
 };
 
 const sections = [
@@ -13,11 +13,11 @@ const sections = [
   },
   {
     heading: "Custom & Made-to-Order Items",
-    body: "Most of our catalog is printed to order. Because these pieces are made specifically for your order, custom and made-to-order items are final sale and cannot be returned for a change of mind. If a custom or made-to-order item arrives defective or damaged, it's fully covered — see below.",
+    body: "Most of our catalog is printed to order. Because these pieces are made specifically for your order, custom and made-to-order items are final sale and cannot be returned for a change of mind. If a custom or made-to-order item arrives defective or damaged, it's fully covered, see below.",
   },
   {
     heading: "Damaged or Defective Items",
-    body: "If your order arrives damaged, defective, or not as described, contact us within 14 days of delivery. We'll replace the item or issue a full refund, including any shipping you paid — no return shipping cost to you.",
+    body: "If your order arrives damaged, defective, or not as described, contact us within 14 days of delivery. We'll replace the item or issue a full refund, including any shipping you paid. No return shipping cost to you.",
   },
   {
     heading: "Return Shipping Costs",
