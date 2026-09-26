@@ -5,7 +5,7 @@ import { Resend } from "resend";
 import { CustomRequestEmail } from "@/emails/CustomRequestEmail";
 
 export const metadata: Metadata = {
-  title: "Custom Order — Morgan 3D Prints",
+  title: "Custom Order | Morgan 3D Prints",
   description: "Request a fully custom 3D printed item. Submit your idea, file, or reference and we'll provide a quote.",
 };
 
@@ -112,7 +112,7 @@ export default function CustomOrderPage() {
             name="description"
             required
             rows={6}
-            placeholder="Be as detailed as possible — dimensions, colors, quantities, use case, deadline…"
+            placeholder="Be as detailed as possible: dimensions, colors, quantities, use case, deadline…"
             className="w-full px-3 py-2.5 rounded-lg text-sm text-[#f0f0ff] resize-y outline-none focus:ring-1 focus:ring-[#a855f7]"
             style={{ background: "#13131e", border: "1px solid #1e1e30" }}
           />
@@ -125,7 +125,7 @@ export default function CustomOrderPage() {
           <textarea
             name="fileUrls"
             rows={3}
-            placeholder="Paste Google Drive, Dropbox, or Thingiverse links — one per line"
+            placeholder="Paste Google Drive, Dropbox, or Thingiverse links, one per line"
             className="w-full px-3 py-2.5 rounded-lg text-sm text-[#f0f0ff] resize-y outline-none focus:ring-1 focus:ring-[#a855f7]"
             style={{ background: "#13131e", border: "1px solid #1e1e30" }}
           />
