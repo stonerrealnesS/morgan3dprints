@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Learn about Morgan 3D Prints — a home-based 3D print shop in OKC / Mustang / Yukon known for rubber ducks and fun prints on Whatnot, plus custom orders for makers and small businesses.",
+  description: "Learn about Morgan 3D Prints — a home-based 3D print shop in OKC / Mustang / Yukon known for Jeep ducks and fun prints on Whatnot, plus custom orders for makers and small businesses.",
 };
 
 export default function AboutPage() {
@@ -13,18 +13,18 @@ export default function AboutPage() {
       <div className="mb-16">
         <p className="text-xs uppercase tracking-widest text-[#a78bfa] mb-3">About Morgan 3D Prints</p>
         <h1 className="text-4xl font-bold mb-4">
-          The rubber duck people —{" "}
+          The Jeep duck people —{" "}
           <span className="text-[#a78bfa]">who also happen to print pretty much anything.</span>
         </h1>
         <p className="text-[#a0a0b8] max-w-2xl mb-6">
           Morgan 3D Prints started as a way to turn &quot;wouldn&apos;t it be cool if…&quot; ideas into real,
-          physical products — and somewhere along the way, the multicolor 3D printed rubber ducks we sell
+          physical products — and somewhere along the way, the multicolor 3D printed Jeep ducks we sell
           live on Whatnot became the thing people know us for. We&apos;re a small, home-based print shop in
           the OKC / Mustang / Yukon area, running a fleet of printers to keep up with both the fun stuff and
           the serious stuff.
         </p>
         <div className="flex flex-wrap gap-3 text-xs text-[#a0a0b8]">
-          <span className="border border-white/10 rounded-full px-3 py-1.5">🦆 Home of the Whatnot rubber ducks</span>
+          <span className="border border-white/10 rounded-full px-3 py-1.5">🦆 Home of the Whatnot Jeep ducks</span>
           <span className="border border-white/10 rounded-full px-3 py-1.5">Hundreds of ready-to-ship pieces</span>
           <span className="border border-white/10 rounded-full px-3 py-1.5">Also does real custom &amp; engineering work</span>
         </div>
@@ -58,7 +58,7 @@ export default function AboutPage() {
         <div className="grid md:grid-cols-2 gap-4">
           <div className="border border-white/10 rounded-2xl bg-white/5 p-6 text-sm text-[#a0a0b8]">
             <p className="mb-4">
-              Most days that means running the print farm for our Whatnot shop — rubber ducks, glow-in-the-dark
+              Most days that means running the print farm for our Whatnot shop — Jeep ducks, glow-in-the-dark
               wall art, fidgets, keychains, and whatever weird idea comes up next. If you&apos;ve caught one of
               our livestreams, this is that shop.
             </p>
