@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
         from: "Morgan 3D Prints <orders@morgan3dokc.com>",
         to: email,
         subject: "You're on the list!",
-        text: "Thanks for signing up — we'll let you know before the next Whatnot livestream goes live. In the meantime, check out the shop at https://www.morgan3dokc.com/shop",
+        text: "Thanks for signing up. We'll let you know before the next Whatnot livestream goes live. In the meantime, check out the shop at https://www.morgan3dokc.com/shop",
       });
     } catch (err) {
       console.error("[stream-signup] confirmation email failed:", err);
