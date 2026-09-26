@@ -320,7 +320,7 @@ export async function syncWhatnotProducts(
         data: {
           name,
           slug,
-          description: `Available on Whatnot — @morgan_3d_prints. Listing ID ${item.whatnotId}.`,
+          description: `Available on Whatnot, @morgan_3d_prints. Listing ID ${item.whatnotId}.`,
           priceInCents,
           categoryId: category.id,
           inStock: true,
