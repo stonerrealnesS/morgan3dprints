@@ -135,7 +135,7 @@ export default async function AccountOrderDetailPage({ params }: Props) {
       <div className="rounded-xl p-5 mb-6" style={{ border: "1px solid #1e1e30", background: "#0d0d14" }}>
         <p className="text-xs uppercase tracking-wide mb-3" style={{ color: "#8888aa" }}>Fulfillment</p>
         {isPickup ? (
-          <p className="text-sm text-[#f0f0ff]">🏪 Local Pickup — Oklahoma City</p>
+          <p className="text-sm text-[#f0f0ff]">🏪 Local Pickup, Oklahoma City</p>
         ) : (
           <>
             <p className="text-sm text-[#f0f0ff]">📦 Shipped</p>
