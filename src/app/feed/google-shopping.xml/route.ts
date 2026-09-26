@@ -64,7 +64,7 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
   <channel>
-    <title>Morgan 3D Prints — Product Feed</title>
+    <title>Morgan 3D Prints: Product Feed</title>
     <link>${BASE}</link>
     <description>Custom 3D-printed products from Morgan 3D Prints, Oklahoma City.</description>${items}
   </channel>
