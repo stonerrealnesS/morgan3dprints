@@ -274,7 +274,7 @@ export default async function OrderConfirmationPage({
               </svg>
             </div>
             <div>
-              <p className="font-medium text-[#f0f0ff]">Local Pickup — OKC</p>
+              <p className="font-medium text-[#f0f0ff]">Local Pickup, OKC</p>
               <p className="text-sm text-[#8888aa] mt-0.5">
                 We&apos;ll contact you when your order is ready. Estimated
                 ready in 3–5 business days.
