@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Print by the Hour — Morgan 3D Prints",
+  title: "Print by the Hour | Morgan 3D Prints",
   description: "Rent our 3D printers by the hour for your own projects. Filament included. OKC-based.",
 };
 
@@ -74,7 +74,7 @@ export default function PrintByTheHourPage() {
           Your ideas, our printers
         </h1>
         <p className="text-lg max-w-xl mx-auto" style={{ color: "#8888aa" }}>
-          Have an STL file ready to go? Book time on our printers — filament included,
+          Have an STL file ready to go? Book time on our printers, filament included,
           no membership required.
         </p>
       </div>
@@ -146,7 +146,7 @@ export default function PrintByTheHourPage() {
             },
             {
               q: "Can I pick up my prints?",
-              a: "Yes — OKC local pickup is always free. We also ship within the US for flat $8.99.",
+              a: "Yes, OKC local pickup is always free. We also ship within the US for flat $8.99.",
             },
           ].map(({ q, a }) => (
             <div key={q} className="rounded-xl p-5" style={{ background: "#0d0d14", border: "1px solid #1e1e30" }}>
