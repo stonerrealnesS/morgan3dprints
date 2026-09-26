@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Custom 3D Printing Services in Oklahoma City",
-  description: "Professional custom 3D printing services in OKC — branded merch, prototypes, fixtures, signage, and short-run manufacturing. Quote in 24h. Local pickup free.",
+  description: "Professional custom 3D printing services in OKC: branded merch, prototypes, fixtures, signage, and short-run manufacturing. Quote in 24h. Local pickup free.",
 };
 
 const categories = [
@@ -83,7 +83,7 @@ export default function ServicesPage() {
         >
           <div>
             <p className="font-semibold mb-1">Submit a Custom Order</p>
-            <p className="text-sm text-[#a0a0b8]">Tell us what you need — we&apos;ll get back with a quote.</p>
+            <p className="text-sm text-[#a0a0b8]">Tell us what you need, we&apos;ll get back with a quote.</p>
           </div>
           <span className="text-[#a78bfa] text-xl group-hover:translate-x-1 transition-transform">→</span>
         </Link>
@@ -93,7 +93,7 @@ export default function ServicesPage() {
         >
           <div>
             <p className="font-semibold mb-1">Print by the Hour</p>
-            <p className="text-sm text-[#a0a0b8]">Flat-rate print time — bring your own file.</p>
+            <p className="text-sm text-[#a0a0b8]">Flat-rate print time, bring your own file.</p>
           </div>
           <span className="text-[#a0a0b8] text-xl group-hover:translate-x-1 transition-transform">→</span>
         </Link>
@@ -104,7 +104,7 @@ export default function ServicesPage() {
         <div className="flex items-end justify-between gap-4 mb-6">
           <div>
             <h2 className="text-2xl font-semibold mb-1">Core service categories</h2>
-            <p className="text-[#a0a0b8] text-sm">Most projects land in one of these buckets. If yours doesn&apos;t, no worries — we&apos;re pretty flexible.</p>
+            <p className="text-[#a0a0b8] text-sm">Most projects land in one of these buckets. If yours doesn&apos;t, no worries, we&apos;re pretty flexible.</p>
           </div>
           <a
             href="mailto:morgan3dokc@gmail.com?subject=3D%20Printing%20Service%20Inquiry"
@@ -152,7 +152,7 @@ export default function ServicesPage() {
                 { name: "PLA & PLA+", desc: "General-purpose, great surface finish, tons of color options." },
                 { name: "PETG", desc: "Better heat and impact resistance, good for light-duty functional parts." },
                 { name: "TPU (flexible)", desc: "For gaskets, bumpers, and impact-absorbing pieces." },
-                { name: "Specialty filaments", desc: "Glow-in-the-dark, silk, matte, and more — ask about your project." },
+                { name: "Specialty filaments", desc: "Glow-in-the-dark, silk, matte, and more. Ask about your project." },
               ].map((m) => (
                 <li key={m.name} className="flex gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#a78bfa] mt-1.5 shrink-0" />
@@ -224,7 +224,7 @@ export default function ServicesPage() {
       <div className="rounded-2xl border border-[#a78bfa]/30 bg-[#a78bfa]/5 p-8 text-center">
         <h2 className="text-2xl font-semibold mb-2">Ready to start a project?</h2>
         <p className="text-[#a0a0b8] text-sm mb-6">
-          Reach out with your idea — even a rough description is enough to get started.
+          Reach out with your idea, even a rough description is enough to get started.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link
