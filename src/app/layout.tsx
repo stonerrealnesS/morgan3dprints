@@ -99,7 +99,7 @@ export default function RootLayout({
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
           />
-          {/* Google Analytics 4 â pageviews, ecommerce/purchase events (see
+          {/* Google Analytics 4: pageviews, ecommerce/purchase events (see
               PurchaseTracker on the order confirmation page), and Enhanced
               Measurement (scroll depth, outbound clicks, etc). */}
           <Script
