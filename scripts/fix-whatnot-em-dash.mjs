@@ -1,6 +1,7 @@
 /**
  * One-time backfill: fixes the "Available on Whatnot — @morgan_3d_prints.
- * Listing ID ..." sentence baked into product descriptions by the Whatnot
+ * Listing ID ..." sentence (with a space on both sides of the dash) baked
+ * into product descriptions by the Whatnot
  * sync (see syncWhatnotProducts in src/lib/actions/admin.ts). That sentence
  * used an em dash for every product created before the sync template was
  * fixed to use a comma instead. This script rewrites the em-dash form to the
@@ -22,8 +23,9 @@ import { PrismaClient } from "../src/generated/prisma/index.js";
 const prisma = new PrismaClient({ log: ["warn", "error"] });
 
 const EM_DASH = String.fromCharCode(8212); // —
+// The old template has a space on both sides of the dash: "Whatnot — @morgan".
 const OLD_PATTERN = new RegExp(
-  `Available on Whatnot${EM_DASH} @morgan_3d_prints\\. Listing ID ([\\w+/=]+)\\.`,
+  `Available on Whatnot ${EM_DASH} @morgan_3d_prints\\. Listing ID ([\\w+/=]+)\\.`,
   "g"
 );
 
@@ -31,7 +33,7 @@ const apply = process.argv.includes("--apply");
 
 async function main() {
   const candidates = await prisma.product.findMany({
-    where: { description: { contains: `Whatnot${EM_DASH}` } },
+    where: { description: { contains: `Whatnot ${EM_DASH}` } },
     select: { id: true, name: true, slug: true, description: true },
   });
 
