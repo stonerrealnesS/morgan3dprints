@@ -58,6 +58,12 @@ export const metadata: Metadata = {
       "RDHihFu_ZZgY76BpzFjyGUPJQyB_osvtSy5vSClo93A",
       "iIGMtnr0YmSJA106SLCY4JcnxBHM3Xupa2X2K7Seu5E",
     ],
+    // Proves site ownership to Pinterest so the business account can claim
+    // morgan3dokc.com and Rich Pins (see the product Rich Pin tags in
+    // shop/[category]/[slug]/page.tsx) get attributed to it.
+    other: {
+      "p:domain_verify": "f159346eafea2bfdf1d5308542867b6a",
+    },
   },
 };
 
@@ -93,7 +99,7 @@ export default function RootLayout({
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
           />
-          {/* Google Analytics 4 — pageviews, ecommerce/purchase events (see
+          {/* Google Analytics 4 â pageviews, ecommerce/purchase events (see
               PurchaseTracker on the order confirmation page), and Enhanced
               Measurement (scroll depth, outbound clicks, etc). */}
           <Script
