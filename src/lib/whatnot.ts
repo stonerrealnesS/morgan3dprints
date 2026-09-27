@@ -5,11 +5,12 @@
 // (https://www.whatnot.com/listing/<id>) — it's scraped straight off the
 // listing's own link by the sync bookmarklet. This pulls it back out so the
 // product page can show a real link instead of printing the raw id as text.
-// Matches both the comma form (current) and the older em-dash form, since
-// products created before this template changed still have the em-dash
-// version stored in their description.
+// Matches both the comma form (current, "Whatnot, @morgan...") and the
+// older em-dash form ("Whatnot — @morgan...", with a space on both sides
+// of the dash), since products created before this template changed still
+// have the em-dash version stored in their description.
 const WHATNOT_SENTENCE_PATTERN =
-  /Available on Whatnot[—,] @morgan_3d_prints\. Listing ID ([\w+/=]+)\.\s*/;
+  /Available on Whatnot(?: — |, )@morgan_3d_prints\. Listing ID ([\w+/=]+)\.\s*/;
 
 export type WhatnotListing = {
   // The description with the auto-generated sentence removed, so it isn't
