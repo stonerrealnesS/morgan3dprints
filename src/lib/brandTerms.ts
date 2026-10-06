@@ -30,6 +30,21 @@ export const BRAND_TERMS = [
   "wartortle", "blastoise", "sceptile", "treecko", "grovyle", "eevee", "mewtwo", "jigglypuff",
   "snorlax", "gengar", "psyduck", "lucario", "greninja", "togepi", "meowth", "mudkip", "torchic",
   "nasa", "strickland propane", "king of the hill", "hank hill",
+  // Added 2026-10-06 after reading every feed title (see feedExclusions.ts for the exact products).
+  "m&m", "pizza hut", "ghostbusters", "stay puft", "slimer", "gremlin", "gizmo", "spyro", "tmnt",
+  "donkey kong", "fallout", "vault-tec", "kirby", "grinch", "peanuts", "charlie brown", "star trek",
+  "klingon", "spock", "bob's burgers", "eminem", "goosebumps", "nickelodeon", "animaniacs",
+  "real monsters", "catdog", "towelie", "jay and silent bob", "bill murray", "milwaukee",
+  "santa cruz", "delorean", "ozzy osbourne", "gta", "james bond", "bomberman", "minion",
+  "jabba", "darth vader", "halo", "master chief", "gears of war", "powerpuff", "cookie monster",
+  "elmo", "johnny bravo", "mtv", "comedy central", "cartoon network", "coca cola", "diet coke",
+  "red bull", "vans", "volcom", "waffle house", "sega", "faygo", "napster", "wonka", "pac man",
+  "pacman", "galaga", "playboy", "inspector gadget", "tupac", "homer simpson", "oogie boogie",
+  "little mermaid", "finding nemo", "umbrella corporation", "pink panther", "marvin the martian",
+  "kool aid", "power rangers", "back to the future", "beetlejuice", "beavis", "catwoman",
+  "air jordan", "air max", "7-up", "mcdonald", "monster energy", "dolly parton", "golden girls",
+  "smokey the bear", "snap-on", "groot", "marshall", "corning ware", "little tike", "bic",
+  "zig-zag", "bong", "ashtray", "stash jar", "butterfly knife",
 ];
 
 const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
