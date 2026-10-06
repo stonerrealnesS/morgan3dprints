@@ -24,6 +24,12 @@ export const BRAND_TERMS = [
   "winnie", "tigger", "lion king", "frozen", "elsa", "moana", "toy story", "buzz lightyear",
   "monsters inc", "coca-cola", "pepsi", "budweiser", "harley", "john deere", "yeti", "stanley",
   "hydro flask", "lululemon", "gucci", "louis vuitton", "supreme", "bape",
+  // Added 2026-10-06: the accented "Pokémon" slipped past "pokemon" and these names
+  // appeared in the feeds without it. Also NASA (logo) and King of the Hill (Strickland Propane).
+  "charmander", "charmeleon", "charizard", "bulbasaur", "ivysaur", "venusaur", "squirtle",
+  "wartortle", "blastoise", "sceptile", "treecko", "grovyle", "eevee", "mewtwo", "jigglypuff",
+  "snorlax", "gengar", "psyduck", "lucario", "greninja", "togepi", "meowth", "mudkip", "torchic",
+  "nasa", "strickland propane", "king of the hill", "hank hill",
 ];
 
 const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -32,6 +38,7 @@ const BRAND_RE = new RegExp(
   "i"
 );
 
+// Strip accents first so "Pokémon" matches "pokemon".
 export function hasBrandTerm(text: string): boolean {
-  return BRAND_RE.test(text);
+  return BRAND_RE.test(text.normalize("NFD").replace(/[̀-ͯ]/g, ""));
 }
