@@ -12,7 +12,8 @@ export default clerkMiddleware(async (auth, req) => {
       .map((s) => s.trim())
       .filter(Boolean);
 
-    if (!userId || (adminIds.length > 0 && !adminIds.includes(userId))) {
+    // An empty list means nobody is admin (it used to let any signed-in user in).
+    if (!userId || !adminIds.includes(userId)) {
       return NextResponse.redirect(new URL("/sign-in", req.url));
     }
   }

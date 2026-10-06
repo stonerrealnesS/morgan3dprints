@@ -43,8 +43,9 @@ export default async function AdminOrderDetailPage({ params }: Props) {
       <div className="flex items-center gap-4 mb-8">
         <Link href="/admin/orders" className="text-sm" style={{ color: "#8888aa" }}>← Orders</Link>
         <h1 className="text-2xl font-bold text-[#f0f0ff]">
-          Order #{order.id.slice(-8).toUpperCase()}
+          Order #{(order.channelOrderId ?? order.id.slice(-8)).toUpperCase()}
         </h1>
+        <span className="text-xs uppercase" style={{ color: "#8888aa" }}>{order.channel}</span>
         <span
           className="px-3 py-1 rounded-lg text-sm font-semibold"
           style={{

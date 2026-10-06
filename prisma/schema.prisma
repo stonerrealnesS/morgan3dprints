@@ -92,7 +92,9 @@ model Address {
 
 model Order {
   id              String      @id @default(cuid())
-  stripeSessionId String      @unique
+  channel         String      @default("website")
+  channelOrderId  String?
+  stripeSessionId String?     @unique
   stripeEventId   String?     @unique
   customerId      String?
   customer        Customer?   @relation(fields: [customerId], references: [id])
@@ -113,11 +115,13 @@ model Order {
   totalCents      Int
   status          OrderStatus @default(PENDING)
   notes           String?
+  packedAt        DateTime?
   items           OrderItem[]
   adminActions    AdminAction[]
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 
+  @@unique([channel, channelOrderId])
   @@index([status])
   @@index([createdAt])
   @@index([customerId])

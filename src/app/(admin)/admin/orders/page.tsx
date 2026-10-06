@@ -26,6 +26,8 @@ export default async function AdminOrdersPage({
     take: 50,
     select: {
       id: true,
+      channel: true,
+      channelOrderId: true,
       createdAt: true,
       totalCents: true,
       status: true,
@@ -73,11 +75,11 @@ export default async function AdminOrdersPage({
         ))}
       </div>
 
-      <div className="rounded-xl overflow-hidden" style={{ border: "1px solid #1e1e30", background: "#0d0d14" }}>
+      <div className="rounded-xl overflow-x-auto" style={{ border: "1px solid #1e1e30", background: "#0d0d14" }}>
         <table className="w-full">
           <thead>
             <tr style={{ borderBottom: "1px solid #1e1e30" }}>
-              {["Order", "Date", "Customer", "Items", "Total", "Status", ""].map((h) => (
+              {["Order", "Channel", "Date", "Customer", "Items", "Total", "Status", ""].map((h) => (
                 <th key={h} className="text-left px-5 py-3 text-xs uppercase tracking-wide" style={{ color: "#8888aa" }}>{h}</th>
               ))}
             </tr>
@@ -95,11 +97,12 @@ export default async function AdminOrdersPage({
               return (
                 <tr key={order.id} style={{ borderBottom: "1px solid #13131e" }}>
                   <td className="px-5 py-3 font-mono text-sm" style={{ color: "#8888aa" }}>
-                    #{order.id.slice(-8).toUpperCase()}
+                    #{(order.channelOrderId ?? order.id.slice(-8)).toUpperCase()}
                     {order.discreetPacking && (
                       <span className="ml-2 text-xs" style={{ color: "#ec4899" }}>🔒</span>
                     )}
                   </td>
+                  <td className="px-5 py-3 text-xs uppercase" style={{ color: "#8888aa" }}>{order.channel}</td>
                   <td className="px-5 py-3 text-sm" style={{ color: "#8888aa" }}>
                     {new Date(order.createdAt).toLocaleDateString()}
                   </td>
@@ -129,7 +132,7 @@ export default async function AdminOrdersPage({
             })}
             {orders.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-5 py-10 text-center text-sm" style={{ color: "#8888aa" }}>
+                <td colSpan={8} className="px-5 py-10 text-center text-sm" style={{ color: "#8888aa" }}>
                   No orders {status ? `with status ${status}` : "yet"}
                 </td>
               </tr>
