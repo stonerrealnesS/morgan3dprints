@@ -63,6 +63,8 @@ export const metadata: Metadata = {
     // shop/[category]/[slug]/page.tsx) get attributed to it.
     other: {
       "p:domain_verify": "f159346eafea2bfdf1d5308542867b6a",
+      // Proves site ownership to Bing Webmaster Tools / Microsoft Merchant Center.
+      "msvalidate.01": "F9B2B28821BE11289F7139A699289AA8",
     },
   },
 };
