@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { hasBrandTerm } from "@/lib/brandTerms";
 
 const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.morgan3dokc.com";
 function escapeXml(value: string) {
@@ -33,7 +34,10 @@ export async function GET() {
     })
     .catch(() => []);
 
+  // Google only gets products with no brand/character name in the title and a real image.
+  // The rest stay on the site. See src/lib/brandTerms.ts.
   const items = products
+    .filter((p) => !hasBrandTerm(p.name) && Boolean(p.images[0]?.url))
     .map((p) => {
       const link = `${BASE}/shop/${p.category.slug}/${p.slug}`;
       const image = p.images[0]?.url;
