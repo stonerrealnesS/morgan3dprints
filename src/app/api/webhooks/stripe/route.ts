@@ -178,15 +178,8 @@ async function handleCheckoutCompleted(
     include: { items: true },
   });
 
-  // j. Decrement stock (set inStock=false for physical items, simplified)
-  for (const pid of productIds) {
-    await prisma.product.update({
-      where: { id: pid },
-      data: { inStock: false },
-    }).catch(() => {
-      // Product may have been deleted — ignore
-    });
-  }
+  // j. Stock is NOT changed by a sale. Items stay available until the owner
+  //    marks them out of stock (86) in admin.
 
   // k. Send order confirmation email
   if (email) {
