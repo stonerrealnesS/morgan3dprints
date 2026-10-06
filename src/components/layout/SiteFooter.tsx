@@ -49,7 +49,10 @@ export function SiteFooter() {
             <ul className="space-y-2 text-sm text-[#8888aa]">
               <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
               <li><Link href="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
+              <li><Link href="/shipping" className="hover:text-white transition-colors">Shipping</Link></li>
               <li><Link href="/returns" className="hover:text-white transition-colors">Returns & Refunds</Link></li>
+              <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
               <li><Link href="/account" className="hover:text-white transition-colors">My Account</Link></li>
             </ul>
