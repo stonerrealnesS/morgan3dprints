@@ -14,8 +14,17 @@ export default function CartPage() {
   const [hydrated, setHydrated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  // Set when a buyer arrives from a Facebook/Instagram shop (/meta-checkout).
+  const [coupon, setCoupon] = useState("");
+  const [missing, setMissing] = useState(0);
 
-  useEffect(() => { useCartStore.persist.rehydrate(); setHydrated(true); }, []);
+  useEffect(() => {
+    useCartStore.persist.rehydrate();
+    const params = new URLSearchParams(window.location.search);
+    setCoupon(params.get("coupon") ?? "");
+    setMissing(Number(params.get("missing")) || 0);
+    setHydrated(true);
+  }, []);
 
   if (!hydrated) return null;
   if (items.length === 0) return (
@@ -52,6 +61,17 @@ export default function CartPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
       <h1 className="text-3xl font-bold text-white mb-4">Your Cart</h1>
+
+      {missing > 0 && (
+        <p className="rounded-xl px-4 py-3 mb-4 text-sm" style={{ background: "rgba(236,72,153,0.08)", border: "1px solid rgba(236,72,153,0.3)", color: "#ec4899" }}>
+          {missing === 1 ? "One item you picked is sold out, so it isn't in your cart." : `${missing} items you picked are sold out, so they aren't in your cart.`}
+        </p>
+      )}
+      {coupon && (
+        <p className="rounded-xl px-4 py-3 mb-4 text-sm" style={{ background: "rgba(34,211,238,0.08)", border: "1px solid rgba(34,211,238,0.3)", color: "#22d3ee" }}>
+          Your code <strong>{coupon}</strong> goes in the &quot;Add promotion code&quot; box on the payment page.
+        </p>
+      )}
 
       {fulfillment === "ship" && (
         <div
