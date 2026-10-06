@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { hasBrandTerm } from "@/lib/brandTerms";
+import { productDescription } from "@/lib/productCopy";
 
 const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.morgan3dokc.com";
 function escapeXml(value: string) {
@@ -48,7 +49,7 @@ export async function GET() {
     <item>
       <g:id>${p.id}</g:id>
       <title>${escapeXml(p.name)}</title>
-      <description>${escapeXml(p.description.slice(0, 5000))}</description>
+      <description>${escapeXml(productDescription(p.name, p.description).slice(0, 5000))}</description>
       <link>${escapeXml(link)}</link>
       ${image ? `<g:image_link>${escapeXml(image)}</g:image_link>` : ""}
       <g:availability>in stock</g:availability>

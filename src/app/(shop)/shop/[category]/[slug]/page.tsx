@@ -9,6 +9,7 @@ import { AgeGateWrapper } from "@/components/shop/AgeGateWrapper";
 import { ReviewForm } from "@/components/shop/ReviewForm";
 import { ProductGrid } from "@/components/shop/ProductGrid";
 import { extractWhatnotListing } from "@/lib/whatnot";
+import { metaDescription, productDescription } from "@/lib/productCopy";
 
 export const revalidate = 3600;
 
@@ -36,10 +37,10 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
   return {
     title: product.metaTitle ?? product.name,
-    description: product.metaDesc ?? product.description.slice(0, 160),
+    description: product.metaDesc ?? metaDescription(product.name, product.description),
     openGraph: {
       title: product.metaTitle ?? product.name,
-      description: product.metaDesc ?? product.description.slice(0, 160),
+      description: product.metaDesc ?? metaDescription(product.name, product.description),
       // NOTE: deliberately omitting `type: "product"` here. This Next.js
       // version validates openGraph.type against a fixed set (website,
       // article, book, profile, music.*, video.*) at build time and throws
@@ -140,14 +141,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const isAdultCategory = product.category.isAdult;
 
   const whatnotListing = extractWhatnotListing(product.description);
-  const descriptionText = whatnotListing ? whatnotListing.bodyText : product.description;
+  const descriptionText = productDescription(product.name, product.description);
 
   const jsonLd = [
     {
       "@context": "https://schema.org",
       "@type": "Product",
       name: product.name,
-      description: product.description,
+      description: descriptionText,
       image: primaryImage?.url,
       offers: {
         "@type": "Offer",
