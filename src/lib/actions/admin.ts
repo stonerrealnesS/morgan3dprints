@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -172,8 +172,11 @@ export async function toggleProductStock(id: string, inStock: boolean) {
 
 // ─── Orders ───────────────────────────────────────────────────────────────────
 
+const ORDER_STATUSES = ["PENDING", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED"];
+
 export async function updateOrderStatus(orderId: string, status: string) {
   const adminUserId = await requireAdmin();
+  if (!ORDER_STATUSES.includes(status)) throw new Error(`Unknown order status: ${status}`);
 
   const [order] = await prisma.$transaction([
     prisma.order.update({
@@ -219,6 +222,33 @@ export async function updateOrderStatus(orderId: string, status: string) {
       }
     }
   }
+}
+
+// Packing station: packed is a mark on the order; shipped moves its status.
+export async function markOrderPacked(orderId: string, packed: boolean) {
+  const adminUserId = await requireAdmin();
+
+  await prisma.$transaction([
+    prisma.order.update({
+      where: { id: orderId },
+      data: { packedAt: packed ? new Date() : null },
+    }),
+    prisma.adminAction.create({
+      data: {
+        adminUserId,
+        action: packed ? "marked_packed" : "unmarked_packed",
+        entityType: "Order",
+        entityId: orderId,
+        orderId,
+      },
+    }),
+  ]);
+  revalidatePath("/admin/packing");
+}
+
+export async function markOrderShipped(orderId: string) {
+  await updateOrderStatus(orderId, "SHIPPED");
+  revalidatePath("/admin/packing");
 }
 
 export async function addOrderNote(orderId: string, note: string) {
