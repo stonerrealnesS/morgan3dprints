@@ -125,7 +125,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 >
                   Made to Order
                 </span>
-              ) : product.inStock ? (
+              ) : (
                 <span
                   className="text-xs px-2 py-0.5 rounded-full font-medium"
                   style={{
@@ -135,17 +135,6 @@ export function ProductCard({ product }: ProductCardProps) {
                   }}
                 >
                   In Stock
-                </span>
-              ) : (
-                <span
-                  className="text-xs px-2 py-0.5 rounded-full font-medium"
-                  style={{
-                    background: "rgba(168,85,247,0.15)",
-                    border: "1px solid rgba(168,85,247,0.4)",
-                    color: "#a855f7",
-                  }}
-                >
-                  Made to Order
                 </span>
               )}
             </div>

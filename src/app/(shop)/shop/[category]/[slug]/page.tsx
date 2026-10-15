@@ -332,7 +332,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               >
                 Made to Order
               </span>
-            ) : product.inStock ? (
+            ) : (
               <span
                 className="px-3 py-1 rounded-full text-sm font-medium"
                 style={{
@@ -342,17 +342,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 }}
               >
                 In Stock
-              </span>
-            ) : (
-              <span
-                className="px-3 py-1 rounded-full text-sm font-medium"
-                style={{
-                  background: "rgba(168,85,247,0.12)",
-                  border: "1px solid rgba(168,85,247,0.4)",
-                  color: "#a855f7",
-                }}
-              >
-                Made to Order
               </span>
             )}
 
