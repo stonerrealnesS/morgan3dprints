@@ -363,11 +363,10 @@ export async function syncWhatnotProducts(
     }
   }
   
-  const { count: hiddenCount } = await prisma.product.updateMany({
-    where: { categoryId: category.id, slug: { notIn: syncedSlugs }, inStock: true },
-    data: { inStock: false },
-  });
-  
+  // Never hide items missing from a sync: a partial read of the Whatnot page once
+  // hid 379 products. Stock is only changed by hand (86) in admin.
+  const hiddenCount = 0;
+
   revalidateTag("products", "max");
   
   return { created, updated, hiddenCount };

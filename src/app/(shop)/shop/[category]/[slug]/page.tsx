@@ -350,12 +350,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
               <span
                 className="px-3 py-1 rounded-full text-sm font-medium"
                 style={{
-                  background: "rgba(239,68,68,0.12)",
-                  border: "1px solid rgba(239,68,68,0.3)",
-                  color: "#ef4444",
+                  background: "rgba(168,85,247,0.12)",
+                  border: "1px solid rgba(168,85,247,0.4)",
+                  color: "#a855f7",
                 }}
               >
-                Out of Stock
+                Made to Order
               </span>
             )}
 

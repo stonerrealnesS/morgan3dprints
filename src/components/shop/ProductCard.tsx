@@ -140,12 +140,12 @@ export function ProductCard({ product }: ProductCardProps) {
                 <span
                   className="text-xs px-2 py-0.5 rounded-full font-medium"
                   style={{
-                    background: "rgba(239,68,68,0.12)",
-                    border: "1px solid rgba(239,68,68,0.3)",
-                    color: "#ef4444",
+                    background: "rgba(168,85,247,0.15)",
+                    border: "1px solid rgba(168,85,247,0.4)",
+                    color: "#a855f7",
                   }}
                 >
-                  Out of Stock
+                  Made to Order
                 </span>
               )}
             </div>
