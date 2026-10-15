@@ -198,7 +198,6 @@ export const getCategories = unstable_cache(
 export const getFeaturedProducts = unstable_cache(
   async (limit = 8): Promise<ProductSummary[]> => {
     const products = await prisma.product.findMany({
-      where: { inStock: true },
       take: limit,
       orderBy: { createdAt: "desc" },
       select: {

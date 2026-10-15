@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { bulkAssignCategory, deleteProduct, toggleProductStock } from "@/lib/actions/admin";
+import { bulkAssignCategory, deleteProduct } from "@/lib/actions/admin";
 
 function formatCents(cents: number) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(cents / 100);
@@ -147,11 +147,6 @@ export function ProductsTable({
                 <td className="px-5 py-3">
                   <div className="flex items-center gap-3">
                     <Link href={`/admin/products/${p.id}/edit`} className="text-xs" style={{ color: "#a855f7" }}>Edit</Link>
-                    <form action={toggleProductStock.bind(null, p.id, !p.inStock)}>
-                      <button type="submit" className="text-xs" style={{ color: "#8888aa" }}>
-                        {p.inStock ? "Mark OOS" : "Mark In Stock"}
-                      </button>
-                    </form>
                     <form action={deleteProduct.bind(null, p.id)}>
                       <button type="submit" className="text-xs" style={{ color: "#ef4444" }}>
                         Delete

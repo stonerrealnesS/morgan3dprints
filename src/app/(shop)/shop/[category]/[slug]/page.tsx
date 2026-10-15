@@ -98,7 +98,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
     where: {
       category: { slug: product.category.slug },
       id: { not: product.id },
-      OR: [{ inStock: true }, { isMadeToOrder: true }],
     },
     take: 4,
     orderBy: { createdAt: "desc" },
@@ -154,9 +153,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         "@type": "Offer",
         priceCurrency: "USD",
         price: (product.priceInCents / 100).toFixed(2),
-        availability: product.inStock || product.isMadeToOrder
-          ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock",
+        availability: "https://schema.org/InStock",
         seller: { "@type": "Organization", name: "Morgan 3D Prints" },
       },
       ...(avgRating !== null && product.reviews.length > 0
@@ -186,7 +183,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   // rendered directly here. React 19 automatically hoists any <meta>,
   // <title>, or <link> tag rendered anywhere in the tree into <head>,
   // so this works exactly like declaring it in generateMetadata would.
-  const isAvailable = product.inStock || product.isMadeToOrder;
+  const isAvailable = true;
 
   return (
     <AgeGateWrapper requiresAgeGate={isAdultCategory}>
@@ -374,7 +371,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
 
           {/* Lead time */}
-          {(product.inStock || product.isMadeToOrder) && (
+          {(true) && (
             <p className="text-xs" style={{ color: "#8888aa" }}>
               ⚡ {product.isMadeToOrder ? "Made to order, ships in 2–5 business days" : "In stock, ships in 2–5 business days"}
             </p>
@@ -453,7 +450,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           )}
 
           {/* Add to Cart */}
-          {product.inStock || product.isMadeToOrder ? (
+          {true ? (
             <AddToCartButton
               product={{
                 id: product.id,

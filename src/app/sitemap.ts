@@ -5,7 +5,7 @@ const BASE = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.morgan3dokc.com";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [products, categories] = await Promise.all([
     prisma.product.findMany({
-      where: { inStock: true, category: { isAdult: false } },
+      where: { category: { isAdult: false } },
       select: {
         slug: true,
         name: true,

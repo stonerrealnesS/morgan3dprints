@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     // 1. Fetch prices from DB — never trust client prices
     const productIds = items.map((i) => i.productId);
     const products = await prisma.product.findMany({
-      where: { id: { in: productIds }, inStock: true },
+      where: { id: { in: productIds } },
       select: {
         id: true,
         name: true,

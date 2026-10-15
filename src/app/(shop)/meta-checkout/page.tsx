@@ -42,7 +42,7 @@ export default async function MetaCheckoutPage({ searchParams }: Props) {
   const products = wanted.size
     ? await prisma.product
         .findMany({
-          where: { id: { in: [...wanted.keys()] }, inStock: true },
+          where: { id: { in: [...wanted.keys()] } },
           select: {
             id: true,
             name: true,
