@@ -246,6 +246,26 @@ export async function markOrderPacked(orderId: string, packed: boolean) {
   revalidatePath("/admin/packing");
 }
 
+// One item put in the box (or taken back out). Lets her pack what she has and wait on the rest.
+export async function markItemInBox(itemId: string, inBox: boolean) {
+  const adminUserId = await requireAdmin();
+  const item = await prisma.orderItem.update({
+    where: { id: itemId },
+    data: { inBoxAt: inBox ? new Date() : null },
+    select: { orderId: true },
+  });
+  await prisma.adminAction.create({
+    data: {
+      adminUserId,
+      action: inBox ? "item_in_box" : "item_out_of_box",
+      entityType: "OrderItem",
+      entityId: itemId,
+      orderId: item.orderId,
+    },
+  });
+  revalidatePath("/admin/packing");
+}
+
 export async function markOrderShipped(orderId: string) {
   await updateOrderStatus(orderId, "SHIPPED");
   revalidatePath("/admin/packing");

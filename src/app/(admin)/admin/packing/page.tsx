@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { markOrderPacked, markOrderShipped } from "@/lib/actions/admin";
+import { markOrderPacked, markOrderShipped, markItemInBox } from "@/lib/actions/admin";
 
 // Always live: never built ahead of time with old order data.
 export const dynamic = "force-dynamic";
@@ -66,7 +66,7 @@ export default async function AdminPackingPage() {
       shippingZip: true,
       shippingCountry: true,
       customer: { select: { firstName: true, lastName: true, email: true } },
-      items: { select: { id: true, productId: true, nameSnapshot: true, quantity: true, imageSnapshot: true } },
+      items: { select: { id: true, productId: true, nameSnapshot: true, quantity: true, imageSnapshot: true, inBoxAt: true } },
     },
   });
 
@@ -77,6 +77,7 @@ export default async function AdminPackingPage() {
   const pick = new Map<string, { name: string; qty: number; orders: number }>();
   for (const o of toPack) {
     for (const i of o.items) {
+      if (i.inBoxAt) continue; // already in the box, nothing left to pull
       const key = i.productId ?? i.nameSnapshot;
       const row = pick.get(key) ?? { name: i.nameSnapshot, qty: 0, orders: 0 };
       row.qty += i.quantity;
@@ -119,16 +120,11 @@ export default async function AdminPackingPage() {
         )}
       </section>
 
-      {/* Order cards */}
-      {[
-        { title: "To pack", list: toPack },
-        { title: "Packed, ready to ship", list: packed },
-      ].map(({ title, list }) =>
-        list.length === 0 ? null : (
-          <section key={title} className="mb-8">
-            <h2 className="text-xs uppercase tracking-wide mb-3" style={{ color: "#8888aa" }}>{title}</h2>
-            <div className="space-y-4">
-              {list.map((o) => {
+      {/* Order cards: one list, oldest first. An order stays where it is when marked packed. */}
+      <section className="mb-8">
+        <h2 className="text-xs uppercase tracking-wide mb-3" style={{ color: "#8888aa" }}>Orders</h2>
+        <div className="space-y-4">
+          {orders.map((o) => {
                 const name = o.customer
                   ? [o.customer.firstName, o.customer.lastName].filter(Boolean).join(" ") || o.customer.email
                   : o.guestEmail ?? "Guest";
@@ -147,6 +143,12 @@ export default async function AdminPackingPage() {
                       <span className="text-xs" style={{ color: age >= 3 ? "#ef4444" : "#8888aa" }}>
                         {age === 0 ? "today" : `${age} day${age === 1 ? "" : "s"} old`}
                       </span>
+                      <span
+                        className="px-2 py-0.5 rounded text-xs font-bold"
+                        style={o.packedAt ? { background: "#4ade8022", color: "#4ade80" } : { background: "#f59e0b22", color: "#f59e0b" }}
+                      >
+                        {o.packedAt ? "PACKED" : "NOT PACKED"}
+                      </span>
                       {o.status === "PENDING" && (
                         <span className="text-xs font-semibold" style={{ color: "#f59e0b" }}>PENDING: check it is paid</span>
                       )}
@@ -160,13 +162,30 @@ export default async function AdminPackingPage() {
 
                     <ul className="mb-3 space-y-1">
                       {o.items.map((i) => (
-                        <li key={i.id} className="flex items-center gap-3 text-[#f0f0ff]">
+                        <li key={i.id} className="flex items-center gap-3 text-[#f0f0ff]" style={{ opacity: i.inBoxAt ? 0.6 : 1 }}>
+                          <form
+                            action={async () => {
+                              "use server";
+                              await markItemInBox(i.id, !i.inBoxAt);
+                            }}
+                          >
+                            <button
+                              type="submit"
+                              aria-label={i.inBoxAt ? "In the box, tap to undo" : "Tap when this item is in the box"}
+                              className="w-9 h-9 rounded-md text-xl font-bold flex items-center justify-center"
+                              style={i.inBoxAt
+                                ? { background: "#4ade8033", color: "#4ade80", border: "2px solid #4ade80" }
+                                : { background: "transparent", color: "transparent", border: "2px solid #8888aa" }}
+                            >
+                              ✓
+                            </button>
+                          </form>
                           {i.imageSnapshot && (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img src={i.imageSnapshot} alt="" className="w-10 h-10 rounded object-cover flex-shrink-0" style={{ border: "1px solid #1e1e30" }} />
                           )}
                           <span className="text-lg font-bold" style={{ color: "#22d3ee" }}>{i.quantity}×</span>
-                          <span>{i.nameSnapshot}</span>
+                          <span style={{ textDecoration: i.inBoxAt ? "line-through" : "none" }}>{i.nameSnapshot}</span>
                         </li>
                       ))}
                     </ul>
@@ -234,10 +253,8 @@ export default async function AdminPackingPage() {
                   </article>
                 );
               })}
-            </div>
-          </section>
-        )
-      )}
+        </div>
+      </section>
 
       {orders.length === 0 && (
         <p className="text-center py-10" style={{ color: "#8888aa" }}>All caught up. Nothing to pack.</p>

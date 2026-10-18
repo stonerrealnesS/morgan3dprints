@@ -146,6 +146,7 @@ model OrderItem {
   priceSnapshot Int
   quantity     Int
   imageSnapshot String?
+  inBoxAt      DateTime?
 
   @@index([orderId])
 }
