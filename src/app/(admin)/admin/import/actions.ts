@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { parseWhatnotCsv } from "@/lib/importers/whatnot";
+import { parsePackListCsv } from "@/lib/importers/packlist";
+import { addPackOrders } from "@/lib/packImport";
 
 export type ImportState = { message: string; ok: boolean } | null;
 
@@ -70,5 +72,26 @@ export async function importWhatnotCsv(_prev: ImportState, formData: FormData): 
   return {
     ok: true,
     message: `Added ${fresh.length} to pack. Skipped ${have.size} already in the list and ${parsed.skipped} cancelled or already-labelled item${parsed.skipped === 1 ? "" : "s"}.`,
+  };
+}
+
+// orders.csv from the business folder: every channel's open orders in one file.
+// Safe to upload twice: an order already in the database (same channel + order id) is skipped.
+export async function importPackList(_prev: ImportState, formData: FormData): Promise<ImportState> {
+  const adminUserId = await requireAdmin();
+  const file = formData.get("file");
+  if (!(file instanceof File) || file.size === 0) return { ok: false, message: "Choose orders.csv first." };
+  if (file.size > 5_000_000) return { ok: false, message: "That file is too big." };
+
+  const parsed = parsePackListCsv(await file.text());
+  if (parsed.error) return { ok: false, message: parsed.error };
+
+  const { added, already } = await addPackOrders(parsed.orders, adminUserId, "imported_pack_list");
+
+  revalidatePath("/admin/packing");
+  revalidatePath("/admin/orders");
+  return {
+    ok: true,
+    message: `Added ${added} to pack. Skipped ${already} already in the list and ${parsed.skipped} row${parsed.skipped === 1 ? "" : "s"} that are not open.`,
   };
 }

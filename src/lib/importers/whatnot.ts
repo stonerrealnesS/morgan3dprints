@@ -22,7 +22,7 @@ export type ParsedOrder = {
 export type ParseResult = { orders: ParsedOrder[]; skipped: number; error?: string };
 
 // Minimal RFC 4180 parser: quoted fields, doubled quotes, commas and newlines inside quotes.
-function parseCsv(text: string): string[][] {
+export function parseCsv(text: string): string[][] {
   const rows: string[][] = [];
   let row: string[] = [];
   let field = "";

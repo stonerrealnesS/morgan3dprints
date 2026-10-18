@@ -11,6 +11,7 @@ export const dynamic = "force-dynamic";
 const channelColors: Record<string, string> = {
   website: "#a855f7",
   tiktok: "#ec4899",
+  tiktok_shop: "#ec4899",
   whatnot: "#f59e0b",
   mercari: "#22d3ee",
   poshmark: "#ef4444",
@@ -18,6 +19,25 @@ const channelColors: Record<string, string> = {
   palmstreet: "#4ade80",
   offerup: "#14b8a6",
 };
+
+// Where she prints the label for each channel (order id filled in where the site has a page per order).
+function labelUrl(channel: string, channelOrderId: string | null): string | null {
+  const id = channelOrderId ?? "";
+  switch (channel) {
+    case "tiktok_shop":
+      return id ? `https://seller-us.tiktok.com/order/detail?order_no=${encodeURIComponent(id)}&shop_region=US` : null;
+    case "whatnot":
+      return "https://www.whatnot.com/dashboard/shipments";
+    case "mercari":
+      return id ? `https://www.mercari.com/transaction/order_status/${encodeURIComponent(id)}/` : null;
+    case "facebook":
+      return id ? `https://www.facebook.com/marketplace/you/shipping_orders/${encodeURIComponent(id)}/` : null;
+    case "palmstreet":
+      return "https://seller.palmstreet.app/orders";
+    default:
+      return null;
+  }
+}
 
 function daysOld(date: Date) {
   return Math.floor((Date.now() - new Date(date).getTime()) / 86_400_000);
@@ -169,6 +189,17 @@ export default async function AdminPackingPage() {
                         </>
                       ) : (
                         <p>📦 Use the {o.channel} shipping label</p>
+                      )}
+                      {o.channel !== "website" && labelUrl(o.channel, o.channelOrderId) && (
+                        <a
+                          href={labelUrl(o.channel, o.channelOrderId)!}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block mt-2 px-3 py-2 rounded-lg font-semibold"
+                          style={{ background: "#22d3ee22", color: "#22d3ee", border: "1px solid #22d3ee66" }}
+                        >
+                          Print label on {o.channel.replace("_", " ")} →
+                        </a>
                       )}
                     </div>
 
