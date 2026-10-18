@@ -13,10 +13,11 @@ const MAX_ORDERS = 300;
 const MAX_ITEMS = 100;
 
 function tokenOk(header: string | null): boolean {
-  const expected = process.env.AGENT_WRITE_TOKEN ?? "";
+  // Trimmed: a pasted value often carries a stray space or line break.
+  const expected = (process.env.AGENT_WRITE_TOKEN ?? "").trim();
   // No token configured on the server = endpoint is closed. A short token is refused too.
   if (expected.length < 32) return false;
-  const given = (header ?? "").replace(/^Bearer\s+/i, "");
+  const given = (header ?? "").replace(/^Bearer\s+/i, "").trim();
   const a = Buffer.from(given);
   const b = Buffer.from(expected);
   return a.length === b.length && timingSafeEqual(a, b);
