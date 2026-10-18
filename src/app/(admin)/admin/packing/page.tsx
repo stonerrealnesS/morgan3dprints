@@ -215,7 +215,7 @@ export default async function AdminPackingPage() {
                             ? { background: "#13131e", color: "#8888aa", border: "1px solid #1e1e30" }
                             : { background: "#4ade8022", color: "#4ade80", border: "1px solid #4ade8066" }}
                         >
-                          {o.packedAt ? "Undo packed" : "Packed ✓"}
+                          {o.packedAt ? "Undo packed" : "Mark as packed"}
                         </button>
                       </form>
                       <form action={async () => {
